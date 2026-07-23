@@ -1,0 +1,46 @@
+name: tracer-regression-scope
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tracer needs full history for merge-base + defect recurrence
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install loom + tracer
+        run: |
+          pip install loom-tool
+          pip install git+https://github.com/ddevilz/tracer.git
+
+      - name: Build the code graph at the PR head
+        run: loom analyze .
+
+      - name: Run tracer (PR base -> head)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }} # optional — without it the report is fully deterministic
+        run: |
+          tracer diff "origin/${{ github.base_ref }}" "${{ github.sha }}" \
+            --repo . --out tracer-report.html | tee scope.txt
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: tracer-report
+          path: tracer-report.html
+
+      - name: Comment scope on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file scope.txt
+
+      # Jira delivery (when ready): POST scope.txt as a comment via Jira REST API
+      # using secrets.JIRA_URL / JIRA_EMAIL / JIRA_API_TOKEN — same text, different sink.

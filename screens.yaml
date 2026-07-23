@@ -1,0 +1,10 @@
+# Tracer screen map — hand-maintained. Longest URL prefix wins.
+# Format: one `url-prefix: Screen Name` per line (flat YAML).
+# Unmapped endpoints fall back to a humanized controller name.
+
+/api/v1/testcases: Test Case Management
+/api/v1/test-cases: Test Case Management
+/api/v1/approval: Test Case Approval
+/api/v1/dashboard: Dashboard
+/api/v1/notifications: Notifications
+/api/v1/jira: Jira Integration

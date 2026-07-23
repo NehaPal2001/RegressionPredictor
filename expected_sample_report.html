@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>QA Regression Report — SDET360.ai</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font: 13px/1.5 -apple-system, 'Segoe UI', sans-serif; background: #f1f5f9; color: #1e293b; }
+
+  /* ── Top nav bar ── */
+  .topbar { background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: space-between; padding: .6rem 1.5rem; }
+  .topbar .logo { font-weight: 700; font-size: 1rem; letter-spacing: .03em; color: #38bdf8; }
+  .topbar .meta { font-size: .75rem; color: #94a3b8; }
+  .topbar .badge-pr { background: #1e40af; color: #bfdbfe; font-size: .72rem; padding: .15rem .5rem; border-radius: 9px; }
+
+  /* ── Page layout ── */
+  .page { max-width: 1100px; margin: 0 auto; padding: 1.2rem 1rem 3rem; }
+
+  /* ── Summary cards ── */
+  .summary-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: .7rem; margin-bottom: 1.2rem; }
+  .scard { background: #fff; border-radius: 8px; padding: .8rem 1rem; border: 1px solid #e2e8f0; }
+  .scard .val { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+  .scard .lbl { font-size: .72rem; color: #64748b; margin-top: .2rem; }
+  .scard.high .val { color: #dc2626; }
+  .scard.med .val  { color: #ea580c; }
+  .scard.low .val  { color: #16a34a; }
+  .scard.tc .val   { color: #2563eb; }
+  .scard.bug .val  { color: #7c3aed; }
+
+  /* ── Alert banner ── */
+  .alert { background: #fef2f2; border: 2px solid #dc2626; border-radius: 8px; padding: .7rem 1rem; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: .6rem; }
+  .alert .icon { font-size: 1.1rem; flex-shrink: 0; margin-top: .05rem; }
+  .alert .title { font-weight: 700; color: #dc2626; font-size: .85rem; }
+  .alert .detail { font-size: .78rem; color: #7f1d1d; margin-top: .1rem; }
+
+  /* ── Section header ── */
+  .sec-header { display: flex; align-items: center; gap: .6rem; margin: 1.2rem 0 .6rem; }
+  .sec-header h2 { font-size: .9rem; font-weight: 700; color: #334155; }
+  .sec-header .count { background: #e2e8f0; color: #475569; font-size: .72rem; padding: .1rem .45rem; border-radius: 9px; font-weight: 600; }
+
+  /* ── Feature cards ── */
+  .feature-card { background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: .8rem; overflow: hidden; }
+  .feature-card.high { border-left: 4px solid #dc2626; }
+  .feature-card.med  { border-left: 4px solid #ea580c; }
+  .feature-card.low  { border-left: 4px solid #16a34a; }
+
+  .fc-head { display: flex; align-items: center; gap: .6rem; padding: .7rem 1rem; border-bottom: 1px solid #f1f5f9; background: #fafafa; }
+  .risk-badge { font-size: .7rem; font-weight: 700; padding: .15rem .5rem; border-radius: 4px; letter-spacing: .04em; }
+  .risk-badge.HIGH { background: #fee2e2; color: #991b1b; }
+  .risk-badge.MED  { background: #ffedd5; color: #9a3412; }
+  .risk-badge.LOW  { background: #dcfce7; color: #166534; }
+  .fc-head .screen-name { font-weight: 700; font-size: .9rem; }
+  .fc-head .conf { font-size: .72rem; color: #94a3b8; margin-left: auto; }
+  .confirmed { color: #16a34a; }
+  .inferred  { color: #ea580c; }
+
+  .fc-body { padding: .7rem 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+  /* ── Why row ── */
+  .info-row { margin-bottom: .5rem; }
+  .info-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: .2rem; }
+  .info-val { font-size: .78rem; color: #334155; }
+  .code-chip { font-family: monospace; background: #f1f5f9; padding: .1rem .35rem; border-radius: 3px; font-size: .75rem; }
+  .jira-link { color: #2563eb; text-decoration: none; font-size: .78rem; font-weight: 500; }
+  .jira-link:hover { text-decoration: underline; }
+
+  /* ── Bugs ── */
+  .bug-row { display: flex; align-items: center; gap: .4rem; font-size: .78rem; margin-bottom: .25rem; }
+  .bug-status { font-size: .68rem; font-weight: 600; padding: .1rem .4rem; border-radius: 3px; }
+  .bug-status.open  { background: #fee2e2; color: #991b1b; }
+  .bug-status.prog  { background: #fef3c7; color: #92400e; }
+  .no-bugs { font-size: .78rem; color: #16a34a; }
+
+  /* ── Test cases ── */
+  .tc-section { grid-column: 1 / -1; border-top: 1px dashed #e2e8f0; padding-top: .6rem; margin-top: .2rem; }
+  .tc-table { width: 100%; border-collapse: collapse; font-size: .78rem; }
+  .tc-table th { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #94a3b8; text-align: left; padding: .25rem .4rem; border-bottom: 1px solid #f1f5f9; }
+  .tc-table td { padding: .3rem .4rem; border-bottom: 1px solid #f8fafc; }
+  .tc-table tr:last-child td { border-bottom: none; }
+  .tc-id { font-family: monospace; font-weight: 700; color: #2563eb; font-size: .8rem; }
+  .exec-badge { font-size: .68rem; font-weight: 600; padding: .1rem .4rem; border-radius: 3px; }
+  .exec-badge.unexec  { background: #f1f5f9; color: #475569; }
+  .exec-badge.passed  { background: #dcfce7; color: #166534; }
+  .exec-badge.failed  { background: #fee2e2; color: #991b1b; }
+  .exec-badge.blocked { background: #fef3c7; color: #92400e; }
+  .exec-badge.wip     { background: #e0f2fe; color: #075985; }
+  .tc-name { color: #334155; }
+  .tc-date  { color: #94a3b8; font-size: .72rem; }
+
+  /* ── Master checklist ── */
+  .checklist-grid { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }
+  .tc-pill { background: #eff6ff; color: #1d4ed8; font-family: monospace; font-size: .78rem; font-weight: 600; padding: .25rem .55rem; border-radius: 5px; border: 1px solid #bfdbfe; }
+  .tc-pill.failed  { background: #fff1f2; color: #be123c; border-color: #fecdd3; }
+  .tc-pill.blocked { background: #fffbeb; color: #92400e; border-color: #fde68a; }
+
+  /* ── Blind spots ── */
+  .blind-card { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: .8rem 1rem; margin-bottom: .5rem; }
+  .blind-card .bc-name { font-weight: 600; color: #9a3412; font-size: .85rem; }
+  .blind-card .bc-detail { font-size: .78rem; color: #7c2d12; margin-top: .15rem; }
+
+  /* ── Jira stories list ── */
+  .story-pill { display: inline-flex; align-items: center; gap: .4rem; background: #fff; border: 1px solid #dbeafe; border-radius: 6px; padding: .3rem .6rem; margin: .25rem; font-size: .78rem; }
+  .story-pill .sp-key { font-weight: 700; color: #1d4ed8; }
+  .story-pill .sp-title { color: #475569; }
+
+  /* ── Footer ── */
+  .report-footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: .72rem; color: #94a3b8; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <div class="logo">SDET360.ai &nbsp;·&nbsp; <span style="color:#94a3b8;font-weight:400">QA Regression Report</span></div>
+  <div style="display:flex;align-items:center;gap:1rem">
+    <span class="badge-pr">PR #52 · feature/execution-cycle-counter-fix</span>
+    <span class="meta">Base: main &nbsp;·&nbsp; Generated: 2026-07-19 11:23 AM</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- SUMMARY CARDS -->
+  <div class="summary-row">
+    <div class="scard high"><div class="val">2</div><div class="lbl">HIGH risk screens</div></div>
+    <div class="scard med"><div class="val">2</div><div class="lbl">MEDIUM risk screens</div></div>
+    <div class="scard low"><div class="val">1</div><div class="lbl">LOW — defer to full regression</div></div>
+    <div class="scard tc"><div class="val">22</div><div class="lbl">Test case IDs to run</div></div>
+    <div class="scard bug"><div class="val">3</div><div class="lbl">Open defects in scope</div></div>
+  </div>
+
+  <!-- DEFECT RECURRENCE ALERT -->
+  <div class="alert">
+    <div class="icon">⚠</div>
+    <div>
+      <div class="title">Defect Recurrence — this change re-touches previously-fixed code</div>
+      <div class="detail">
+        <code style="background:#fee2e2;padding:.1rem .3rem;border-radius:3px">ExecutionCycleService.java:89–112</code>
+        was fixed by commit <code style="background:#fee2e2;padding:.1rem .3rem;border-radius:3px">a8f31d2</code>
+        (2026-06-04 · <strong>"fix: test cycle counter mismatch on clone"</strong>) — <strong>45 days ago</strong>.
+        Also: <code style="background:#fee2e2;padding:.1rem .3rem;border-radius:3px">MicrosoftAuthService.java:54–78</code>
+        was fixed by <code style="background:#fee2e2;padding:.1rem .3rem;border-radius:3px">c3a91f8</code>
+        (2026-06-12 · <strong>"fix: refresh token not invalidated on logout"</strong>) — <strong>37 days ago</strong>.
+        Re-run those exact bug scenarios as first-class tests before marking this regression complete.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ SCOPE SECTION ═══════════════════ -->
+  <div class="sec-header">
+    <h2>Regression Scope</h2>
+    <span class="count">5 screens · ordered by risk</span>
+  </div>
+
+  <!-- ── HIGH #1 — Auth Management ── -->
+  <div class="feature-card high">
+    <div class="fc-head">
+      <span class="risk-badge HIGH">HIGH</span>
+      <span class="screen-name">Auth Management</span>
+      <span class="code-chip">0 hops</span>
+      <span class="confirmed" style="margin-left:.3rem">● confirmed</span>
+      <span class="conf" style="margin-left:auto">via MicrosoftAuthController.authenticate (changed directly)</span>
+    </div>
+    <div class="fc-body">
+      <div>
+        <div class="info-row">
+          <div class="info-label">Why in scope</div>
+          <div class="info-val">
+            JWT token validation logic changed in <span class="code-chip">MicrosoftAuthService.java</span> — auth paths are always HIGH.
+            Defect recurrence: re-touches lines fixed by <span class="code-chip">c3a91f8</span> on 2026-06-12
+            ("fix: refresh token not invalidated on logout") — 37 days ago. Same class of bug can return.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Jira Requirement</div>
+          <div class="info-val">
+            <a class="jira-link" href="#">SDET-112</a> — Microsoft SSO Session Management
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Endpoint</div>
+          <div class="info-val"><span class="code-chip">POST /api/auth/microsoft</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="info-row">
+          <div class="info-label">Open Defects</div>
+          <div class="bug-row">
+            <span class="bug-status open">OPEN</span>
+            <a class="jira-link" href="#">SDET-156</a> — Session timeout not redirecting to login page
+          </div>
+        </div>
+      </div>
+      <div class="tc-section">
+        <div class="info-label" style="margin-bottom:.4rem">Test Cases — SDET360.ai TCM</div>
+        <table class="tc-table">
+          <tr><th>TC ID</th><th>Test Case Name</th><th>Last Execution</th><th>Status</th></tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-010</span></td>
+            <td class="tc-name">Microsoft SSO login flow — valid credentials</td>
+            <td class="tc-date">2026-07-15</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-011</span></td>
+            <td class="tc-name">Refresh token renews session before expiry</td>
+            <td class="tc-date">2026-07-15</td>
+            <td><span class="exec-badge failed">FAILED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-012</span></td>
+            <td class="tc-name">Unauthorized access redirects to /login</td>
+            <td class="tc-date">2026-07-10</td>
+            <td><span class="exec-badge unexec">UNEXECUTED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-013</span></td>
+            <td class="tc-name">Profile and vertical loaded correctly post-SSO</td>
+            <td class="tc-date">2026-07-18</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HIGH #2 — TCM Test Harness ── -->
+  <div class="feature-card high">
+    <div class="fc-head">
+      <span class="risk-badge HIGH">HIGH</span>
+      <span class="screen-name">TCM — Test Harness</span>
+      <span class="code-chip">1 hop</span>
+      <span class="confirmed" style="margin-left:.3rem">● confirmed</span>
+      <span class="conf" style="margin-left:auto">via TestCaseController → TestCaseLabelService</span>
+    </div>
+    <div class="fc-body">
+      <div>
+        <div class="info-row">
+          <div class="info-label">Why in scope</div>
+          <div class="info-val">
+            Label filtering logic changed in <span class="code-chip">TestCaseLabelService.java</span>.
+            Widely used — 9 distinct caller files depend on this service.
+            Core TCM flow: creating, editing, filtering, and assigning test cases to execution cycles.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Jira Requirement</div>
+          <div class="info-val">
+            <a class="jira-link" href="#">SDET-145</a> — Label-Based Test Case Filtering
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Endpoints</div>
+          <div class="info-val">
+            <span class="code-chip">GET /api/testcases/{verticalId}/testcases</span><br>
+            <span class="code-chip">POST /api/testcases/{verticalId}/stories/testcases</span><br>
+            <span class="code-chip">POST /api/testcases/{verticalId}/test-cases/import/excel</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-row">
+          <div class="info-label">Open Defects</div>
+          <div class="bug-row">
+            <span class="bug-status open">OPEN</span>
+            <a class="jira-link" href="#">SDET-178</a> — Bulk import fails silently for &gt;100 test cases
+          </div>
+        </div>
+      </div>
+      <div class="tc-section">
+        <div class="info-label" style="margin-bottom:.4rem">Test Cases — SDET360.ai TCM</div>
+        <table class="tc-table">
+          <tr><th>TC ID</th><th>Test Case Name</th><th>Last Execution</th><th>Status</th></tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-001</span></td>
+            <td class="tc-name">Create test case and verify uniqueTestcaseId is assigned</td>
+            <td class="tc-date">2026-07-18</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-002</span></td>
+            <td class="tc-name">Edit test case details and verify persistence after reload</td>
+            <td class="tc-date">2026-07-18</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-003</span></td>
+            <td class="tc-name">Delete test case with confirmation dialog</td>
+            <td class="tc-date">2026-07-16</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-004</span></td>
+            <td class="tc-name">Import test cases from Excel (≤100 rows succeeds)</td>
+            <td class="tc-date">2026-07-16</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-005</span></td>
+            <td class="tc-name">Import test cases from Excel (&gt;100 rows — known bug SDET-178)</td>
+            <td class="tc-date">2026-07-16</td>
+            <td><span class="exec-badge failed">FAILED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-006</span></td>
+            <td class="tc-name">Filter test cases by label — results update correctly</td>
+            <td class="tc-date">—</td>
+            <td><span class="exec-badge unexec">UNEXECUTED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-007</span></td>
+            <td class="tc-name">Bulk assign test cases to execution cycle</td>
+            <td class="tc-date">2026-07-10</td>
+            <td><span class="exec-badge blocked">BLOCKED</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MED #1 — AI Development ── -->
+  <div class="feature-card med">
+    <div class="fc-head">
+      <span class="risk-badge MED">MED</span>
+      <span class="screen-name">AI Development — Test Case Generation</span>
+      <span class="code-chip">2 hops</span>
+      <span class="inferred" style="margin-left:.3rem">◌ inferred</span>
+      <span class="conf" style="margin-left:auto">via TestCaseGenerationController → AIPromptService → EdgeCaseAnalysisService (DI bridge)</span>
+    </div>
+    <div class="fc-body">
+      <div>
+        <div class="info-row">
+          <div class="info-label">Why in scope</div>
+          <div class="info-val">
+            Edge case analysis prompt template modified in <span class="code-chip">EdgeCaseAnalysisService.java</span>.
+            Reached via DI-injected AI service bridge — 2 hops, reachability <span class="inferred">inferred</span>.
+            Affects: Generate from Jira story, Generate from document, Prompt Automation screens.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Jira Requirement</div>
+          <div class="info-val">
+            <a class="jira-link" href="#">SDET-167</a> — Edge Case Analysis in AI Generation
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Endpoints</div>
+          <div class="info-val">
+            <span class="code-chip">POST /api/testcases/{verticalId}/project/{projectKey}/stories/key/{jiraStoryKey}/generate</span><br>
+            <span class="code-chip">POST /api/testcases/{verticalId}/project/{projectKey}/documents/generate</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-row">
+          <div class="info-label">Open Defects</div>
+          <div class="no-bugs">✓ No open defects</div>
+        </div>
+      </div>
+      <div class="tc-section">
+        <div class="info-label" style="margin-bottom:.4rem">Test Cases — SDET360.ai TCM</div>
+        <table class="tc-table">
+          <tr><th>TC ID</th><th>Test Case Name</th><th>Last Execution</th><th>Status</th></tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-020</span></td>
+            <td class="tc-name">Generate test cases from Jira story key — valid story</td>
+            <td class="tc-date">2026-07-14</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-021</span></td>
+            <td class="tc-name">Generate test cases from uploaded document (PDF)</td>
+            <td class="tc-date">2026-07-14</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-022</span></td>
+            <td class="tc-name">Edge case analysis appends additional scenarios to generated TCs</td>
+            <td class="tc-date">—</td>
+            <td><span class="exec-badge unexec">UNEXECUTED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-023</span></td>
+            <td class="tc-name">Prompt automation — create, record, and save automation</td>
+            <td class="tc-date">2026-07-12</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MED #2 — Branches / Release & Execution Cycles ── -->
+  <div class="feature-card med">
+    <div class="fc-head">
+      <span class="risk-badge MED">MED</span>
+      <span class="screen-name">Branches — Release &amp; Execution Cycles</span>
+      <span class="code-chip">2 hops</span>
+      <span class="confirmed" style="margin-left:.3rem">● confirmed</span>
+      <span class="conf" style="margin-left:auto">via ExecutionCycleController → ReleaseVersionService</span>
+    </div>
+    <div class="fc-body">
+      <div>
+        <div class="info-row">
+          <div class="info-label">Why in scope</div>
+          <div class="info-val">
+            Defect recurrence — <span class="code-chip">ExecutionCycleService.java:89–112</span> was fixed by
+            <span class="code-chip">a8f31d2</span> on 2026-06-04 ("fix: test cycle counter mismatch on clone") — 45 days ago.
+            Test cycle counter and clone logic re-touched by this diff. Same class of bug can return.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Jira Requirement</div>
+          <div class="info-val">
+            <a class="jira-link" href="#">SDET-134</a> — Test Cycle Version Counter Tracking
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Endpoints</div>
+          <div class="info-val">
+            <span class="code-chip">POST /api/test-execution/vertical/{verticalId}/projects/{projectId}/execution-cycles/{cycleId}/test-cases/assign-bulk</span><br>
+            <span class="code-chip">GET /api/test-execution/vertical/{verticalId}/projects/{projectId}/releases</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-row">
+          <div class="info-label">Open Defects</div>
+          <div class="bug-row">
+            <span class="bug-status open">OPEN</span>
+            <a class="jira-link" href="#">SDET-189</a> — Execution cycle version counter mismatch on clone
+          </div>
+        </div>
+      </div>
+      <div class="tc-section">
+        <div class="info-label" style="margin-bottom:.4rem">Test Cases — SDET360.ai TCM</div>
+        <table class="tc-table">
+          <tr><th>TC ID</th><th>Test Case Name</th><th>Last Execution</th><th>Status</th></tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-015</span></td>
+            <td class="tc-name">Create release and add test cycle with version label</td>
+            <td class="tc-date">2026-07-17</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-016</span></td>
+            <td class="tc-name">Assign test cases to execution cycle (bulk)</td>
+            <td class="tc-date">2026-07-17</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-017</span></td>
+            <td class="tc-name">Clone execution cycle — verify version counter increments correctly</td>
+            <td class="tc-date">—</td>
+            <td><span class="exec-badge unexec">UNEXECUTED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-018</span></td>
+            <td class="tc-name">Priority-based test plan — create, view, and verify order</td>
+            <td class="tc-date">2026-07-10</td>
+            <td><span class="exec-badge wip">IN PROGRESS</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LOW #1 — Notifications ── -->
+  <div class="feature-card low" style="opacity:.85">
+    <div class="fc-head">
+      <span class="risk-badge LOW">LOW</span>
+      <span class="screen-name">Notifications</span>
+      <span class="code-chip">3 hops</span>
+      <span class="inferred" style="margin-left:.3rem">◌ inferred</span>
+      <span class="conf" style="margin-left:auto">via NotificationController → NotificationStoryService → UserPreferenceService (DI bridge)</span>
+    </div>
+    <div class="fc-body">
+      <div>
+        <div class="info-row">
+          <div class="info-label">Why in scope</div>
+          <div class="info-val">
+            Distant, hub-mediated path — 3 hops via DI-injected notification story service (inferred).
+            <strong>LOW risk: defer to your periodic full regression pass — not a signal to skip.</strong>
+            Static reachability carries an inherent ~3% unsafe-skip rate; Tracer never promises a safe skip.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Jira Requirement</div>
+          <div class="info-val">
+            <a class="jira-link" href="#">SDET-123</a> — Notification Read/Unread State Persistence
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Endpoints</div>
+          <div class="info-val">
+            <span class="code-chip">GET /api/notifications/{verticalId}/unread/{userId}</span><br>
+            <span class="code-chip">GET /api/notifications/{verticalId}/notification-stories/{notificationId}</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-row">
+          <div class="info-label">Open Defects</div>
+          <div class="no-bugs">✓ No open defects</div>
+        </div>
+      </div>
+      <div class="tc-section">
+        <div class="info-label" style="margin-bottom:.4rem">Test Cases — SDET360.ai TCM</div>
+        <table class="tc-table">
+          <tr><th>TC ID</th><th>Test Case Name</th><th>Last Execution</th><th>Status</th></tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-030</span></td>
+            <td class="tc-name">View unread notification count badge updates in real time</td>
+            <td class="tc-date">2026-07-08</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-031</span></td>
+            <td class="tc-name">Mark notification as read — state persists after page reload</td>
+            <td class="tc-date">2026-07-08</td>
+            <td><span class="exec-badge passed">PASSED</span></td>
+          </tr>
+          <tr>
+            <td><span class="tc-id">SDETTC-032</span></td>
+            <td class="tc-name">Export notification test cases to Excel file</td>
+            <td class="tc-date">—</td>
+            <td><span class="exec-badge unexec">UNEXECUTED</span></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ MASTER TC CHECKLIST ═══════════════════ -->
+  <div class="sec-header">
+    <h2>Master Test Case Checklist</h2>
+    <span class="count">22 TCs · deduplicated</span>
+    <span style="margin-left:auto;font-size:.75rem;color:#64748b">Copy all IDs ↗</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:1rem">
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#dc2626;margin-bottom:.4rem">HIGH priority — run first (Auth Management + TCM)</div>
+    <div class="checklist-grid">
+      <span class="tc-pill">SDETTC-010</span>
+      <span class="tc-pill failed">SDETTC-011</span>
+      <span class="tc-pill">SDETTC-012</span>
+      <span class="tc-pill">SDETTC-013</span>
+      <span class="tc-pill">SDETTC-001</span>
+      <span class="tc-pill">SDETTC-002</span>
+      <span class="tc-pill">SDETTC-003</span>
+      <span class="tc-pill">SDETTC-004</span>
+      <span class="tc-pill failed">SDETTC-005</span>
+      <span class="tc-pill">SDETTC-006</span>
+      <span class="tc-pill blocked">SDETTC-007</span>
+    </div>
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#ea580c;margin:.8rem 0 .4rem">MEDIUM — run next (AI Development + Branches)</div>
+    <div class="checklist-grid">
+      <span class="tc-pill">SDETTC-020</span>
+      <span class="tc-pill">SDETTC-021</span>
+      <span class="tc-pill">SDETTC-022</span>
+      <span class="tc-pill">SDETTC-023</span>
+      <span class="tc-pill">SDETTC-015</span>
+      <span class="tc-pill">SDETTC-016</span>
+      <span class="tc-pill">SDETTC-017</span>
+      <span class="tc-pill">SDETTC-018</span>
+    </div>
+    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#16a34a;margin:.8rem 0 .4rem">LOW — defer to full regression (Notifications)</div>
+    <div class="checklist-grid">
+      <span class="tc-pill">SDETTC-030</span>
+      <span class="tc-pill">SDETTC-031</span>
+      <span class="tc-pill">SDETTC-032</span>
+    </div>
+    <div style="font-size:.72rem;color:#94a3b8;margin-top:.6rem">
+      <span style="background:#fee2e2;padding:.1rem .35rem;border-radius:3px;color:#991b1b;font-weight:600">Red</span> = last execution FAILED &nbsp;·&nbsp;
+      <span style="background:#fffbeb;padding:.1rem .35rem;border-radius:3px;color:#92400e;font-weight:600">Yellow</span> = BLOCKED — prioritize within each level.
+    </div>
+  </div>
+
+  <!-- ═══════════════════ BLIND SPOTS ═══════════════════ -->
+  <div class="sec-header">
+    <h2>Blind Spots — No Test Coverage</h2>
+    <span class="count">2 symbols</span>
+  </div>
+  <div class="blind-card">
+    <div class="bc-name">⚠ ExecutionCycleService.assignToRelease()</div>
+    <div class="bc-detail">
+      In blast radius of this change · No controller endpoint · No test case linked in SDET360.ai TCM for SDET-134.
+      QA has no automated path to exercise this method. Requires manual exploratory test — specifically verify
+      that cloning a cycle with <code style="background:#fed7aa;padding:.1rem .3rem;border-radius:3px">versionCounter</code> set to null does not corrupt the counter sequence.
+    </div>
+  </div>
+  <div class="blind-card">
+    <div class="bc-name">⚠ NotificationStoryRepository.findUnreadByUser()</div>
+    <div class="bc-detail">
+      In blast radius · No controller endpoint exposed for direct testing · No test case linked in SDET360.ai TCM for SDET-123.
+      Consider adding a TC or verifying via SDETTC-030 (badge count) as an indirect proxy.
+    </div>
+  </div>
+
+  <!-- ═══════════════════ JIRA STORIES IN SCOPE ═══════════════════ -->
+  <div class="sec-header">
+    <h2>Jira Requirements in Scope</h2>
+    <span class="count">5 stories</span>
+  </div>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:.8rem 1rem">
+    <span class="story-pill"><span class="sp-key">SDET-112</span><span class="sp-title">Microsoft SSO Session Management</span></span>
+    <span class="story-pill"><span class="sp-key">SDET-145</span><span class="sp-title">Label-Based Test Case Filtering</span></span>
+    <span class="story-pill"><span class="sp-key">SDET-167</span><span class="sp-title">Edge Case Analysis in AI Generation</span></span>
+    <span class="story-pill"><span class="sp-key">SDET-134</span><span class="sp-title">Test Cycle Version Counter Tracking</span></span>
+    <span class="story-pill"><span class="sp-key">SDET-123</span><span class="sp-title">Notification Read/Unread State Persistence</span></span>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="report-footer">
+    <span>Generated by Tracer + SDET360.ai · Deterministic scope (call graph + git history) · AI narration optional</span>
+    <span>Reachability across DI/gRPC bridges is labeled <em>inferred</em> · Direct call paths are <em>confirmed</em></span>
+  </div>
+
+</div>
+</body>
+</html>
