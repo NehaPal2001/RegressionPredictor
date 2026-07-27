@@ -46,7 +46,8 @@ def _is_revert(subject: str) -> bool:
 
 def _prior_commits(repo: str, base: str) -> set[str]:
     r = subprocess.run(
-        ["git", "-C", repo, "rev-list", base], capture_output=True, text=True
+        ["git", "-C", repo, "rev-list", base], capture_output=True, text=True,
+        encoding="utf-8", errors="replace",
     )
     if r.returncode != 0:
         # empty set would silently disable recurrence — a false "all clear"
@@ -73,6 +74,8 @@ def recurrence(
                 ],
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
             )
             if r.returncode != 0:
                 continue  # range/file unknown to git at target (e.g. brand-new file)

@@ -14,7 +14,6 @@ Unplug it → the deterministic scope still stands; only the rich prose disappea
 from __future__ import annotations
 
 import json
-import subprocess
 from pathlib import Path
 
 from langchain.agents import create_agent
@@ -98,14 +97,21 @@ def _build_tools(lc: LoomClient, root: Path):
         """Search java/py source for a regex — only when Loom has no node for what you need."""
         import re
         try:
-            re.compile(pattern)
+            rx = re.compile(pattern, re.IGNORECASE)
         except re.error:
             return "(invalid regex)"
-        r = subprocess.run(
-            ["grep", "-rniE", pattern, "--include=*.java", "--include=*.py", "."],
-            cwd=root, capture_output=True, text=True, timeout=30,
-        )
-        return "\n".join(r.stdout.splitlines()[:MAX_GREP_HITS]) or "(no matches)"
+        hits: list[str] = []
+        for ext in ("*.java", "*.py"):
+            for fp in root.rglob(ext):
+                try:
+                    for i, line in enumerate(fp.read_text(errors="replace").splitlines(), 1):
+                        if rx.search(line):
+                            hits.append(f"{fp.relative_to(root)}:{i}: {line.rstrip()}")
+                            if len(hits) >= MAX_GREP_HITS:
+                                return "\n".join(hits)
+                except OSError:
+                    pass
+        return "\n".join(hits) or "(no matches)"
 
     return [loom_search, loom_callees, read_symbol, grep_repo]
 

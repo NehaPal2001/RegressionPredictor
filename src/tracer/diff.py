@@ -22,7 +22,10 @@ class GitError(RuntimeError):
 
 
 def _git(repo: str, *args: str) -> str:
-    r = subprocess.run(["git", "-C", repo, *args], capture_output=True, text=True)
+    r = subprocess.run(
+        ["git", "-C", repo, *args],
+        capture_output=True, text=True, encoding="utf-8", errors="replace",
+    )
     if r.returncode != 0:
         raise GitError(r.stderr.strip() or f"git {' '.join(args)} failed")
     return r.stdout
@@ -53,16 +56,19 @@ class Commit:
     sha: str
     subject: str
     date: str
+    author_email: str = ""
 
 
 def branch_commits(repo: str, base: str, target: str, two_dot: bool = False) -> list[Commit]:
     """Commits unique to target since it diverged from base — the branch's own work items."""
     resolved_base = base if two_dot else merge_base(repo, base, target)
-    out = _git(repo, "log", f"{resolved_base}..{target}", "--format=%H%x09%s%x09%cs")
+    out = _git(repo, "log", f"{resolved_base}..{target}", "--format=%H%x09%ae%x09%s%x09%cs")
     commits = []
     for line in out.strip().splitlines():
-        sha, subject, date = line.split("\t", 2)
-        commits.append(Commit(sha[:8], subject, date))
+        if not line.strip():
+            continue
+        sha, author_email, subject, date = line.split("\t", 3)
+        commits.append(Commit(sha[:8], subject, date, author_email))
     return commits
 
 

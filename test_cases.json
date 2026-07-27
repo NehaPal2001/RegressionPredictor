@@ -1,0 +1,6009 @@
+{
+  "version": 1,
+  "generated_at": "2026-07-26T12:02:44.861791Z",
+  "base": "98dc55a181615bd4e578ebfda7ce2eb23186fb3a",
+  "target": "feature/api-test-suite",
+  "gap_alert_sent": false,
+  "uncovered_commits": [
+    {
+      "hash": "277635e9",
+      "author_email": "neha.pal@sdettech.com",
+      "message": "Merge branch 'feature/api-test-suite' of https://github.com/anshuman-sdet/SDET360.ai-Server into feature/api-test-suite"
+    },
+    {
+      "hash": "c4c57bdc",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix report genertion with all test cases execution details and fix jira storykey issue when assignning test cases to execution  cycle"
+    },
+    {
+      "hash": "dfc01a83",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix duplicate jiraStory creation by reusing existing jiraStoryKey entries"
+    },
+    {
+      "hash": "85220fdb",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix filtering based on jirastoryid and added in response body"
+    },
+    {
+      "hash": "601531a3",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "merge robot test runner changes"
+    },
+    {
+      "hash": "88faf3b9",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix: use work_in_progress instead of work_in_process"
+    },
+    {
+      "hash": "c0b1c6ec",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix: jirastoryid in release level overall result"
+    },
+    {
+      "hash": "8b4c7e21",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "impletement backup and restore functionality for master database with tenant support"
+    },
+    {
+      "hash": "05177f27",
+      "author_email": "mayank@sdettech.com",
+      "message": "ExecutionFix"
+    },
+    {
+      "hash": "05606a32",
+      "author_email": "neha.pal@sdettech.com",
+      "message": "modified executed by addition on runner file"
+    },
+    {
+      "hash": "47b67ca5",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "merge fixes"
+    },
+    {
+      "hash": "d5854be7",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix inconsistency between test cases projectkey and jirastories projectkey and update prompt for story generation and parsing logic"
+    },
+    {
+      "hash": "1043705e",
+      "author_email": "neha.pal@sdettech.com",
+      "message": "added slack notification in testcase approval"
+    },
+    {
+      "hash": "145f1be8",
+      "author_email": "neha.pal@sdettech.com",
+      "message": "fixes"
+    },
+    {
+      "hash": "7e10f598",
+      "author_email": "mayank@sdettech.com",
+      "message": "NotificationFixes"
+    },
+    {
+      "hash": "5db6be5c",
+      "author_email": "mayank@sdettech.com",
+      "message": "Merge branch 'fix/unique-id' of https://github.com/anshuman-sdet/SDET360.ai-Server into Notification"
+    },
+    {
+      "hash": "46c63c1d",
+      "author_email": "mayank@sdettech.com",
+      "message": "notificationFixes"
+    },
+    {
+      "hash": "e4f8780d",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "Merge branch 'ai-merge2' of https://github.com/anshuman-sdet/SDET360.ai-Server into ai-merge2"
+    },
+    {
+      "hash": "1845c9db",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "dashboard priority vs count chart push"
+    },
+    {
+      "hash": "9d4add4d",
+      "author_email": "mayank@sdettech.com",
+      "message": "executionFix"
+    },
+    {
+      "hash": "01e7775e",
+      "author_email": "mayank@sdettech.com",
+      "message": "executionFix"
+    },
+    {
+      "hash": "15bd61a2",
+      "author_email": "mayank@sdettech.com",
+      "message": "executionFixes"
+    },
+    {
+      "hash": "192eb8c2",
+      "author_email": "mayank@sdettech.com",
+      "message": "NotificationFixes"
+    },
+    {
+      "hash": "2c39deac",
+      "author_email": "mayank@sdettech.com",
+      "message": "TestCaseControllerWithFallbackMechanism"
+    },
+    {
+      "hash": "879c33dd",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "implement claude client to generate test cases"
+    }
+  ],
+  "covered_commits": [
+    {
+      "hash": "d1125cb9",
+      "jira_keys": [
+        "REG-24",
+        "REG-23"
+      ]
+    },
+    {
+      "hash": "8a0c5b4d",
+      "jira_keys": [
+        "REG-22",
+        "REG-21",
+        "REG-20"
+      ]
+    },
+    {
+      "hash": "5208baf8",
+      "jira_keys": [
+        "REG-19",
+        "REG-18",
+        "REG-17"
+      ]
+    },
+    {
+      "hash": "51790bda",
+      "jira_keys": [
+        "REG-15"
+      ]
+    },
+    {
+      "hash": "86fa0509",
+      "jira_keys": [
+        "REG-15"
+      ]
+    },
+    {
+      "hash": "e2428ef7",
+      "jira_keys": [
+        "REG-18",
+        "REG-17",
+        "REG-13"
+      ]
+    },
+    {
+      "hash": "6ab98033",
+      "jira_keys": [
+        "REG-34",
+        "REG-31",
+        "REG-28",
+        "REG-21",
+        "REG-19",
+        "REG-18",
+        "REG-17",
+        "REG-15",
+        "REG-12",
+        "REG-10",
+        "REG-7",
+        "REG-5",
+        "REG-4"
+      ]
+    }
+  ],
+  "jira_stories": [
+    {
+      "key": "REG-34",
+      "summary": "Rejected/Pending API Test Cases Get Permanent Unique IDs and Are Usable in Suites",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "API test cases that are still pending approval or have been rejected were being assigned a permanent  uniqueApiTestCaseId  at creation time and could be added to test suites and executed \u2014 same as approved test cases \u2014 violating the intent of the approval workflow.\n Steps to Reproduce:\n Create/AI-generate an API test case (status:  GENERATED / APPROVAL_PENDING ).\n\n Check  uniqueApiTestCaseId  \u2014 it's already populated.\n\n Try adding this test case to a suite via the \"assign test cases\" picker.\n\n\n Expected Behavior:  Unapproved test cases should have no unique ID until approved, and should never be selectable for suite assignment.\n Actual Behavior:  ID was generated immediately on creation regardless of approval status; suite-assignment picker ( findUnassignedByProjectIdAndSuiteId ) had no approval-status filter, so pending/rejected test cases were selectable and executable.\n Root Cause:  ID generation logic and suite-eligibility query were not gated on  approvalStatus = APPROVED ."
+    },
+    {
+      "key": "REG-31",
+      "summary": "Unique Test Case ID Not Generated for Excel-Imported Rows Without Jira Story Link",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "During Excel bulk import, rows that aren't linked to any Jira story (no matching  jiraStoryKey  in sheet) don't get a  uniqueTestcaseId  assigned \u2014 imported test case is left with a null ID permanently.\n Steps to Reproduce:\n Prepare an Excel import file with at least one row that has no valid/matching Jira story key.\n\n Call  POST /test-cases/import/excel .\n\n Check the imported test case's  uniqueTestcaseId  field.\n\n\n Expected Behavior:  Even orphan rows should get a valid  {PROJECTKEY}TC-{n}  ID, using the  projectKey  param passed at import time as fallback.\n Actual Behavior:  ID generation logic only derived  projectKey  from the linked Jira story's key \u2014 if no story was found,  projectKey  resolved to  null , and unique ID assignment silently failed/skipped for that row.\n Root Cause:  No fallback to request-level  projectKey  when Jira story resolution fails per row."
+    },
+    {
+      "key": "REG-28",
+      "summary": "Cross-Project Data Leak in \"Get All Unique Test Case IDs\" API",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "GET /testcases/unique-ids/all  endpoint returns unique test case IDs across  all projects , not scoped to the requesting project \u2014 potential data leak in multi-project/multi-tenant setup.\n Steps to Reproduce:\n Have two projects (Project A, Project B) with test cases in the same vertical.\n\n Call  GET /api/testcases/{verticalId}/testcases/unique-ids/all  while working in Project A context.\n\n\n Expected Behavior:  Only unique test case IDs belonging to Project A should be returned.\n Actual Behavior:  IDs belonging to Project B (and any other project) are also returned \u2014 no  projectKey  filter was applied; query used  findAllDistinctUniqueTestcaseIds()  with no project scoping.\n Root Cause:  Endpoint didn't accept/require  projectKey ; repository query had no project filter."
+    },
+    {
+      "key": "REG-24",
+      "summary": " Pagination & Enrichment for Collection and Execution Listings",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Convert previously unpaginated \"list all\" endpoints (collections, project-wide executions) into paginated, searchable/filterable responses, and enrich execution DTOs with their parent collection's name.\n Functional Requirements:\n GET /.../collections?page=&size=&search=  \u2014 now paginated ( size  capped at 100) with optional case-insensitive  search  on  collectionName ; returns  PagedResponse<ApiTestCollectionDTO>  \u2014  breaking change  for existing consumers expecting a bare array.\n\n GET /.../executions?page=&size=&collectionId=  (new, project-scoped) \u2014 all executions across the project, optionally filtered by  collectionId ;  size  capped at 50;  collectionName  resolved via  batched   findAllById  lookup (avoids N+1).\n\n Existing per-collection execution history/detail endpoints also now populate  collectionName , for consistency.\n\n New shared  PagedResponse<T>  generic DTO reused across collection, execution, and test case listings.\n\n Bundled infra rename:  SseConfig.java  \u2192  SchedulingConfig.java  (class only held  @EnableScheduling , leftover misleading name from an abandoned SSE experiment \u2014 no behavior change).\n\n\n Acceptance Criteria:\n GET /collections  with no params returns page 1, not every collection ever created.\n\n  Searching collections by partial name works case-insensitively.\n\n GET /executions?collectionId=X  scopes correctly; without it, spans all collections in the project with correct  collectionName  per row.\n\n  50 executions across 10 collections triggers at most one batched name-lookup query, not 50 individual ones.\n\n  App starts correctly and scheduled jobs still run after the  SseConfig \u2192 SchedulingConfig  rename."
+    },
+    {
+      "key": "REG-23",
+      "summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Give users a searchable, paginated view of all API test cases across a project (regardless of collection), each showing its last execution status \u2014 plus a dedicated endpoint for one test case's full execution history.\n Functional Requirements:\n GET /.../projects/{projectId}/test-cases?page=&size=&search=  \u2014 paginated ( size  capped at 100), searches  uniqueApiTestCaseId / testName  case-insensitively, returns  ApiTestCaseSummaryDTO  with collection name + most recent execution status/timestamp ( findFirstByTestCase_IdOrderByCreatedAtDesc ).\n\n GET /.../test-cases/{testCaseId}/results  \u2014 full chronological execution history for one test case, newest first.\n\n Both validate the test case belongs to the requesting project via its collection's  projectId .\n\n Default sort:  uniqueApiTestCaseId  ascending.\n\n\n Acceptance Criteria:\n Searching  \"login\"  returns matches across all collections in the project.\n\n Each row shows correct \"last run\" status (most recent only, not stale).\n\n Never-executed test case shows  lastStatus: null , no error.\n\n size=500  silently capped to 100.\n\n Fetching results for a test case from a different project returns  404 ."
+    },
+    {
+      "key": "REG-22",
+      "summary": "Suite Execution Engine with Runtime Data Chaining",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Execute a suite's steps sequentially, where data extracted from one step's response (tokens, IDs, etc.) automatically flows into later steps' requests via  {{placeholder}}  substitution \u2014 enabling realistic multi-step chained flows.\n Functional Requirements:\n POST /.../suites/{suiteId}/execute  \u2014  baseUrl  required, optional  authToken ;  400  if zero steps; returns  202  immediately (async, poll for status/detail).\n\n Execution runs  strictly sequentially  \u2014 each step completes (and merges captured data) before the next step's placeholders resolve.\n\n RuntimeDataStore  \u2014 in-memory  Map<String,String> , fresh per execution run (no cross-run leakage);  merge() ,  get() ,  snapshot() .\n\n ResponseDataExtractor  \u2014 flattens JSON response into flat key-value pairs (nested  user.profile.id  also registered under bare  id ); guards: skip strings >500 chars, skip arrays >5 elements.\n\n PlaceholderResolver  \u2014 regex  {{key}}  substitution; missing key left as literal  {{key}}  in output + warning logged (fails visibly, not silently).\n\n Placeholders resolved in  endpoint ,  requestBody ,  headers ,  queryParams  before the call; both template and resolved values persisted ( resolvedEndpoint ,  resolvedRequestBody ) for debugging.\n\n Dual-layer auth: static token (execution-time, normalized  Bearer  prefix)  plus  dynamic override \u2014 if store has a captured  token  key and no  Authorization  header already set from the test case's own headers, use the captured token. This is what enables \"login once, reuse token downstream.\"\n\n Same PASS/FAIL/ERROR classification and  HttpClientErrorException / HttpServerErrorException  handling as collection execution (Story 6).\n\n Isolated into its own bean  ApiTestSuiteExecutionExecutor  (avoids  @Async  self-invocation issue), same tenant-context capture/propagate/clear discipline, shared  taskExecutor .\n\n Final  runtimeDataSnapshot  (whole store at run end) persisted as JSON on  ApiTestSuiteExecution  for post-hoc visibility.\n\n Unexpected exceptions still resolve execution to  COMPLETED  via  finally  block (never left hanging).\n\n\n Acceptance Criteria:\n  A 3-step suite (login \u2192 create \u2192 fetch) auto-authenticates steps 2/3 using step 1's captured  token .\n\n A typo'd placeholder leaves literal  {{badKey}}  in the resolved request, visible for debugging.\n\n Steps execute strictly in  stepOrder .\n\n  Deeply nested field retrievable both via full dot-path and bare leaf key.\n\n runtimeDataSnapshot  shows every key captured across all steps, not just the last.\n\n Oversized response doesn't get flattened but doesn't block step's own PASS/FAIL result.\n\n  Correct tenant isolation even with concurrent collection-level execution running for another tenant."
+    },
+    {
+      "key": "REG-21",
+      "summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Let users build a suite's execution flow by picking test cases from any collection in the project, assigning them as ordered steps, reordering via drag-and-drop, and removing individual steps.\n Functional Requirements:\n GET /.../suites/{suiteId}/available-test-cases  \u2014 flat  ProjectTestCaseDTO[]  of all non-deleted test cases across all collections in the project,  excluding  ones already assigned to this suite ( NOT IN  subquery), sorted by collection name then unique ID.\n\n POST /.../suites/{suiteId}/steps  \u2014 resolves each  uniqueApiTestCaseId , validates same-project ownership ( 400  otherwise), appends as new steps starting at  maxStepOrder+1 ; already-assigned IDs are silently skipped.\n\n PUT /.../suites/{suiteId}/steps/reorder  \u2014 clamps  targetOrder  to  [1, maxStepOrder] ; moved step set to  stepOrder=-1  temporarily (avoids  UNIQUE(suite_id, step_order)  violation), bulk shift ( shiftOrdersUp / shiftOrdersDown ), then final placement \u2014 with explicit  flush()  between steps.\n\n DELETE /.../suites/{suiteId}/steps/{uniqueApiTestCaseId}  \u2014 removes step, then  re-numbers all remaining steps sequentially from 1  (no gaps).\n\n unique_api_test_case_id  stored redundantly on  ApiTestSuiteStep  \u2014 used as the natural key for step-level ops instead of the step's internal UUID.\n\n\n Acceptance Criteria:\n Available-test-cases list never shows already-assigned test cases, but does show test cases from other collections in the project.\n\n  Assigning 5 test cases to an empty suite creates steps 1\u20135 in given order.\n\n Assigning a mix where 2/5 already exist adds only the other 3, no error.\n\n Dragging step 5 to position 2 shifts steps 2\u20134 down to 3\u20135 correctly, no constraint violation.\n\n Removing step 3 of 5 re-numbers steps 4,5 \u2192 3,4 \u2014 no gap.\n\n Assigning a test case from a different project fails with  400 ."
+    },
+    {
+      "key": "REG-20",
+      "summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Introduce a \"Test Suite\" as a new entity within the same module \u2014 an ordered collection of test cases (pulled from any collection in the project) that can be executed together as one end-to-end flow.\n Description: Unlike a Collection (grouped by Excel upload source), a  Suite  is a user-curated sequence of test cases assembled from any collection in the project \u2014 e.g., \"Signup \u2192 Login \u2192 Create Order \u2192 Checkout.\" This story delivers the suite's CRUD lifecycle.\n Functional Requirements:\n POST /.../projects/{projectId}/suites  \u2014 create with  suiteName  (required) +  description ; captures  createdBy .\n\n GET /.../suites  \u2014 list active suites for a project.\n\n GET /.../suites/{suiteId}  \u2014 fetch suite with full ordered step list ( totalSteps ,  steps[] ).\n\n PUT /.../suites/{suiteId}  \u2014 partial metadata update (non-null fields only).\n\n DELETE /.../suites/{suiteId}  \u2014 soft-delete only.\n\n All endpoints validate  verticalId + projectId  first, consistent with rest of module.\n\n ApiTestSuite.steps  \u2014  @OneToMany(cascade=ALL, orphanRemoval=true) @OrderBy(\"stepOrder ASC\")  \u2014 deleting a suite cascades to steps; fetch always pre-sorted.\n\n\n Acceptance Criteria:\n  Creating a suite with just a name succeeds;  totalSteps=0  until steps assigned.\n\n  Fetching a suite always returns steps pre-sorted by  stepOrder .\n\n Deleting a suite soft-deletes it; disappears from listing.\n\n Updating only  description  leaves  suiteName  untouched."
+    },
+    {
+      "key": "REG-19",
+      "summary": "Human-Readable Unique API Test Case ID Generation",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Assign every API test case (manually created or AI-generated) a human-readable, project-scoped unique identifier in the format  {PROJECTKEY}API-{n} , mirroring the pattern already used for functional test cases in the TCM module.\n Description: Raw UUIDs aren't practical for humans to reference in conversation, reports, or bug tickets. This story introduces a per-project atomic counter (same pattern as  test_case_project_counters  in TCM) to generate sequential, gap-free, collision-safe IDs like  CHECKOUTAPI-1 ,  CHECKOUTAPI-2 , etc.\n Functional Requirements:\n New  api_test_case_counter  table: one row per  project_id , tracking  last_counter  (starts at 0).\n\n ApiTestCaseCounterRepository.findByProjectIdForUpdate()  uses  @Lock(PESSIMISTIC_WRITE)  \u2014 a row-level DB lock ensuring concurrent ID requests for the same project never produce duplicate numbers (safe under high concurrency, e.g., batch AI generation writing many rows at once).\n\n ApiTestCaseIdGenerator.nextId(projectId)  \u2014 generates a  single  next ID: locks the counter row, increments, persists, returns  {PROJECTKEY}API-{n} . Runs with  @Transactional(propagation = MANDATORY)  \u2014 deliberately requires an existing transaction (fails fast if called outside one, since it must share the caller's transaction for the row lock to be meaningful).\n\n ApiTestCaseIdGenerator.nextIds(projectId, count)  \u2014  batch variant : acquires the lock  once , reserves a contiguous block of  count  IDs in one go ( start  to  start+count-1 ), then releases. Runs with  @Transactional(propagation = REQUIRES_NEW)  \u2014 deliberately opens its own transaction so the ID block is reserved and committed immediately, independent of whatever larger transaction (e.g., a whole Excel import or AI generation batch) is calling it. Used during Excel skeleton import and AI generation (one call reserves IDs for an entire endpoint's generated test case batch, rather than one DB round-trip per test case).\n\n Project key resolution: looks up  Project.projectKey , uppercases and strips whitespace; falls back to a generic  \"PROJ\"  prefix if the project or its key can't be resolved \u2014 generation should never hard-fail an entire test-case-creation flow just because of a missing project key.\n\n unique_api_test_case_id  column added to  api_test_case  with a  partial unique index  ( WHERE deleted_at IS NULL ) \u2014 guarantees no two  active  test cases share an ID, while still allowing the ID to \"free up\" conceptually if the original record is soft-deleted (index doesn't apply to deleted rows).\n\n Manual test case creation ( ApiTestCaseService.createTestCase ) calls  nextId()  once per case; Excel import and AI generation both call  nextIds()  once per batch for efficiency.\n\n uniqueApiTestCaseId  surfaced on both  ApiTestCaseDTO  and  ApiTestResultDTO  \u2014 so execution results are traceable back to a human-readable ID, not just an opaque UUID.\n\n\n Acceptance Criteria:\n  The first test case created in a new project gets ID  {PROJECTKEY}API-1 ; the next gets  -2 , etc., with no gaps under normal operation.\n\n Concurrent manual creation requests for the same project never produce duplicate IDs (verified via the pessimistic lock).\n\n Batch-generating 8 AI test cases for one endpoint reserves and assigns exactly 8 consecutive IDs in a single lock acquisition (not 8 separate lock/unlock cycles).\n\n   nextId() / nextIds()  called outside of any existing transaction context fails predictably (per  MANDATORY  propagation) rather than silently skipping the lock.\n\n A project with no resolvable  projectKey  still successfully generates IDs (using the  \"PROJ\"  fallback prefix) rather than throwing.\n\n Soft-deleting a test case doesn't block a  new  test case from reusing that ID pattern going forward (partial index only enforces uniqueness among active rows) \u2014 though the counter itself is monotonic and never reused, so realistically IDs are never actually recycled, just never blocked by deleted rows."
+    },
+    {
+      "key": "REG-18",
+      "summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Execute a collection's test cases as real HTTP calls against a configured base URL, capture pass/fail/error outcomes with response details, and expose execution history for review.\n Description: This is where test cases stop being just data and actually get  run . Users trigger execution (all test cases, or a specific subset by ID); the system fires real HTTP requests via  RestTemplate , compares actual vs. expected status code + response body pattern, and records a full result per test case plus aggregate pass/fail/error counts per execution run.\n Functional Requirements:\n POST /.../collections/{collectionId}/execute  \u2014 accepts optional  testCaseIds  (subset to run; empty/omitted = run all) and optional  authTokenOverride  (falls back to the collection's stored  authToken  if not given); returns  202 Accepted  immediately with execution metadata (async run, poll for status).\n\n GET /.../collections/{collectionId}/executions  \u2014 execution history for a collection, newest first.\n\n GET /.../executions/{executionId}  \u2014 single execution detail  with full per-test-case results  ( ApiTestResultDTO[] ), including actual response body (truncated to 2000 chars to avoid bloating storage/payload) and computed  passRate  (rounded to 1 decimal).\n\n Per-test-case execution logic:\n Builds headers from the test case's stored  headers  JSON + injects  Authorization: Bearer <token>  if a token is resolved (auto-prefixes  Bearer  if the caller didn't already include it).\n\n Builds the request URI from  baseUrl + endpoint , appending any  queryParams  JSON as actual query parameters.\n\n Parses  requestBody  JSON (if present) and sends it as the HTTP body.\n\n Calls the endpoint via  RestTemplate.exchange()  with the test case's HTTP method.\n\n Status match  = actual status code equals  expectedStatusCode .  Response match  = expected pattern is empty (auto-pass) OR the actual response body  contains at least one  of the pipe-separated expected patterns.\n\n Result is  PASS  only if  both  status and response match; otherwise  FAIL  with a specific reason (status mismatch vs. pattern mismatch called out separately in  errorMessage ).\n\n HttpClientErrorException / HttpServerErrorException  (RestTemplate throws on 4xx/5xx by default) are caught explicitly \u2014 the \"error\" HTTP response is still evaluated as a potential  expected  outcome (e.g., a negative test case  expecting  a  400  isn't wrongly marked as an execution error just because RestTemplate throws on non-2xx).\n\n Any other exception (timeout, connection refused, malformed URL, etc.) results in status  ERROR  (distinct from  FAIL  \u2014  FAIL  means \"ran successfully but assertion didn't match\";  ERROR  means \"the request itself couldn't complete\").\n\n\n\n Aggregate counts ( passedCount ,  failedCount ,  errorCount ,  totalTests ) computed and persisted on the parent  ApiTestExecution  row once all test cases finish; status transitions  PENDING \u2192 RUNNING \u2192 COMPLETED .\n\n Refactor in  2e3d57a : execution moved to a dedicated  taskExecutor -backed  @Async  method (previously default  @Async  thread pool), with the same tenant-context capture/propagate/clear pattern as generation (Story 5) \u2014 since execution also runs on a background thread and needs correct tenant DB routing.\n\n Ordering fix : when specific  testCaseIds  are requested, results now preserve the  exact order the IDs were given in  ( resolveSelectedTestCases ), rather than an unspecified DB fetch order \u2014 useful when the caller wants a deterministic run sequence (e.g., dependent test steps).\n\n Added structured per-test progress logging ( [i/total] uniqueApiTestCaseId \u2014 status | expected | actual | Xms ) for observability during long-running executions.\n\n\n Acceptance Criteria:\n Triggering execution with no  testCaseIds  runs every active test case in the collection.\n\n Triggering execution with 3 specific  testCaseIds  runs and returns results in that exact order.\n\n A test case expecting  400  that actually gets a  400  (via  HttpClientErrorException  path) is correctly marked  PASS , not  ERROR .\n\n A network-level failure (e.g., unreachable  baseUrl ) marks that test case  ERROR , not  FAIL .\n\n passRate  on execution detail is calculated correctly and rounded to 1 decimal (e.g.,  66.7 ).\n\n actualResponse  stored on a result is truncated at 2000 characters with a trailing ellipsis, never stored unbounded.\n\n Execution runs under the correct tenant even when triggered concurrently by users from different tenants."
+    },
+    {
+      "key": "REG-17",
+      "summary": "Asynchronous AI Test Case Generation for a Collection",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Let users trigger AI generation for all endpoints in a collection with one click; generation runs in the background (non-blocking), replacing Excel-derived skeleton test cases with rich AI-generated positive/negative/security test cases per endpoint.\n Description: After Excel upload creates bare-bones skeleton test cases (one per endpoint row), users trigger a  \"Generate\"  action. This kicks off an async background job that, per unique  (method, endpoint)  pair, calls the AI service (Story 1) to expand it into a full test suite \u2014 replacing the skeleton with AI output. The endpoint returns immediately ( 202 Accepted ); status is polled via the existing  GET /collections/{id}  (status field transitions  DRAFT \u2192 GENERATING \u2192 READY / FAILED ).\n Functional Requirements:\n POST /.../collections/{collectionId}/generate  \u2014 validates project ownership, kicks off  generateTestCasesAsync() , immediately returns  202  with  {message, collectionId, status: \"GENERATING\"} .\n\n Generation groups existing skeleton test cases by  httpMethod + \"||\" + endpoint  \u2014 so multiple Excel rows for the  same  endpoint (e.g., duplicate entries) are generated  once , not once per row.\n\n For each unique endpoint group: calls  FastApiGrpcClient.generateApiTestCases()  with the endpoint's known metadata; on success,  soft-deletes the original skeleton row(s)  for that endpoint and persists the AI-returned test cases as new  ApiTestCase  rows.\n\n If the AI call for one endpoint fails or returns empty/ [] , that endpoint's generation is skipped (logged as a warning)  without failing the whole batch  \u2014 other endpoints in the same collection still get generated.\n\n Critical multi-tenancy fix : because  @Async  methods run on a separate thread pool thread, the request-scoped  TenantContextHolder  (used for tenant DB routing) is  not automatically inherited . The async method explicitly captures the tenant ID on the calling thread  before  going async, then re-sets it inside the new thread ( TenantContextHolder.setTenantId(tenantId) ) \u2014 and clears it in a  finally  block. Without this, generation would either fail or (worse) silently write to the wrong tenant's data.\n\n On any unhandled exception during generation, the collection is marked  FAILED  (with a best-effort re-attempt to reset tenant context, since it may have been cleared by the failure path, before writing the status update).\n\n Refactor  ( 2e3d57a ): the generation logic was extracted out of  ApiTestCollectionService  into a dedicated  ApiTestCollectionAsyncService  \u2014 separating synchronous collection CRUD from the long-running async generation responsibility (cleaner separation of concerns, and avoids Spring's well-known self-invocation  @Async  proxy pitfall when calling an  @Async  method from within the same class).\n\n Dedicated  taskExecutor  thread pool bean ( ApiAutomationConfig ) backs all async work in this module: core pool 5, max pool 10, queue capacity 25 \u2014 isolated from other modules' async executors (was originally piggy-backing on an unrelated  VisionAutomationAsyncConfig  bean, later cleaned up to live in this module's own config).\n\n\n Acceptance Criteria:\n Calling  /generate  returns  202  immediately; the collection's status is  GENERATING  right after the call, without waiting for AI calls to finish.\n\n A collection with 10 unique endpoints (but 15 Excel rows due to 5 duplicates) triggers exactly 10 AI generation calls, not 15.\n\n If AI generation fails for 1 of 10 endpoints, the other 9 still get their test cases generated, and the collection still reaches  READY  (not stuck in  GENERATING / FAILED  due to one bad endpoint).\n\n Generated test cases correctly belong to the  same tenant  that triggered generation, verified even when multiple tenants trigger generation concurrently (tenant context propagation must not leak across threads).\n\n  After successful generation, the original skeleton test case for a generated endpoint is soft-deleted (not visible in listing), replaced by the AI-generated ones.\n\n If the whole generation run throws unexpectedly, collection status ends at  FAILED , not left stuck at  GENERATING  forever."
+    },
+    {
+      "key": "REG-15",
+      "summary": " API Test Collection Management (Create, List, View, Delete)",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Introduce the concept of an \"API Test Collection\" \u2014 a named, project-scoped grouping of API test cases (seeded from an Excel upload) that acts as the top-level container users manage.\n Description: A  Collection  is the organizing unit: one collection per uploaded Excel spec (or manually built), holding many test cases, tracked through a lifecycle status ( DRAFT \u2192 GENERATING \u2192 READY / FAILED ), and scoped to a project. This story covers the collection's CRUD lifecycle and its evolving business rules around naming.\n Functional Requirements:\n POST /api/automation-api-testing/verticals/{verticalId}/projects/{projectId}/collections/upload  (multipart) \u2014 accepts  file ,  collectionName ,  baseUrl  (used later for execution), optional  authToken  (bearer token for authenticated endpoints); creates the collection ( status = DRAFT ), then parses the Excel and persists one skeleton  ApiTestCase  per endpoint row.\n\n GET /collections  \u2014 lists all non-deleted collections for a project.\n\n GET /collections/{collectionId}  \u2014 fetch single collection detail, including a live-computed  apiCount  (count of non-deleted test cases in that collection).\n\n DELETE /collections/{collectionId}  \u2014  soft-deletes  the collection  and cascades soft-delete to all its test cases  (so a deleted collection's test cases don't linger as orphaned \"active\" records).\n\n Every endpoint validates  verticalId  +  projectId  combination exists (via  ProjectRepository.findByVertical_IdAndIdAndDeletedAtIsNull ) before proceeding \u2014 consistent tenant/vertical isolation across the whole module.\n\n If the Excel parse step throws mid-creation, the (already-persisted) collection is marked  FAILED  rather than left in  DRAFT  indefinitely, and the error is surfaced to the caller as  400 Bad Request  with the parse failure reason.\n\n Business rule change : collection creation originally rejected a duplicate  collectionName  within the same project ( 409 Conflict ); this uniqueness check was  later removed  \u2014 duplicate collection names are now permitted within a project.\n\n Response field rename : the collection's test-case-count field was renamed from  testCaseCount  \u2192  apiCount  in the DTO (and its population logic) \u2014 a small but breaking API-contract change for any existing frontend/consumer relying on the old field name.\n\n\n Acceptance Criteria:\n Uploading a valid Excel creates a collection in  DRAFT  status with its skeleton test cases persisted.\n\n If the Excel is malformed (e.g., missing  method  column), the collection ends up  FAILED  and the API responds  400  with the parser's error message.\n\n Deleting a collection also soft-deletes all of its test cases \u2014 a subsequent  GET /collections/{id}/test-cases  returns empty.\n\n Creating two collections with the  same name  in the same project succeeds (post  e4cf760 ) \u2014 previously this returned  409 Conflict .\n\n GET /collections/{id}  response contains  apiCount  (not  testCaseCount ) reflecting the live count of active test cases.\n\n Accessing a collection under the wrong  projectId / verticalId  returns  404 ."
+    },
+    {
+      "key": "REG-13",
+      "summary": " AI-Powered API Test Case Generation",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Add a new AI capability (gRPC) that takes an API endpoint's spec (method, path, params, body schema, auth requirement) and generates a comprehensive set of test cases covering positive, negative, and security scenarios.\n Description: This is the core AI brain of the module. Instead of QA manually writing API test cases, the Python AI microservice exposes a new gRPC method that prompts an LLM to produce a structured JSON array of test cases for a given endpoint \u2014 enforcing a strict schema and minimum coverage per category.\n Functional Requirements:\n New gRPC RPC  GenerateApiTestCases(AiRequest) returns (AiResponse)  added to  ai_service.proto  and implemented in  grpc_server.py .\n\n Request parameters (all passed as string map):  endpoint ,  method  (default  GET ),  description ,  parameters  (JSON),  request_body_schema  (JSON),  expected_status_codes ,  auth_required ,  content_type  (default  application/json ).\n\n endpoint  is mandatory \u2014 missing it returns gRPC  INVALID_ARGUMENT  immediately, without calling the LLM (fail fast, avoid wasted LLM cost).\n\n New prompt template  AUTOMATION_API_TEST_GENERATION  instructs the LLM as a \"senior API testing engineer\" to generate  all three categories in one call :\n Positive  \u2014 valid inputs, boundary values, happy paths (minimum 3).\n\n Negative  \u2014 invalid types, missing required fields, malformed data, wrong content-type (minimum 4).\n\n Security  \u2014 SQL injection, XSS, path traversal, auth bypass, oversized payloads, invalid tokens (minimum 3), with expected status forced to  400/422/401/403  (security tests must never expect a  200 ).\n\n\n\n Prompt enforces a  strict JSON-only response  (no markdown/code-fences/explanation) with a fixed field schema per test case ( test_id ,  test_category ,  test_name ,  description ,  endpoint ,  method ,  headers ,  query_params ,  request_body ,  expected_status_code ,  expected_response ,  priority ,  preconditions ).\n\n Response parsing is defensive: strips  ```json  fences if the LLM ignores instructions and wraps output anyway; handles both a raw JSON array response  and  a  {\"test_cases\": [...]}  /  {\"testCases\": [...]}  wrapped-object response.\n\n On JSON parse failure: doesn't hard-fail the whole call \u2014 returns the raw LLM text with  confidence_score: 0.5  and a  parse_warning  in metadata, so the Spring Boot caller can decide on fallback handling instead of losing the response entirely.\n\n On any other exception: returns gRPC  INTERNAL  status with an empty  []  array and  confidence_score: 0.0  \u2014 caller always gets a well-formed (if empty) response, never a raw crash.\n\n Model routing: new  Feature.AUTOMATION_API_TESTING  enum value added, mapped to  ModelType.GROK  in  model_config.py  \u2014 keeps model selection centralized/swappable per feature.\n\n Java-side gRPC client ( FastApiGrpcClient.generateApiTestCases(Map<String,String>) ) wraps the call with tenant-ID propagation and a safe fallback ( response_text=\"[]\", confidence_score=0.0 ) on  StatusRuntimeException , so a gRPC failure never bubbles up as an unhandled exception into calling service code.\n\n\n Acceptance Criteria:\n Calling with a valid endpoint spec returns at least 3 positive, 4 negative, and 3 security test cases.\n\n  All security test cases have  expected_status_code  in  {400, 401, 403, 422}  \u2014 never  200 .\n\n Response is valid JSON parseable directly as an array, even if the LLM wrapped it in markdown fences.\n\n Missing  endpoint  parameter fails immediately with  INVALID_ARGUMENT , no LLM call made.\n\n  If the LLM returns malformed JSON, the gRPC caller still gets a response object (not an exception) with a  parse_warning .\n\n A gRPC channel/connection failure on the Java side returns an empty test case list instead of crashing the calling flow."
+    },
+    {
+      "key": "REG-12",
+      "summary": "AI-Powered API Test Automation Module",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "This epic delivers a complete API test automation capability, layered on top of the platform's existing AI infrastructure. It spans four connected capabilities:\n AI-Powered Test Generation  \u2014 A dedicated gRPC integration with the Python AI microservice generates comprehensive test cases (positive, negative, and security scenarios) for any given API endpoint spec, using an LLM prompted as a senior API testing engineer with strict schema and minimum-coverage rules.\n\n\n Endpoint Ingestion  \u2014 Users bulk-import their API surface via an Excel spreadsheet (endpoint, method, description, request/response schema), which seeds skeleton test cases per endpoint. These skeletons are then expanded asynchronously into full AI-generated test suites, with collection-level status tracking ( DRAFT \u2192 GENERATING \u2192 READY/FAILED ).\n\n\n Test Case & Collection Management  \u2014 Full CRUD around two organizing units:  Collections  (endpoint-sourced groupings with lifecycle status) and individual  Test Cases  within them, each carrying a human-readable, project-scoped unique ID ( {PROJECTKEY}API-{n} ) generated via a safe, concurrency-proof counter.\n\n\n Execution & Suite Chaining  \u2014 Test cases can be executed as real HTTP calls (individually per collection, or as curated multi-step  Suites ) with pass/fail/error result tracking, response assertions, and execution history. The suite engine introduces  runtime data chaining  \u2014 values captured from one step's response (e.g., an auth token) are automatically available for substitution into later steps, enabling realistic end-to-end flows like login \u2192 create \u2192 verify without manual wiring. A project-wide search and history layer lets users track test case performance across collections over time."
+    },
+    {
+      "key": "REG-10",
+      "summary": "Correct Test Step Ordering Within a Test Case",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Ensure test steps are always returned/displayed in their intended sequential order (Step 1, Step 2, Step 3...), not arbitrary DB fetch order.\n Description: TestCase.testSteps  is a  @OneToMany  lazy collection. Without explicit ordering, JPA/Hibernate returns rows in whatever order the underlying query/index happens to produce \u2014 which is not guaranteed to match  stepNumber . For a test case, step order is functionally critical (execution instructions must be followed in sequence). This is a small but important correctness fix.\n Functional Requirements:\n @OrderBy(\"stepNumber ASC\")  annotation added to the  testSteps  collection mapping on  TestCase  entity.\n\n Applies globally \u2014 anywhere  TestCase.getTestSteps()  is accessed (manual creation response, get-by-id, get-by-unique-id, listing responses), steps come back pre-sorted by  stepNumber .\n\n\n Acceptance Criteria:\n A test case created with steps  [3, 1, 2]  (out of order insert) always returns them as  [1, 2, 3]  on fetch.\n\n No client-side re-sorting needed in UI/consumers \u2014 API guarantees order."
+    },
+    {
+      "key": "REG-7",
+      "summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Allow filtering test case listings by multiple attributes simultaneously and make all queries independent of Jira story linkage by storing  project_key  directly on the test case.\n Description: Originally, project scoping was done by joining  test_cases \u2192 jira_stories  on  jira_story_id  to read  project_key . This broke for orphan test cases (no story link) and made every query dependent on a join. This story:\n Adds a  project_key  column directly on  test_cases  (migration  ALTER TABLE test_cases ADD COLUMN project_key ), decoupling project scoping from Jira story existence.\n\n Adds  createdBy  as a filterable dimension across all major query paths (paginated listing, unique-ID-based fetch, \"find all with filters\").\n\n Adds  uniqueTestcaseIds  as a filter \u2014 lets UI/API consumers fetch a specific known set of test cases by their human-readable IDs.\n\n Reworks the \"get all unique test case IDs\" endpoint to be  project-specific  (previously returned IDs across  all  projects, which leaked cross-tenant/cross-project data in a multi-project setup).\n\n\n Functional Requirements:\n Migration:  ALTER TABLE test_cases ADD COLUMN project_key varchar(255)  + backfill via V42 QA-status migration bundling.\n\n All repository queries ( findByJiraStoryIdWithFilters ,  searchTestCasesWithFilters ,  findAllWithFiltersAndProjectKey ,  findByUniqueTestcaseIdWithFiltersAndProjectKey ) updated to filter on  tc.project_key  directly rather than joining  jira_stories .\n\n GET /testcases/unique-ids/all?projectKey={key}  \u2014 now  requires   projectKey ; returns  400  if missing; returns only approved, distinct unique IDs scoped to that project.\n\n createdBy  filter: accepts a list of usernames, applied as  IN  clause across all filter queries.\n\n uniqueTestcaseIds  filter: accepts a list of specific unique test case IDs to narrow results to.\n\n Empty/null filter lists are normalized to  null  (via  normalizeEmptyToNull  helper) so they don't accidentally over-restrict results ( IN ()  vs \"no filter\" distinction).\n\n\n Acceptance Criteria:\n Fetching unique test case IDs for Project A never returns IDs belonging to Project B.\n\n Orphan test cases (no Jira story) are correctly included/excluded by project filters, since  project_key  is now a first-class column, not derived via join.\n\n Filtering by  createdBy=[\"alice\",\"bob\"]  returns only test cases created by those two users.\n\n Passing specific  uniqueTestcaseIds  returns exactly those test cases (subject to other filters still applying).\n\n Calling the unique-ids endpoint without  projectKey  returns  400 Bad Request  instead of silently returning global data."
+    },
+    {
+      "key": "REG-5",
+      "summary": "Bulk Test Case Import via Excel",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Allow QA leads to bulk-upload an entire test suite via  .xlsx  file instead of creating test cases one at a time.\n Description: Manual creation doesn't scale for teams migrating hundreds of existing test cases from spreadsheets/other tools. This story adds an Excel-based bulk import pipeline:\n Downloadable blank Excel  template  so users know the exact expected column structure.\n\n Import endpoint that parses rows, batches DB writes ( BATCH_SIZE  chunks) for performance on large files.\n\n Each imported test case (linked to a story or not) gets a  unique test case ID  auto-generated exactly like manual creation \u2014 using the story's derived project key when linked, or falling back to the explicitly passed  projectKey  when the row has no Jira story (orphan import).\n\n Handles partial failures gracefully \u2014 tracks per-row success/failure with reasons, without failing the entire batch.\n\n\n Functional Requirements:\n GET /api/testcases/{verticalId}/test-cases/template?projectKey={key}  \u2192 returns downloadable  .xlsx  template.\n\n POST /api/testcases/{verticalId}/test-cases/import/excel  (multipart,  file  param) with  projectKey  param.\n\n Reject with  400  if file is empty or not  .xlsx .\n\n Rows are converted to  TestCase  entities in batches ( BATCH_SIZE ), saved via  saveAll , then  entityManager.flush()  before unique-ID assignment (IDs must exist in DB before running the sequence-update query).\n\n Unique ID resolution priority per row:  (a)  if row is linked to a Jira story \u2192 derive project key from story key;  (b)  if not linked \u2192 use the  projectKey  param passed at import time \u2014 ensures orphan rows still get valid IDs instead of silently skipping.\n\n Response ( TestCaseExcelImportResponseDTO ) includes  totalRecords ,  successCount ,  failureCount ,  failedTempIds[] ,  failureReasons[] ,  processingTimeMs .\n\n Template download must resolve from correct classpath location ( util/TestCaseTemplate.xlsx ) \u2014 earlier version pointed to a wrong nested package path causing 404s in production.\n\n\n Acceptance Criteria:\n Downloading template returns a valid, non-corrupt  .xlsx  with expected headers.\n\n Importing a file with 500 rows completes without OOM / timeout, using batched saves.\n\n A row without a matching Jira story key still gets a valid  {PROJECTKEY}TC-{n}  unique ID (not left null).\n\n A malformed row (e.g., missing required field) is recorded in  failedTempIds / failureReasons  but doesn't stop the rest of the batch from importing.\n\n Re-running the import after fixing the template path returns  200 OK  with the file attached (previously returned  404 / 500  due to path bug)."
+    },
+    {
+      "key": "REG-4",
+      "summary": "Manual Test Case Creation with Test Steps",
+      "status": "To Do",
+      "priority": "Medium",
+      "description": "Summary:  Enable users to manually author a test case (with full metadata + ordered test steps) without relying on AI generation, either linked to a Jira story or standalone.\n Description: Currently AI generates test cases from Jira stories/documents, but QA users also need the ability to hand-author test cases \u2014 e.g., edge cases the AI missed, exploratory scenarios, or test cases for stories that don't exist in Jira yet. This story adds a manual creation flow that:\n Accepts test case metadata (title, description, category, priority, preconditions, status) and a list of ordered test steps in one request.\n\n Links to a Jira story via  jiraStoryKey   or  allows creation without any story link (standalone/orphan test case) \u2014 supports QA teams that maintain test cases outside of Jira-tracked scope.\n\n Automatically marks manually created test cases as  APPROVED  (skips the AI-generated review workflow, since a human directly authored it).\n\n Captures the creator's identity ( createdBy ) from the authenticated session \u2014 important for audit trail and later \"filter by creator\" reporting.\n\n Auto-generates a human-readable  unique test case ID  in format  {PROJECTKEY}TC-{n}  using a  per-project atomic counter  \u2014 so each project has its own gap-free numbering sequence, safe under concurrent creation.\n\n\n Functional Requirements:\n POST /api/testcases/{verticalId}/stories/test-cases/manual?projectKey={key}\n\n Request body includes:  jiraStoryKey  (optional),  testCaseTitle ,  testCaseDescription ,  testCategory ,  priority ,  preconditions ,  testcaseStatus , and  testSteps[]  (each with  stepNumber ,  stepDescription ,  expectedResult ,  testData ).\n\n If  jiraStoryKey  is provided and matches an existing story \u2192 test case gets linked ( jiraStoryId  set); if key doesn't match any story \u2192 test case is still created (not blocked), just without a link, with a warning logged.\n\n If a test step is missing  stepDescription  \u2192 reject with  400 Bad Request  (required field validation).\n\n If  stepNumber  is missing on a step \u2192 auto-assign sequential number based on order in the array.\n\n On save:  approval_status = APPROVED ,  createdBy = <authenticated username> .\n\n Unique ID generation: entity is saved first (flush to get DB id) \u2192 sequence-based unique key assignment query runs ( assignCompositeUniqueKeyIfAbsent ) \u2192 entity refreshed to load the generated ID \u2192 if ID generation fails, throw  500  (don't silently return a test case without an ID).\n\n Response returns full  TestCaseDTO  including  testSteps[] ,  uniqueTestcaseId ,  createdBy .\n\n\n Acceptance Criteria:\n Given valid  jiraStoryKey  and test steps, when API is called, a test case is created, linked to the story,  APPROVED , with a unique ID like  PROJTC-1 .\n\n Given no  jiraStoryKey , a standalone test case is created successfully (no  jiraStoryId ) but still gets a unique ID based on the passed  projectKey .\n\n Given a test step without  stepDescription , API returns  400  with a clear message identifying the step number.\n\n Given concurrent manual creations in the same project, unique IDs must never collide (verified via atomic counter table, not  MAX(id)+1  logic).\n\n createdBy  reflects the logged-in user, not null, for every manually created test case."
+    }
+  ],
+  "jira_defects": [],
+  "test_cases": [
+    {
+      "unique_id": "REGTC-37",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-21",
+      "jira_story_summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-33",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-21",
+      "jira_story_summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-35",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-21",
+      "jira_story_summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-36",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-21",
+      "jira_story_summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-34",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-21",
+      "jira_story_summary": "Suite Step Management \u2014 Assign, Reorder, Remove Test Cases",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-2",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-13",
+      "jira_story_summary": " AI-Powered API Test Case Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-4",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-13",
+      "jira_story_summary": " AI-Powered API Test Case Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-5",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-13",
+      "jira_story_summary": " AI-Powered API Test Case Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-3",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-13",
+      "jira_story_summary": " AI-Powered API Test Case Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-1",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-13",
+      "jira_story_summary": " AI-Powered API Test Case Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-47",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-23",
+      "jira_story_summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-46",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-23",
+      "jira_story_summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-45",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-23",
+      "jira_story_summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-44",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-23",
+      "jira_story_summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-43",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-23",
+      "jira_story_summary": "Project-Wide API Test Case Search & Per-Test-Case Execution History",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-42",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-22",
+      "jira_story_summary": "Suite Execution Engine with Runtime Data Chaining",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-39",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-22",
+      "jira_story_summary": "Suite Execution Engine with Runtime Data Chaining",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-40",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-22",
+      "jira_story_summary": "Suite Execution Engine with Runtime Data Chaining",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-41",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-22",
+      "jira_story_summary": "Suite Execution Engine with Runtime Data Chaining",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-38",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-22",
+      "jira_story_summary": "Suite Execution Engine with Runtime Data Chaining",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-91",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-92",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-51",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-52",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-53",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-54",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-55",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-54",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-53",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-4",
+      "jira_story_summary": "Manual Test Case Creation with Test Steps",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-31",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-20",
+      "jira_story_summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-32",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-20",
+      "jira_story_summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-29",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-20",
+      "jira_story_summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-30",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-20",
+      "jira_story_summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-28",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-20",
+      "jira_story_summary": "API Test Suite Management (Create, List, View, Update, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-26",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-19",
+      "jira_story_summary": "Human-Readable Unique API Test Case ID Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-25",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-19",
+      "jira_story_summary": "Human-Readable Unique API Test Case ID Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-24",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-19",
+      "jira_story_summary": "Human-Readable Unique API Test Case ID Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-23",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-19",
+      "jira_story_summary": "Human-Readable Unique API Test Case ID Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-27",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-19",
+      "jira_story_summary": "Human-Readable Unique API Test Case ID Generation",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-58",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-5",
+      "jira_story_summary": "Bulk Test Case Import via Excel",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-59",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-5",
+      "jira_story_summary": "Bulk Test Case Import via Excel",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-57",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-5",
+      "jira_story_summary": "Bulk Test Case Import via Excel",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-60",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-5",
+      "jira_story_summary": "Bulk Test Case Import via Excel",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-12",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-15",
+      "jira_story_summary": " API Test Collection Management (Create, List, View, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-9",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-15",
+      "jira_story_summary": " API Test Collection Management (Create, List, View, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-8",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-15",
+      "jira_story_summary": " API Test Collection Management (Create, List, View, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-10",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-15",
+      "jira_story_summary": " API Test Collection Management (Create, List, View, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-11",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-15",
+      "jira_story_summary": " API Test Collection Management (Create, List, View, Delete)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-69",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-7",
+      "jira_story_summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-70",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-7",
+      "jira_story_summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-68",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-7",
+      "jira_story_summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-66",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-7",
+      "jira_story_summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-67",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-7",
+      "jira_story_summary": " Advanced Multi-Filter Support & Project-Key Decoupling",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-50",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-24",
+      "jira_story_summary": " Pagination & Enrichment for Collection and Execution Listings",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-48",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-24",
+      "jira_story_summary": " Pagination & Enrichment for Collection and Execution Listings",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-49",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-24",
+      "jira_story_summary": " Pagination & Enrichment for Collection and Execution Listings",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-18",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-18",
+      "jira_story_summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-22",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-18",
+      "jira_story_summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-21",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-18",
+      "jira_story_summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-20",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-18",
+      "jira_story_summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-19",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-18",
+      "jira_story_summary": "API Test Execution Engine (HTTP Runner + Results)",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-83",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-10",
+      "jira_story_summary": "Correct Test Step Ordering Within a Test Case",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-84",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-10",
+      "jira_story_summary": "Correct Test Step Ordering Within a Test Case",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    },
+    {
+      "unique_id": "REGTC-83",
+      "title": "",
+      "priority": "",
+      "category": "",
+      "automation_status": "",
+      "jira_story_key": "REG-10",
+      "jira_story_summary": "Correct Test Step Ordering Within a Test Case",
+      "defect_notes": [],
+      "selection_reason": "linked",
+      "confidence": "high",
+      "steps": [
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        },
+        {
+          "order": 0,
+          "action": "",
+          "expected": ""
+        }
+      ]
+    }
+  ]
+}
