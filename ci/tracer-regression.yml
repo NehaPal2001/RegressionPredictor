@@ -19,7 +19,7 @@ jobs:
       - name: Install loom + tracer
         run: |
           pip install loom-tool
-          pip install git+https://github.com/ddevilz/tracer.git
+          pip install git+https://github.com/nehapal2001/tracer.git
 
       - name: Build the code graph at the PR head
         run: loom analyze .
@@ -42,5 +42,4 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file scope.txt
 
-      # Jira delivery (when ready): POST scope.txt as a comment via Jira REST API
-      # using secrets.JIRA_URL / JIRA_EMAIL / JIRA_API_TOKEN — same text, different sink.
+      
