@@ -15,10 +15,18 @@ from pathlib import Path
 from . import agent as agentmod
 from . import bridge as bridgemod
 from . import diff as diffmod
-from . import history, jira_mock, llm, risk
+from . import gap_detector as gd
+from . import history, jira_mock, risk
+from . import mailer as mailermod
+from . import reporter as reportermod
+from . import tcm_client as tcm
+from .jira_client import JiraClient
+from .llm_config import get_llm_config
 from .loom_client import LoomClient, Reach
+from .predict_cfg import load_predict_config
 from .report import Feature, jira_comment, render_html
 from .screens import EndpointIndex, load_screen_map
+from .semantic_matcher import enrich_layer3, enrich_layer4
 
 
 def scope_json(scope, changed, feats, recs) -> dict:
@@ -247,12 +255,20 @@ def _run_diff(args) -> int:
     if args.no_ai:
         notes, status = None, "disabled with --no-ai"
     else:
-        key = llm.load_key(Path(args.repo) / ".env", Path(__file__).parents[2] / ".env")
-        print(f"tracer: investigating top {args.investigate} screen(s) via Loom + LLM agent…",
-              file=sys.stderr)
+        llm_cfg = get_llm_config(
+            Path(args.repo) / ".env",
+            Path(__file__).parents[2] / ".env",
+            provider_override=args.llm_provider,
+            model_override=args.llm_model,
+        )
+        print(
+            f"tracer: investigating top {args.investigate} screen(s) via Loom + LLM agent"
+            f" ({llm_cfg.provider}/{llm_cfg.model})…",
+            file=sys.stderr,
+        )
         notes, status = agentmod.try_investigate(
             agent_scope(scope, changed, feats, recs, top=args.investigate),
-            lc, Path(args.repo).resolve(), key,
+            lc, Path(args.repo).resolve(), llm_cfg,
         )
     if notes is None:
         print(f"tracer: {status}", file=sys.stderr)
@@ -300,12 +316,6 @@ def _run_predict(args) -> int:
     """Stage 2: read scope.json → gap detection → TCM test cases → run dir output."""
     import datetime
     import shutil
-    from . import gap_detector as gd
-    from . import tcm_client as tcm
-    from . import mailer as mailermod
-    from . import reporter as reportermod
-    from .jira_client import JiraClient
-    from .predict_cfg import load_predict_config
     from .mailer import SmtpConfig
 
     # Load scope
@@ -336,6 +346,13 @@ def _run_predict(args) -> int:
     tcm_project = args.tcm_project or cfg.tcm_project_key
     jira_project = args.jira_project
 
+    # LLM config (needed by semantic enrichment layers)
+    llm_cfg = get_llm_config(
+        *env_files,
+        provider_override=args.llm_provider,
+        model_override=args.llm_model,
+    )
+
     # Gap detection
     jira_client = JiraClient(cfg.jira_base_url, cfg.jira_email, cfg.jira_api_token)
     try:
@@ -358,12 +375,37 @@ def _run_predict(args) -> int:
         )
         author_emails = [c.author_email for c in uncovered if c.author_email]
         try:
-            mailermod.send_gap_alert(uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project)
+            mailermod.send_gap_alert(
+                uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project,
+                jira_client=jira_client,
+                scope_data=scope_data,
+                llm_cfg=llm_cfg,
+                jira_base_url=cfg.jira_base_url,
+            )
             print(f"tracer predict: gap alert sent for {len(uncovered)} uncovered commit(s)",
                   file=sys.stderr)
             gap_alert_sent = True
         except Exception as e:
             print(f"tracer predict: gap alert failed ({e})", file=sys.stderr)
+
+    # Semantic Layer 3 — find stories for uncovered commits
+    l3_included, l3_alerts = [], []
+    if uncovered:
+        try:
+            l3_included, l3_alerts = enrich_layer3(
+                uncovered,
+                scope_data.get("changed_symbols", []),
+                scope_data.get("affected_screens", []),
+                jira_client, jira_project, llm_cfg,
+            )
+            if l3_included:
+                print(
+                    f"tracer predict: semantic L3 matched {len(l3_included)} story/stories "
+                    f"for uncovered commits",
+                    file=sys.stderr,
+                )
+        except Exception as e:
+            print(f"tracer predict: semantic L3 failed ({e}) — skipping", file=sys.stderr)
 
     # Fetch raw Jira stories for covered commits
     all_jira_keys = list({k for c in covered for k in c.jira_keys})
@@ -373,6 +415,23 @@ def _run_predict(args) -> int:
     except Exception as e:
         print(f"tracer predict: Jira story fetch failed ({e})", file=sys.stderr)
         jira_stories_raw, defects_raw = [], []
+
+    # Merge semantically matched stories into jira_stories_raw
+    if l3_included:
+        semantic_story_keys = [m.key for m in l3_included]
+        try:
+            semantic_stories_raw = jira_client.fetch_raw_by_keys(semantic_story_keys)
+            existing_keys = {s["key"] for s in jira_stories_raw}
+            jira_stories_raw = jira_stories_raw + [
+                s for s in semantic_stories_raw if s["key"] not in existing_keys
+            ]
+        except Exception as e:
+            print(f"tracer predict: semantic story fetch failed ({e})", file=sys.stderr)
+
+    # Include L3 semantic story keys in TC selection
+    if l3_included:
+        l3_keys = [m.key for m in l3_included]
+        all_jira_keys = list(dict.fromkeys(all_jira_keys + l3_keys))
 
     # Fetch TCM test cases (raw + parsed)
     try:
@@ -384,6 +443,33 @@ def _run_predict(args) -> int:
     except Exception as e:
         print(f"tracer predict: TCM fetch failed ({e}) — output will be empty", file=sys.stderr)
         tcm_raw, all_cases = [], []
+
+    # Semantic Layer 4 — find relevant TCs among unlinked cases
+    l4_included, l4_alerts = [], []
+    unlinked_tcs = [
+        tc for tc in tcm_raw
+        if tc.get("jiraStoryKey") in (None, "NA", "")
+    ]
+    if unlinked_tcs:
+        story_summaries = [
+            f"{s['key']}: {(s.get('fields') or {}).get('summary', '')}"
+            for s in jira_stories_raw
+        ]
+        try:
+            l4_included, l4_alerts = enrich_layer4(
+                unlinked_tcs,
+                scope_data.get("affected_screens", []),
+                scope_data.get("changed_symbols", []),
+                story_summaries,
+                llm_cfg,
+            )
+            if l4_included:
+                print(
+                    f"tracer predict: semantic L4 matched {len(l4_included)} unlinked TC(s)",
+                    file=sys.stderr,
+                )
+        except Exception as e:
+            print(f"tracer predict: semantic L4 failed ({e}) — skipping", file=sys.stderr)
 
     # Test case selection — hard link chain via jiraStoryKey
     selected = []
@@ -457,18 +543,46 @@ def _run_predict(args) -> int:
             for d in defects_raw
         ],
         "test_cases": selected,
+        "semantic_test_cases": [
+            {
+                "unique_id": m.key,
+                "confidence": m.confidence,
+                "score": m.score,
+                "reason": m.reason,
+            }
+            for m in l4_included
+        ],
+        "semantic_alerts": [
+            {
+                "type": "layer3",
+                "key": m.key,
+                "score": m.score,
+                "reason": m.reason,
+            }
+            for m in l3_alerts
+        ] + [
+            {
+                "type": "layer4",
+                "key": m.key,
+                "score": m.score,
+                "reason": m.reason,
+            }
+            for m in l4_alerts
+        ],
     }
     out_path = run_dir / "test_cases.json"
     out_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
 
-    # Generate HTML report (fails loudly if Groq fails)
+    # Generate HTML report (fails loudly if LLM call fails)
     try:
         reportermod.generate(
             str(run_dir), scope_data, coverage,
             jira_stories_raw, defects_raw, tcm_raw,
-            cfg.groq_api_key,
+            llm_cfg,
+            semantic_tcs=l4_included,
+            semantic_alerts=l3_alerts + l4_alerts,
         )
-        print(f"tracer predict: report.html written", file=sys.stderr)
+        print(f"tracer predict: report.html written ({llm_cfg.provider}/{llm_cfg.model})", file=sys.stderr)
     except Exception as e:
         print(f"tracer predict: report generation failed — {e}", file=sys.stderr)
         return 2
@@ -499,6 +613,10 @@ def main(argv: list[str] | None = None) -> int:
     d.add_argument("--client-db", default=None, help="client Loom DB path (default ~/.loom/projects/<name>.db)")
     d.add_argument("--scope", default=None, metavar="PATH",
                    help="write deterministic scope JSON for use by tracer predict")
+    d.add_argument("--llm-provider", default=None, dest="llm_provider",
+                   metavar="PROVIDER", help="LLM provider: groq or openai (overrides LLM_PROVIDER env)")
+    d.add_argument("--llm-model", default=None, dest="llm_model",
+                   metavar="MODEL", help="LLM model name (overrides LLM_MODEL env)")
 
     # ── predict subcommand ────────────────────────────────────────────────
     p = sub.add_parser("predict", help="select test cases from scope.json via TCM + Jira")
@@ -518,6 +636,10 @@ def main(argv: list[str] | None = None) -> int:
                    help="suppress gap alert email")
     p.add_argument("--no-predict-ai", action="store_true", dest="no_predict_ai",
                    help="reserved for Phase 2c LangGraph selector (currently always true)")
+    p.add_argument("--llm-provider", default=None, dest="llm_provider",
+                   metavar="PROVIDER", help="LLM provider: groq or openai (overrides LLM_PROVIDER env)")
+    p.add_argument("--llm-model", default=None, dest="llm_model",
+                   metavar="MODEL", help="LLM model name (overrides LLM_MODEL env)")
 
     args = ap.parse_args(argv)
 

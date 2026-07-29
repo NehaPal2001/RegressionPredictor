@@ -18,11 +18,10 @@ from pathlib import Path
 
 from langchain.agents import create_agent
 from langchain_core.tools import tool
-from langchain_groq import ChatGroq
 
+from .llm_config import LLMConfig, make_lc_model
 from .loom_client import LoomClient
 
-MODEL = "llama-3.3-70b-versatile"
 # Groq free tier is 12k tokens/MINUTE and the react agent re-sends full history each step,
 # so total accumulation must stay under that. Bound tool rounds low + keep each read small:
 # ~4 reads * ~1.4k + scope ~1.5k + system ~0.6k stays comfortably under 12k.
@@ -116,9 +115,9 @@ def _build_tools(lc: LoomClient, root: Path):
     return [loom_search, loom_callees, read_symbol, grep_repo]
 
 
-def investigate(scope: dict, lc: LoomClient, repo_root: str | Path, key: str) -> str:
+def investigate(scope: dict, lc: LoomClient, repo_root: str | Path, cfg: LLMConfig) -> str:
     """Run the LangGraph react agent; return grounded regression notes."""
-    llm = ChatGroq(model=MODEL, api_key=key, temperature=0.2)
+    llm = make_lc_model(cfg)
     agent = create_agent(llm, _build_tools(lc, Path(repo_root)), system_prompt=SYSTEM)
     result = agent.invoke(
         {"messages": [("user", "Deterministic scope to investigate:\n" + json.dumps(scope, indent=1))]},
@@ -127,11 +126,12 @@ def investigate(scope: dict, lc: LoomClient, repo_root: str | Path, key: str) ->
     return (result["messages"][-1].content or "").strip()
 
 
-def try_investigate(scope: dict, lc: LoomClient, repo_root: str | Path, key: str | None) -> tuple[str | None, str]:
+def try_investigate(scope: dict, lc: LoomClient, repo_root: str | Path, cfg: LLMConfig | None) -> tuple[str | None, str]:
     """(notes, status). Never raises — the deterministic report must always ship."""
-    if not key:
-        return None, "no GROQ_API_KEY — skipped AI investigation (deterministic scope is complete)"
+    if cfg is None or not cfg.api_key:
+        provider = cfg.provider if cfg else "LLM"
+        return None, f"no API key for {provider} — skipped AI investigation (deterministic scope is complete)"
     try:
-        return investigate(scope, lc, repo_root, key), "ok"
-    except Exception as e:  # LangGraph/Groq/recursion — never sink the deterministic report
+        return investigate(scope, lc, repo_root, cfg), "ok"
+    except Exception as e:  # LangGraph/network/recursion — never sink the deterministic report
         return None, f"AI investigation failed ({type(e).__name__}: {e}) — deterministic scope unaffected"

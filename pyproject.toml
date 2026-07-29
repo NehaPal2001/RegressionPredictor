@@ -8,6 +8,7 @@ dependencies = [
     "loom-tool>=0.7.0",
     "langgraph>=0.2",
     "langchain-groq>=0.2",
+    "langchain-openai>=0.2",
     "langchain>=1.0",
 ]
 

@@ -4,6 +4,12 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 import pytest
 
+# Pre-import tracer.cli so its module-level bindings are established before any
+# patch() context managers run. Without this, the first test that does
+#   `from tracer.cli import main` inside a patch context could bind module-level
+#   names (e.g. JiraClient) to mock objects, polluting later tests.
+import tracer.cli  # noqa: F401
+
 
 # ── helpers ────────────────────────────────────────────────────────────────
 
@@ -373,7 +379,7 @@ def test_predict_writes_test_cases_json(tmp_path, monkeypatch):
          patch("tracer.gap_detector.detect_gaps", return_value=coverage), \
          patch("tracer.mailer.send_gap_alert"), \
          patch("tracer.tcm_client.fetch_all", return_value=([], [tc])), \
-         patch("tracer.reporter._call_groq", return_value=groq_payload):
+         patch("tracer.llm_config.call_llm_api", return_value=groq_payload):
 
         jira_inst = MagicMock()
         jira_inst.fetch_raw_by_keys.return_value = jira_raw
@@ -441,7 +447,7 @@ def test_predict_no_linked_cases_returns_all(tmp_path, monkeypatch):
          patch("tracer.gap_detector.detect_gaps", return_value=coverage), \
          patch("tracer.mailer.send_gap_alert"), \
          patch("tracer.tcm_client.fetch_all", return_value=([], [tc_unlinked])), \
-         patch("tracer.reporter._call_groq", return_value=groq_payload):
+         patch("tracer.llm_config.call_llm_api", return_value=groq_payload):
 
         jira_inst = MagicMock()
         jira_inst.fetch_raw_by_keys.return_value = []
@@ -582,13 +588,15 @@ def _make_groq_response(release_summary="All good", qa_notes=None, blind_spots=N
 
 def test_reporter_generate_writes_report_html(tmp_path):
     from tracer import reporter
+    from tracer.llm_config import LLMConfig
     scope = _scope(screens=["Api Test Suite"])
     jira_raw = [_raw_jira_issue("REG-20")]
     defects_raw = []
     tcm_raw = [_raw_case("REG-20")]
+    cfg = LLMConfig(provider="groq", model="llama-3.3-70b-versatile", api_key="gsk_test")
 
-    with patch("tracer.reporter._call_groq", return_value=_make_groq_response()):
-        reporter.generate(str(tmp_path), scope, [], jira_raw, defects_raw, tcm_raw, "gsk_test")
+    with patch("tracer.llm_config.call_llm_api", return_value=_make_groq_response()):
+        reporter.generate(str(tmp_path), scope, [], jira_raw, defects_raw, tcm_raw, cfg)
 
     report_path = tmp_path / "report.html"
     assert report_path.exists()
@@ -599,14 +607,16 @@ def test_reporter_generate_writes_report_html(tmp_path):
 
 def test_reporter_generate_raises_on_groq_failure(tmp_path):
     from tracer import reporter
+    from tracer.llm_config import LLMConfig
     scope = _scope()
-    with patch("tracer.reporter._call_groq", side_effect=RuntimeError("Groq failed")):
+    cfg = LLMConfig(provider="groq", model="llama-3.3-70b-versatile", api_key="gsk_test")
+    with patch("tracer.llm_config.call_llm_api", side_effect=RuntimeError("Groq failed")):
         with pytest.raises(RuntimeError, match="Groq failed"):
-            reporter.generate(str(tmp_path), scope, [], [], [], [], "gsk_test")
+            reporter.generate(str(tmp_path), scope, [], [], [], [], cfg)
 
 
-def test_reporter_call_groq_parses_json_response():
-    from tracer import reporter
+def test_reporter_call_llm_api_parses_json_response():
+    from tracer.llm_config import call_llm_api, LLMConfig
     resp_payload = {"choices": [{"message": {"content": '{"release_summary": "ok", "qa_notes": [], "blind_spots": []}'}}]}
     resp_bytes = json.dumps(resp_payload).encode()
 
@@ -615,8 +625,9 @@ def test_reporter_call_groq_parses_json_response():
         def __enter__(self): return self
         def __exit__(self, *a): pass
 
+    cfg = LLMConfig(provider="groq", model="llama-3.3-70b-versatile", api_key="gsk_key")
     with patch("urllib.request.urlopen", return_value=FakeResp()):
-        result = reporter._call_groq("test prompt", "gsk_key")
+        result = call_llm_api("test prompt", cfg)
     assert result["release_summary"] == "ok"
 
 
@@ -662,7 +673,7 @@ def test_predict_creates_runs_directory(tmp_path, monkeypatch):
          patch("tracer.jira_client.JiraClient.fetch_raw_by_keys", return_value=jira_raw), \
          patch("tracer.jira_client.JiraClient.fetch_defects_for_stories", return_value=defects_raw), \
          patch("tracer.tcm_client.fetch_all", return_value=(tcm_raw, [])), \
-         patch("tracer.reporter._call_groq", return_value=groq_payload):
+         patch("tracer.llm_config.call_llm_api", return_value=groq_payload):
         result = main(["predict", "--scope", str(scope_file), "--env", str(env_file),
                        "--jira-project", "REG", "--no-alert"])
 
@@ -690,7 +701,7 @@ def test_predict_writes_all_output_files(tmp_path, monkeypatch):
          patch("tracer.jira_client.JiraClient.fetch_raw_by_keys", return_value=jira_raw), \
          patch("tracer.jira_client.JiraClient.fetch_defects_for_stories", return_value=defects_raw), \
          patch("tracer.tcm_client.fetch_all", return_value=(tcm_raw, [])), \
-         patch("tracer.reporter._call_groq", return_value=groq_payload):
+         patch("tracer.llm_config.call_llm_api", return_value=groq_payload):
         main(["predict", "--scope", str(scope_file), "--env", str(env_file),
               "--jira-project", "REG", "--no-alert"])
 
@@ -710,3 +721,503 @@ def test_predict_writes_all_output_files(tmp_path, monkeypatch):
 
     tcm = json.loads((run_dir / "sdet360testcases.json").read_text())
     assert tcm[0]["uniqueTestcaseId"] == "TC-001"
+
+
+# ── Task 1: jira_client.fetch_open_stories ─────────────────────────────────
+
+def test_fetch_open_stories_posts_correct_jql():
+    from tracer.jira_client import JiraClient
+    client = JiraClient("https://example.atlassian.net", "user@x.com", "token")
+    captured = {}
+
+    class FakeResp:
+        def read(self): return json.dumps({"issues": []}).encode()
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+
+    def fake_urlopen(req):
+        captured["body"] = json.loads(req.data.decode())
+        return FakeResp()
+
+    with patch("tracer.jira_client.urllib.request.urlopen", side_effect=fake_urlopen):
+        result = client.fetch_open_stories("REG")
+
+    jql = captured["body"]["jql"]
+    assert 'status in ("To Do","In Progress")' in jql
+    assert 'issuetype=Story' in jql
+    assert 'project="REG"' in jql
+    assert result == []
+
+
+def test_fetch_open_stories_returns_raw_dicts():
+    from tracer.jira_client import JiraClient
+    client = JiraClient("https://example.atlassian.net", "user@x.com", "token")
+    raw_story = {"id": "1", "key": "REG-10", "fields": {"summary": "Story A"}}
+
+    class FakeResp:
+        def read(self): return json.dumps({"issues": [raw_story]}).encode()
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+
+    with patch("tracer.jira_client.urllib.request.urlopen", return_value=FakeResp()):
+        result = client.fetch_open_stories("REG")
+
+    assert result == [raw_story]
+
+
+# ── Task 2: semantic_matcher.enrich_layer3 ─────────────────────────────────
+
+def _make_coverage(hash_="abc1234", covered=False, jira_keys=()):
+    from tracer.gap_detector import CommitCoverage
+    return CommitCoverage(
+        hash=hash_,
+        author_email="dev@co.com",
+        message="add feature X",
+        covered=covered,
+        jira_keys=tuple(jira_keys),
+    )
+
+
+def _open_story(key="REG-10", summary="Feature X"):
+    return {"id": "1", "key": key, "fields": {"summary": summary, "status": {"name": "To Do"}}}
+
+
+def test_enrich_layer3_auto_includes_high_score():
+    from tracer.semantic_matcher import enrich_layer3
+    from tracer.llm_config import LLMConfig
+
+    uncovered = [_make_coverage("abc1234", covered=False)]
+    llm_response = {"scores": [{"key": "REG-10", "score": 8, "reason": "direct match"}]}
+
+    mock_jira = MagicMock()
+    mock_jira.fetch_open_stories.return_value = [_open_story("REG-10")]
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer3(
+            uncovered, [{"name": "featureX", "risk": "HIGH"}], ["Dashboard"],
+            mock_jira, "REG", LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert len(included) == 1
+    assert included[0].key == "REG-10"
+    assert included[0].score == 8
+    assert included[0].confidence == "semantic"
+    assert alerts == []
+
+
+def test_enrich_layer3_alerts_on_mid_score():
+    from tracer.semantic_matcher import enrich_layer3
+    from tracer.llm_config import LLMConfig
+
+    uncovered = [_make_coverage("abc1234")]
+    llm_response = {"scores": [{"key": "REG-10", "score": 5, "reason": "partial match"}]}
+
+    mock_jira = MagicMock()
+    mock_jira.fetch_open_stories.return_value = [_open_story("REG-10")]
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer3(
+            uncovered, [], [], mock_jira, "REG",
+            LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert included == []
+    assert len(alerts) == 1
+    assert alerts[0].key == "REG-10"
+    assert alerts[0].confidence == "suggested"
+
+
+def test_enrich_layer3_discards_low_score():
+    from tracer.semantic_matcher import enrich_layer3
+    from tracer.llm_config import LLMConfig
+
+    uncovered = [_make_coverage("abc1234")]
+    llm_response = {"scores": [{"key": "REG-10", "score": 2, "reason": "unrelated"}]}
+
+    mock_jira = MagicMock()
+    mock_jira.fetch_open_stories.return_value = [_open_story("REG-10")]
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer3(
+            uncovered, [], [], mock_jira, "REG",
+            LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert included == []
+    assert alerts == []
+
+
+def test_enrich_layer3_skips_when_no_uncovered_commits():
+    from tracer.semantic_matcher import enrich_layer3
+    from tracer.llm_config import LLMConfig
+
+    mock_jira = MagicMock()
+
+    with patch("tracer.semantic_matcher.call_llm_api") as mock_llm:
+        included, alerts = enrich_layer3(
+            [], [], [], mock_jira, "REG",
+            LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    mock_jira.fetch_open_stories.assert_not_called()
+    mock_llm.assert_not_called()
+    assert included == []
+    assert alerts == []
+
+
+def test_enrich_layer3_skips_when_no_open_stories():
+    from tracer.semantic_matcher import enrich_layer3
+    from tracer.llm_config import LLMConfig
+
+    uncovered = [_make_coverage("abc1234")]
+    mock_jira = MagicMock()
+    mock_jira.fetch_open_stories.return_value = []
+
+    with patch("tracer.semantic_matcher.call_llm_api") as mock_llm:
+        included, alerts = enrich_layer3(
+            uncovered, [], [], mock_jira, "REG",
+            LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    mock_llm.assert_not_called()
+    assert included == []
+    assert alerts == []
+
+
+# ── Task 3: semantic_matcher.enrich_layer4 ─────────────────────────────────
+
+def _unlinked_tc(uid="REGTC-55", title="Verify filter behaviour"):
+    return {
+        "id": "tc-055",
+        "uniqueTestcaseId": uid,
+        "jiraStoryKey": "NA",
+        "testcaseStatus": "ACTIVE",
+        "customFieldValues": [
+            {"fieldDefinition": {"name": "TEST_CASE_TITLE"}, "value": title},
+        ],
+        "testSteps": [],
+    }
+
+
+def test_enrich_layer4_auto_includes_high_score():
+    from tracer.semantic_matcher import enrich_layer4
+    from tracer.llm_config import LLMConfig
+
+    tcs = [_unlinked_tc("REGTC-55", "Verify filter behaviour")]
+    llm_response = {"scores": [{"key": "REGTC-55", "score": 7, "reason": "direct match"}]}
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer4(
+            tcs, ["Dashboard"], [{"name": "getFilters", "risk": "HIGH"}],
+            ["REG-20: API Test Suite"], LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert len(included) == 1
+    assert included[0].key == "REGTC-55"
+    assert included[0].confidence == "semantic"
+    assert alerts == []
+
+
+def test_enrich_layer4_alerts_on_mid_score():
+    from tracer.semantic_matcher import enrich_layer4
+    from tracer.llm_config import LLMConfig
+
+    tcs = [_unlinked_tc("REGTC-61", "Verify notification")]
+    llm_response = {"scores": [{"key": "REGTC-61", "score": 6, "reason": "indirect"}]}
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer4(
+            tcs, [], [], [], LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert included == []
+    assert len(alerts) == 1
+    assert alerts[0].confidence == "suggested"
+
+
+def test_enrich_layer4_discards_low_score():
+    from tracer.semantic_matcher import enrich_layer4
+    from tracer.llm_config import LLMConfig
+
+    tcs = [_unlinked_tc("REGTC-70", "Unrelated TC")]
+    llm_response = {"scores": [{"key": "REGTC-70", "score": 2, "reason": "unrelated"}]}
+
+    with patch("tracer.semantic_matcher.call_llm_api", return_value=llm_response):
+        included, alerts = enrich_layer4(
+            tcs, [], [], [], LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    assert included == []
+    assert alerts == []
+
+
+def test_enrich_layer4_skips_when_no_unlinked_tcs():
+    from tracer.semantic_matcher import enrich_layer4
+    from tracer.llm_config import LLMConfig
+
+    with patch("tracer.semantic_matcher.call_llm_api") as mock_llm:
+        included, alerts = enrich_layer4(
+            [], [], [], [], LLMConfig("openai", "gpt-4o", "key"),
+        )
+
+    mock_llm.assert_not_called()
+    assert included == []
+    assert alerts == []
+
+
+# ── Task 4: CLI integration — semantic enrichment wired ────────────────────
+
+def test_cli_predict_writes_semantic_fields(tmp_path):
+    scope = _scope(
+        commits=[{"hash": "abc1234ef", "author_email": "dev@co.com", "message": "add filter"}]
+    )
+    scope_file = tmp_path / "scope.json"
+    scope_file.write_text(json.dumps(scope))
+
+    from tracer.gap_detector import CommitCoverage
+    from tracer.semantic_matcher import SemanticMatch
+    from tracer.predict_cfg import PredictConfig
+
+    uncovered_commit = CommitCoverage(
+        hash="abc1234ef", author_email="dev@co.com",
+        message="add filter", covered=False, jira_keys=(),
+    )
+    semantic_story_raw = {"id": "2", "key": "REG-10", "fields": {
+        "summary": "Filter feature", "status": {"name": "To Do"},
+        "priority": {"name": "Medium"}, "issuetype": {"name": "Story"},
+        "issuelinks": [],
+    }}
+    unlinked_raw = {
+        "id": "tc-055", "uniqueTestcaseId": "REGTC-55",
+        "jiraStoryKey": "NA", "testcaseStatus": "ACTIVE",
+        "customFieldValues": [
+            {"fieldDefinition": {"name": "TEST_CASE_TITLE"}, "value": "Verify filter"},
+        ],
+        "testSteps": [],
+    }
+
+    l3_result = ([SemanticMatch(key="REG-10", score=8, reason="match", confidence="semantic")], [])
+    l4_result = ([SemanticMatch(key="REGTC-55", score=7, reason="filter", confidence="semantic")], [])
+
+    with patch("tracer.cli.gd.detect_gaps", return_value=[uncovered_commit]), \
+         patch("tracer.cli.JiraClient") as MockJira, \
+         patch("tracer.cli.tcm.fetch_all", return_value=([unlinked_raw], [])), \
+         patch("tracer.cli.reportermod.generate"), \
+         patch("tracer.cli.mailermod.send_gap_alert"), \
+         patch("tracer.cli.enrich_layer3", return_value=l3_result), \
+         patch("tracer.cli.enrich_layer4", return_value=l4_result), \
+         patch("tracer.cli.load_predict_config", return_value=PredictConfig(
+             jira_base_url="https://x.atlassian.net", jira_email="u@x.com",
+             jira_api_token="t", tcm_session="s", tcm_project_session="ps",
+             tcm_refresh_token="r", tcm_vertical_id="v1", tcm_project_key="REG",
+             smtp_host="", smtp_port=587, smtp_user="", smtp_password="",
+             smtp_from="", alert_emails=[], groq_api_key="",
+         )), \
+         patch("tracer.llm_config.call_llm_api", return_value={"release_summary": "r", "qa_notes": [], "blind_spots": []}):
+
+        mock_jira_inst = MockJira.return_value
+        mock_jira_inst.fetch_raw_by_keys.return_value = [semantic_story_raw]
+        mock_jira_inst.fetch_defects_for_stories.return_value = []
+
+        from tracer.cli import main
+        ret = main([
+            "predict", "--scope", str(scope_file),
+            "--env", str(tmp_path / ".env"),
+            "--no-alert", "--jira-project", "REG",
+        ])
+
+    assert ret == 0
+    import os
+    runs_dir = Path("runs")
+    run_dirs = sorted(runs_dir.iterdir()) if runs_dir.exists() else []
+    assert run_dirs, "no run dir created"
+    output = json.loads((run_dirs[-1] / "test_cases.json").read_text())
+
+    assert "semantic_test_cases" in output
+    assert "semantic_alerts" in output
+    assert any(tc["unique_id"] == "REGTC-55" for tc in output["semantic_test_cases"])
+
+
+# ── Task 5: reporter.py semantic badge rendering ───────────────────────────
+
+def test_reporter_renders_semantic_badge(tmp_path):
+    from tracer import reporter as reportermod
+    from tracer.semantic_matcher import SemanticMatch
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch
+
+    llm_response = {
+        "release_summary": "Test release",
+        "qa_notes": [],
+        "blind_spots": [],
+    }
+    semantic_tc = SemanticMatch(key="REGTC-55", score=8, reason="Directly tests changed area", confidence="semantic")
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+
+    with patch("tracer.llm_config.call_llm_api", return_value=llm_response):
+        reportermod.generate(
+            str(tmp_path), {"base": "main", "target": "feat", "commits": [], "changed_symbols": [], "affected_screens": []},
+            [], [], [], [],
+            llm_cfg,
+            semantic_tcs=[semantic_tc],
+            semantic_alerts=[],
+        )
+
+    html = (tmp_path / "report.html").read_text(encoding="utf-8")
+    assert "SEMANTIC" in html
+    assert "REGTC-55" in html
+
+
+def test_reporter_no_semantic_section_when_empty(tmp_path):
+    from tracer import reporter as reportermod
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch
+
+    llm_response = {"release_summary": "Test", "qa_notes": [], "blind_spots": []}
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+
+    with patch("tracer.llm_config.call_llm_api", return_value=llm_response):
+        reportermod.generate(
+            str(tmp_path), {"base": "main", "target": "feat", "commits": [], "changed_symbols": [], "affected_screens": []},
+            [], [], [], [],
+            llm_cfg,
+            semantic_tcs=[],
+            semantic_alerts=[],
+        )
+
+    html = (tmp_path / "report.html").read_text(encoding="utf-8")
+    assert "semantic-alert" not in html
+
+
+# ── Gap alert email redesign ───────────────────────────────────────────────
+
+def test_build_gap_narrative_returns_summary_and_areas():
+    from tracer.mailer import build_gap_narrative
+    from tracer.gap_detector import CommitCoverage
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch
+
+    llm_response = {
+        "summary": "Two changes were made outside planned work.",
+        "unplanned_areas": [
+            {"name": "Notification Module", "detail": "Delivery logic changed.", "business_impact": "Users may see different alerts."}
+        ],
+    }
+    uncovered = [CommitCoverage("abc123", "fix: update delivery", "dev@test.com", set(), False)]
+    open_stories = [{"key": "REG-1", "fields": {"summary": "API suite", "status": {"name": "In Progress"}}}]
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+
+    with patch("tracer.mailer.call_llm_api", return_value=llm_response):
+        result = build_gap_narrative(uncovered, open_stories, {}, "REG", llm_cfg)
+
+    assert result["summary"] == "Two changes were made outside planned work."
+    assert len(result["unplanned_areas"]) == 1
+    assert result["unplanned_areas"][0]["name"] == "Notification Module"
+
+
+def test_build_gap_narrative_falls_back_on_llm_error():
+    from tracer.mailer import build_gap_narrative
+    from tracer.gap_detector import CommitCoverage
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch
+
+    uncovered = [CommitCoverage("abc123", "fix: update delivery", "dev@test.com", set(), False)]
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+
+    with patch("tracer.mailer.call_llm_api", side_effect=RuntimeError("LLM down")):
+        result = build_gap_narrative(uncovered, [], {}, "REG", llm_cfg)
+
+    assert result["summary"] is None
+    assert result["unplanned_areas"] == []
+
+
+def test_send_gap_alert_sends_html_when_llm_succeeds():
+    from tracer.mailer import send_gap_alert, SmtpConfig
+    from tracer.gap_detector import CommitCoverage
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch, MagicMock
+
+    llm_response = {
+        "summary": "One unplanned change detected.",
+        "unplanned_areas": [
+            {"name": "Report Module", "detail": "Output format changed.", "business_impact": "Dashboards may look different."}
+        ],
+    }
+    uncovered = [CommitCoverage("abc123", "fix: report format", "dev@test.com", set(), False)]
+    smtp_cfg = SmtpConfig(host="smtp.test.com", port=587, user="u", password="p", from_addr="from@test.com")
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+    jira_client = MagicMock()
+    jira_client.fetch_open_stories.return_value = []
+
+    sent_messages = []
+
+    class FakeSMTP:
+        def __init__(self, host, port): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+        def starttls(self): pass
+        def login(self, u, p): pass
+        def sendmail(self, from_addr, recipients, msg_str):
+            sent_messages.append(msg_str)
+
+    with patch("tracer.mailer.call_llm_api", return_value=llm_response), \
+         patch("tracer.mailer.smtplib.SMTP", FakeSMTP):
+        send_gap_alert(
+            uncovered, ["dev@test.com"], ["qa@test.com"], smtp_cfg, "REG",
+            jira_client=jira_client, scope_data={}, llm_cfg=llm_cfg,
+            jira_base_url="https://example.atlassian.net",
+        )
+
+    import base64, email as _email
+    assert len(sent_messages) == 1
+    assert "text/html" in sent_messages[0]
+    parsed = _email.message_from_string(sent_messages[0])
+    payload = parsed.get_payload(decode=True)
+    body = payload.decode("utf-8") if payload else sent_messages[0]
+    assert "Not Planned" in body
+
+
+def test_send_gap_alert_falls_back_to_plain_text_when_llm_fails():
+    from tracer.mailer import send_gap_alert, SmtpConfig
+    from tracer.gap_detector import CommitCoverage
+    from tracer.llm_config import LLMConfig
+    from unittest.mock import patch, MagicMock
+
+    uncovered = [CommitCoverage("abc123", "fix: something", "dev@test.com", set(), False)]
+    smtp_cfg = SmtpConfig(host="smtp.test.com", port=587, user="u", password="p", from_addr="from@test.com")
+    llm_cfg = LLMConfig(provider="openai", model="gpt-4o", api_key="test")
+    jira_client = MagicMock()
+    jira_client.fetch_open_stories.return_value = []
+
+    sent_messages = []
+
+    class FakeSMTP:
+        def __init__(self, host, port): pass
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+        def starttls(self): pass
+        def login(self, u, p): pass
+        def sendmail(self, from_addr, recipients, msg_str):
+            sent_messages.append(msg_str)
+
+    with patch("tracer.mailer.call_llm_api", side_effect=RuntimeError("LLM down")), \
+         patch("tracer.mailer.smtplib.SMTP", FakeSMTP):
+        send_gap_alert(
+            uncovered, ["dev@test.com"], ["qa@test.com"], smtp_cfg, "REG",
+            jira_client=jira_client, scope_data={}, llm_cfg=llm_cfg,
+        )
+
+    assert len(sent_messages) == 1
+    assert "text/plain" in sent_messages[0]
+
+
+def test_send_gap_alert_noop_when_uncovered_empty():
+    from tracer.mailer import send_gap_alert, SmtpConfig
+    from unittest.mock import patch
+
+    smtp_cfg = SmtpConfig(host="smtp.test.com", port=587, user="u", password="p", from_addr="from@test.com")
+
+    with patch("tracer.mailer.smtplib.SMTP") as mock_smtp:
+        send_gap_alert([], [], ["qa@test.com"], smtp_cfg, "REG")
+
+    mock_smtp.assert_not_called()

@@ -34,27 +34,33 @@ BUG HISTORY — this change re-touches previously-fixed code:
   • TestCaseService.java:1675-1675 was fixed by 50b9ffca “fix merging issue projectrolesecurity, added missed endpoints and update all according to custom fields, fix test release issue, update test suites endpoint”
   Test those prior bug scenarios hard — the same class of bug can return.
 
-FEATURES TO TEST (screens reachable from this change):
-  • Api Test Case [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Api Test Case Query [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Api Test Collection [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Api Test Execution [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Api Test Suite [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Backup Test [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Notification [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Prompt Based Automation [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Test Case Approval [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
-  • Vision Automation Robot Run [LOW] (changed directly, reachability confirmed)
-      why: directly changed in this diff
+WHAT TO TEST (read from the actual changed code):
+
+MODULE TOUCHED: API Testing
+NAVIGATE TO: Api Test Case
+LOGIN AS: any authenticated user
+HAPPY PATH: 
+1. Use the endpoint `POST /api/automation-api-testing/verticals/{verticalId}/projects/{projectId}/collections/{collectionId}/test-cases` to create a test case.
+2. Provide valid `verticalId`, `projectId`, `collectionId`, and a valid request body.
+3. Expect a 201 Created response with the test case details.
+
+ERROR CASES:
+- Invalid `verticalId`, `projectId`, or `collectionId`: Expect a validation error.
+- Missing or malformed request body: Expect a 400 Bad Request response.
+
+NAVIGATE TO: Api Test Case Query
+LOGIN AS: any authenticated user
+HAPPY PATH:
+1. Use the endpoint `GET /api/automation-api-testing/verticals/{verticalId}/projects/{projectId}/test-cases` to list test cases.
+2. Provide valid `verticalId` and `projectId`.
+3. Expect a 200 OK response with a paginated list of test cases.
+
+ERROR CASES:
+- Invalid `verticalId` or `projectId`: Expect a validation error.
+- Invalid pagination parameters: Expect a 400 Bad Request response.
+
+IF PRIOR FIX: 
+Likely scenario (inferred from the fix commit, not the original bug report): Issues with merging project role security and missing endpoints were fixed. Verify that all endpoints are accessible and role security is enforced correctly.
 
 SUGGESTED TEST ORDER — start with: Api Test Case.</pre></section>
 <div class="hero"><h2>⚠ Defect recurrence — this change re-touches previously-fixed code</h2><ul><li><code>model_config.py:30–36</code> was fixed by <code>0990e645</code> (2025-12-16): <b>add mapping of model template specific and fix parsing issue in Test case generator template</b></li><li><code>model_config.py:41–53</code> was fixed by <code>3618d627</code> (2025-12-16): <b>feat: added llava model support in srs generated endpoint in ai-service and resolve parsing and size issue.</b></li><li><code>NotificationService.java:97–97</code> was fixed by <code>fb9c99e0</code> (2025-12-16): <b>Feat: fixes for Export feature in excel</b></li><li><code>TestCaseController.java:550–551</code> was fixed by <code>50b9ffca</code> (2026-04-24): <b>fix merging issue projectrolesecurity, added missed endpoints and update all according to custom fields, fix test release issue, update test suites endpoint</b></li><li><code>TestCaseService.java:924–926</code> was fixed by <code>81ccb621</code> (2025-11-19): <b>fix storyId filteration</b></li><li><code>TestCaseService.java:924–926</code> was fixed by <code>3eedbb08</code> (2025-11-11): <b>feat: fixes for filter</b></li><li><code>TestCaseService.java:1675–1675</code> was fixed by <code>50b9ffca</code> (2026-04-24): <b>fix merging issue projectrolesecurity, added missed endpoints and update all according to custom fields, fix test release issue, update test suites endpoint</b></li></ul><p>The same class of bug can return. Re-run the original bug's scenario as a first-class test.</p></div>

@@ -1,253 +1,149 @@
 {
   "version": 1,
-  "base": "98dc55a181615bd4e578ebfda7ce2eb23186fb3a",
-  "target": "feature/api-test-suite",
+  "base": "c39d2d80f13d7049488ce6892219caa7b664c8d0",
+  "target": "feature/apiTestcases-ReleaseExecution",
   "repo": "C:\\Users\\neha.pal\\Desktop\\sdet360ai\\SDET360.ai-Server",
-  "generated_at": "2026-07-25T16:12:35.683956Z",
+  "generated_at": "2026-07-28T10:49:03.088678Z",
   "commits": [
     {
-      "hash": "277635e9",
+      "hash": "1836bc55",
       "author_email": "neha.pal@sdettech.com",
-      "message": "Merge branch 'feature/api-test-suite' of https://github.com/anshuman-sdet/SDET360.ai-Server into feature/api-test-suite"
+      "message": "update SPA routing configuration to forward all non-file paths to index.html for proper Angular route handling"
     },
     {
-      "hash": "d1125cb9",
+      "hash": "60f67b5c",
       "author_email": "neha.pal@sdettech.com",
-      "message": "api impl of history with modification of pagination endpoints"
+      "message": "add distribution build scripts and configuration to package Angular frontend with Spring Boot JAR for standalone deployment with bundled static resources and external config support"
     },
     {
-      "hash": "c4c57bdc",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix report genertion with all test cases execution details and fix jira storykey issue when assignning test cases to execution  cycle"
-    },
-    {
-      "hash": "dfc01a83",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix duplicate jiraStory creation by reusing existing jiraStoryKey entries"
-    },
-    {
-      "hash": "85220fdb",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix filtering based on jirastoryid and added in response body"
-    },
-    {
-      "hash": "601531a3",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "merge robot test runner changes"
-    },
-    {
-      "hash": "88faf3b9",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix: use work_in_progress instead of work_in_process"
-    },
-    {
-      "hash": "c0b1c6ec",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix: jirastoryid in release level overall result"
-    },
-    {
-      "hash": "8a0c5b4d",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "implement API test suite execution with runtime chaining"
-    },
-    {
-      "hash": "5208baf8",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "implement api automation test cases execution process"
-    },
-    {
-      "hash": "51790bda",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "remove collection rename validation"
-    },
-    {
-      "hash": "86fa0509",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "rename testcasecount to apicount in collectiondto"
-    },
-    {
-      "hash": "e2428ef7",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "implemented ai powered api test automation module - added excel parser for endpoint specs, integrated grpc with Python ai service"
-    },
-    {
-      "hash": "8b4c7e21",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "impletement backup and restore functionality for master database with tenant support"
-    },
-    {
-      "hash": "05177f27",
-      "author_email": "mayank@sdettech.com",
-      "message": "ExecutionFix"
-    },
-    {
-      "hash": "05606a32",
+      "hash": "22c5090e",
       "author_email": "neha.pal@sdettech.com",
-      "message": "modified executed by addition on runner file"
+      "message": "endpoint fixes html and excel feature"
     },
     {
-      "hash": "47b67ca5",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "merge fixes"
-    },
-    {
-      "hash": "d5854be7",
-      "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "fix inconsistency between test cases projectkey and jirastories projectkey and update prompt for story generation and parsing logic"
-    },
-    {
-      "hash": "1043705e",
+      "hash": "33884c55",
       "author_email": "neha.pal@sdettech.com",
-      "message": "added slack notification in testcase approval"
+      "message": " release specific fixes"
     },
     {
-      "hash": "145f1be8",
+      "hash": "8db1f424",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "merge missed apitestresttemplate code"
+    },
+    {
+      "hash": "1a07d3eb",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix: update ssl configuration to prevent certificate validation errors"
+    },
+    {
+      "hash": "114dcd12",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fix : update excel template"
+    },
+    {
+      "hash": "3ef1d382",
       "author_email": "neha.pal@sdettech.com",
-      "message": "fixes"
+      "message": "Merge branch 'feature/api-approval-flow' of https://github.com/anshuman-sdet/SDET360.ai-Server into feature/apiTestcases-ReleaseExecution"
     },
     {
-      "hash": "7e10f598",
-      "author_email": "mayank@sdettech.com",
-      "message": "NotificationFixes"
+      "hash": "e6179114",
+      "author_email": "achyut.sharma@sdettechnologies.com",
+      "message": "fixes : api test suite's step reorder issue, execution after the reorder steps was failing, add executedBy once executed in all endpoints, access token issue when executing a suite, add download template functionality"
     },
     {
-      "hash": "5db6be5c",
-      "author_email": "mayank@sdettech.com",
-      "message": "Merge branch 'fix/unique-id' of https://github.com/anshuman-sdet/SDET360.ai-Server into Notification"
-    },
-    {
-      "hash": "46c63c1d",
-      "author_email": "mayank@sdettech.com",
-      "message": "notificationFixes"
-    },
-    {
-      "hash": "6ab98033",
+      "hash": "dc51707b",
       "author_email": "neha.pal@sdettech.com",
-      "message": "unique id fix"
+      "message": "Merge branch 'feature/api-approval-flow' of https://github.com/anshuman-sdet/SDET360.ai-Server into feature/apiTestcases-ReleaseExecution"
     },
     {
-      "hash": "e4f8780d",
+      "hash": "a8bc72b1",
+      "author_email": "neha.pal@sdettech.com",
+      "message": "release specific changes to add api testcases, with rest client template change for execution"
+    },
+    {
+      "hash": "c818d150",
       "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "Merge branch 'ai-merge2' of https://github.com/anshuman-sdet/SDET360.ai-Server into ai-merge2"
+      "message": "add regex validation in expected response"
     },
     {
-      "hash": "1845c9db",
+      "hash": "6594faf8",
       "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "dashboard priority vs count chart push"
+      "message": "add proper validation of apis with expected reponse, status code, query params"
     },
     {
-      "hash": "9d4add4d",
-      "author_email": "mayank@sdettech.com",
-      "message": "executionFix"
-    },
-    {
-      "hash": "01e7775e",
-      "author_email": "mayank@sdettech.com",
-      "message": "executionFix"
-    },
-    {
-      "hash": "15bd61a2",
-      "author_email": "mayank@sdettech.com",
-      "message": "executionFixes"
-    },
-    {
-      "hash": "192eb8c2",
-      "author_email": "mayank@sdettech.com",
-      "message": "NotificationFixes"
-    },
-    {
-      "hash": "2c39deac",
-      "author_email": "mayank@sdettech.com",
-      "message": "TestCaseControllerWithFallbackMechanism"
-    },
-    {
-      "hash": "879c33dd",
+      "hash": "a2b29a9e",
       "author_email": "achyut.sharma@sdettechnologies.com",
-      "message": "implement claude client to generate test cases"
+      "message": "fixes : added createdBy in api test case, api test suite, execeutedBy and other fixes"
     }
   ],
   "changed_symbols": [
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.getProjectKeyByNotificationId",
-      "name": "getProjectKeyByNotificationId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "MEDIUM",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ReleaseExcelExportService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ReleaseExcelExportService.exportReleaseToExcel",
+      "name": "exportReleaseToExcel",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ReleaseExcelExportService.java",
+      "risk": "HIGH",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java:com.sdet.sdet360.tenant.testcasemanagement.controllers.TestCaseController.generateTestCasesForStory",
-      "name": "generateTestCasesForStory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java",
-      "risk": "MEDIUM",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/TestReleaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.TestReleaseService.getOverallExecutionResultsForSpecificRelease",
+      "name": "getOverallExecutionResultsForSpecificRelease",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/TestReleaseService.java",
+      "risk": "HIGH",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.getUnassignedTestCasesWithFilters",
-      "name": "getUnassignedTestCasesWithFilters",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "MEDIUM",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java:com.sdet.sdet360.config.ApiTestRestTemplate.getAcceptedIssuers",
+      "name": "getAcceptedIssuers",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java",
+      "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.parseAndSaveDocumentAiTestCases",
-      "name": "parseAndSaveDocumentAiTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "MEDIUM",
-      "fan_in": 1
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java:com.sdet.sdet360.config.ApiTestRestTemplate.checkClientTrusted",
+      "name": "checkClientTrusted",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java",
+      "risk": "LOW",
+      "fan_in": 0
     },
     {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/grpc_server.py:parse_jira_stories",
-      "name": "parse_jira_stories",
-      "path": "ai-service/app/grpc_server.py",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java:com.sdet.sdet360.config.ApiTestRestTemplate.checkServerTrusted",
+      "name": "checkServerTrusted",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java:com.sdet.sdet360.config.ApiTestRestTemplate.ApiTestRestTemplate",
+      "name": "ApiTestRestTemplate",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java:com.sdet.sdet360.config.ApiTestRestTemplate.buildFactory",
+      "name": "buildFactory",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/ApiTestRestTemplate.java",
       "risk": "LOW",
       "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/grpc_server.py:AiServiceServicer.GenerateApiTestCases.replace_repeat",
-      "name": "replace_repeat",
-      "path": "ai-service/app/grpc_server.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/grpc_server.py:AiServiceServicer.PromptBasedAutomation",
-      "name": "PromptBasedAutomation",
-      "path": "ai-service/app/grpc_server.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/grpc_server.py:AiServiceServicer.GenerateApiTestCases",
-      "name": "GenerateApiTestCases",
-      "path": "ai-service/app/grpc_server.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/llm/claude_client.py:ClaudeClient.__init__",
-      "name": "__init__",
-      "path": "ai-service/app/llm/claude_client.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/llm/claude_client.py:ClaudeClient.chat",
-      "name": "chat",
-      "path": "ai-service/app/llm/claude_client.py",
-      "risk": "LOW",
-      "fan_in": 2
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/ai-service/app/llm/client_factory.py:LLMClientFactory.get_client",
-      "name": "get_client",
-      "path": "ai-service/app/llm/client_factory.py",
-      "risk": "LOW",
-      "fan_in": 2
     },
     {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/SecurityConfig.java:com.sdet.sdet360.config.SecurityConfig.securityFilterChain",
       "name": "securityFilterChain",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/config/SecurityConfig.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/SecurityConfig.java:com.sdet.sdet360.config.SecurityConfig.authenticationProvider",
+      "name": "authenticationProvider",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/SecurityConfig.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/config/SpaForwardingController.java:com.sdet.sdet360.config.SpaForwardingController.forward",
+      "name": "forward",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/config/SpaForwardingController.java",
       "risk": "LOW",
       "fan_in": 0
     },
@@ -259,76 +155,6 @@
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/grpc/FastApiGrpcClient.java:com.sdet.sdet360.grpc.FastApiGrpcClient.generateApiTestCases",
-      "name": "generateApiTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/grpc/FastApiGrpcClient.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/config/ApiAutomationConfig.java:com.sdet.sdet360.tenant.automationapitesting.config.ApiAutomationConfig.taskExecutor",
-      "name": "taskExecutor",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/config/ApiAutomationConfig.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseController.getTestCases",
-      "name": "getTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseController.getTestCase",
-      "name": "getTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseController.createTestCase",
-      "name": "createTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseController.createTestCaseManually",
-      "name": "createTestCaseManually",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseController.updateTestCase",
-      "name": "updateTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseQueryController.validateProject",
-      "name": "validateProject",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseQueryController.getTestCaseResults",
-      "name": "getTestCaseResults",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCaseQueryController.listTestCases",
-      "name": "listTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCaseQueryController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.getCollection",
       "name": "getCollection",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
@@ -336,169 +162,15 @@
       "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.previewImport",
-      "name": "previewImport",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.renameCollection",
+      "name": "renameCollection",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.confirmImport",
-      "name": "confirmImport",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.listCollections",
-      "name": "listCollections",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.generateTestCases",
-      "name": "generateTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestCollectionController.uploadCollection",
-      "name": "uploadCollection",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestCollectionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.validateVerticalAndProject",
-      "name": "validateVerticalAndProject",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.resolveUserId",
-      "name": "resolveUserId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.getExecutionHistory",
-      "name": "getExecutionHistory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.getExecutionDetail",
-      "name": "getExecutionDetail",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.getAllExecutions",
-      "name": "getAllExecutions",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestExecutionController.execute",
-      "name": "execute",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestExecutionController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.listSuites",
-      "name": "listSuites",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.removeStep",
-      "name": "removeStep",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.validateVerticalAndProject",
-      "name": "validateVerticalAndProject",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.getSuite",
-      "name": "getSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.getSuiteByUniqueId",
-      "name": "getSuiteByUniqueId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.getAvailableTestCases",
-      "name": "getAvailableTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.getExecutionHistory",
-      "name": "getExecutionHistory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.getExecutionDetail",
-      "name": "getExecutionDetail",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.updateSuite",
-      "name": "updateSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.deleteSuite",
-      "name": "deleteSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.reorderSteps",
-      "name": "reorderSteps",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
       "risk": "LOW",
       "fan_in": 1
     },
     {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.createSuite",
       "name": "createSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.assignTestCases",
-      "name": "assignTestCases",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
       "risk": "LOW",
       "fan_in": 1
@@ -511,340 +183,137 @@
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseCounterRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseCounterRepository.findByProjectIdForUpdate",
-      "name": "findByProjectIdForUpdate",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseCounterRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findByCollection_IdAndDeletedAtIsNull",
-      "name": "findByCollection_IdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findByCollection_IdAndTestCategoryAndDeletedAtIsNull",
-      "name": "findByCollection_IdAndTestCategoryAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findByIdAndCollection_IdAndDeletedAtIsNull",
-      "name": "findByIdAndCollection_IdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.countByCollection_IdAndDeletedAtIsNull",
-      "name": "countByCollection_IdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findByUniqueApiTestCaseIdAndDeletedAtIsNull",
-      "name": "findByUniqueApiTestCaseIdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findApprovedUnassignedByProjectIdAndSuiteId",
-      "name": "findApprovedUnassignedByProjectIdAndSuiteId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.searchApprovedAndExecutedByProject",
-      "name": "searchApprovedAndExecutedByProject",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCollectionRepository.findByProjectIdAndDeletedAtIsNullOrderByCreatedAtDesc",
-      "name": "findByProjectIdAndDeletedAtIsNullOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCollectionRepository.findByProjectIdAndDeletedAtIsNull",
-      "name": "findByProjectIdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCollectionRepository.findByIdAndProjectIdAndDeletedAtIsNull",
-      "name": "findByIdAndProjectIdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCollectionRepository.findByProjectIdAndDeletedAtIsNullAndCollectionNameContainingIgnoreCaseOrderByCreatedAtDesc",
-      "name": "findByProjectIdAndDeletedAtIsNullAndCollectionNameContainingIgnoreCaseOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCollectionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestExecutionRepository.findByProjectIdOrderByCreatedAtDesc",
-      "name": "findByProjectIdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestExecutionRepository.findByProjectIdAndCollectionIdOrderByCreatedAtDesc",
-      "name": "findByProjectIdAndCollectionIdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestExecutionRepository.findByCollectionIdOrderByCreatedAtDesc",
-      "name": "findByCollectionIdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestExecutionRepository.findByIdAndProjectId",
-      "name": "findByIdAndProjectId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestResultRepository.findByExecution_Id",
-      "name": "findByExecution_Id",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestResultRepository.findByExecution_IdAndTestCase_Collection_Id",
-      "name": "findByExecution_IdAndTestCase_Collection_Id",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestResultRepository.findFirstByTestCase_IdOrderByCreatedAtDesc",
-      "name": "findFirstByTestCase_IdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestResultRepository.findByTestCase_IdOrderByCreatedAtDesc",
-      "name": "findByTestCase_IdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestResultRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteExecutionRepository.findBySuiteIdOrderByCreatedAtDesc",
-      "name": "findBySuiteIdOrderByCreatedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteExecutionRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteExecutionRepository.findByIdAndProjectId",
-      "name": "findByIdAndProjectId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteExecutionRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteRepository.findByProjectIdAndDeletedAtIsNull",
-      "name": "findByProjectIdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteRepository.findByIdAndProjectIdAndDeletedAtIsNull",
-      "name": "findByIdAndProjectIdAndDeletedAtIsNull",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.deleteBySuite_Id",
-      "name": "deleteBySuite_Id",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.findBySuite_IdAndUniqueApiTestCaseId",
-      "name": "findBySuite_IdAndUniqueApiTestCaseId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.findMaxStepOrder",
-      "name": "findMaxStepOrder",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.shiftOrdersUp",
-      "name": "shiftOrdersUp",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.shiftOrdersDown",
-      "name": "shiftOrdersDown",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.findBySuite_IdOrderByStepOrderAsc",
-      "name": "findBySuite_IdOrderByStepOrderAsc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepResultRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepResultRepository.findByExecution_IdOrderByStepOrderAsc",
-      "name": "findByExecution_IdOrderByStepOrderAsc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepResultRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseQueryService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseQueryService.getTestCaseResults",
-      "name": "getTestCaseResults",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseQueryService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseQueryService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseQueryService.listTestCases",
-      "name": "listTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseQueryService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.getTestCase",
-      "name": "getTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.deleteTestCase",
-      "name": "deleteTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.getTestCases",
-      "name": "getTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.updateTestCase",
-      "name": "updateTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.createTestCase",
-      "name": "createTestCase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseService.createTestCaseManually",
-      "name": "createTestCaseManually",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.parseHttpMethod",
-      "name": "parseHttpMethod",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java:com.sdet.sdet360.tenant.automationapitesting.controller.ApiTestSuiteController.validateVerticalAndProject",
+      "name": "validateVerticalAndProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/controller/ApiTestSuiteController.java",
       "risk": "LOW",
       "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.getString",
-      "name": "getString",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.findOrThrow",
-      "name": "findOrThrow",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.parsePriority",
-      "name": "parsePriority",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.parseCategory",
-      "name": "parseCategory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionAsyncService.generateAsync",
-      "name": "generateAsync",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionAsyncService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findByApprovalStatusAndDeletedAtIsNull",
+      "name": "findByApprovalStatusAndDeletedAtIsNull",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionService.uploadCollection",
-      "name": "uploadCollection",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.existsByCollection_IdAndApprovalStatusInAndDeletedAtIsNull",
+      "name": "existsByCollection_IdAndApprovalStatusInAndDeletedAtIsNull",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionService.previewImport",
-      "name": "previewImport",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findDuplicateInProject",
+      "name": "findDuplicateInProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCollectionService.confirmImport",
-      "name": "confirmImport",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCollectionService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestCaseRepository.findApprovedForCycleAssignment",
+      "name": "findApprovedForCycleAssignment",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteLinkRow.getTestCaseId",
+      "name": "getTestCaseId",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteLinkRow.getSuiteId",
+      "name": "getSuiteId",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteLinkRow.getSuiteName",
+      "name": "getSuiteName",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteLinkRow.getStepOrder",
+      "name": "getStepOrder",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteLinkRow.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java:com.sdet.sdet360.tenant.automationapitesting.repository.ApiTestSuiteStepRepository.findSuiteLinksByTestCaseIds",
+      "name": "findSuiteLinksByTestCaseIds",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/repository/ApiTestSuiteStepRepository.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseApprovalService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseApprovalService.getHistory",
+      "name": "getHistory",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseApprovalService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.applyThinBorder",
+      "name": "applyThinBorder",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.hexToBytes",
+      "name": "hexToBytes",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.addInfoComment",
+      "name": "addInfoComment",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.columnIndexToRef",
+      "name": "columnIndexToRef",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.addRequiredComment",
+      "name": "addRequiredComment",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.buildHeaderStyle",
+      "name": "buildHeaderStyle",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 1
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestCaseTemplateService.generateApiTestCaseTemplate",
+      "name": "generateApiTestCaseTemplate",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestCaseTemplateService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.executeOne",
+      "name": "executeOne",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
+      "risk": "LOW",
+      "fan_in": 1
     },
     {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.truncate",
@@ -856,48 +325,6 @@
     {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.findCollectionOrThrow",
       "name": "findCollectionOrThrow",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.parseJsonBody",
-      "name": "parseJsonBody",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.getExecutionHistory",
-      "name": "getExecutionHistory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.resolveAuthToken",
-      "name": "resolveAuthToken",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.getExecutionDetail",
-      "name": "getExecutionDetail",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.resolveSelectedTestCases",
-      "name": "resolveSelectedTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.buildUri",
-      "name": "buildUri",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
       "risk": "LOW",
       "fan_in": 1
@@ -917,48 +344,6 @@
       "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.buildHeaders",
-      "name": "buildHeaders",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.getAllExecutions",
-      "name": "getAllExecutions",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.triggerExecution",
-      "name": "triggerExecution",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.runSequentiallyAsync",
-      "name": "runSequentiallyAsync",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestExecutionService.executeOne",
-      "name": "executeOne",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionExecutor.executeStep",
-      "name": "executeStep",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionExecutor.execute",
       "name": "execute",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java",
@@ -966,29 +351,22 @@
       "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.findSuiteOrThrow",
-      "name": "findSuiteOrThrow",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionExecutor.buildHeaders",
+      "name": "buildHeaders",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionExecutor.java",
       "risk": "LOW",
       "fan_in": 1
     },
     {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.triggerExecution",
+      "name": "triggerExecution",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.afterCommit",
       "name": "afterCommit",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.getExecutionDetail",
-      "name": "getExecutionDetail",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.getExecutionHistory",
-      "name": "getExecutionHistory",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
       "risk": "LOW",
       "fan_in": 0
@@ -999,55 +377,6 @@
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
       "risk": "LOW",
       "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.toStepResultDTO",
-      "name": "toStepResultDTO",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteExecutionService.triggerExecution",
-      "name": "triggerExecution",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteExecutionService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.getSuite",
-      "name": "getSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.listSuites",
-      "name": "listSuites",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.getSuiteByUniqueId",
-      "name": "getSuiteByUniqueId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.updateSuiteMetadata",
-      "name": "updateSuiteMetadata",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.deleteSuite",
-      "name": "deleteSuite",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
-      "risk": "LOW",
-      "fan_in": 0
     },
     {
       "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.createSuite",
@@ -1064,8 +393,8 @@
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.removeStep",
-      "name": "removeStep",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.assignTestCases",
+      "name": "assignTestCases",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
       "risk": "LOW",
       "fan_in": 0
@@ -1078,807 +407,142 @@
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.assignTestCases",
-      "name": "assignTestCases",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.findOrThrow",
+      "name": "findOrThrow",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
       "risk": "LOW",
-      "fan_in": 0
+      "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java:com.sdet.sdet360.tenant.automationapitesting.util.ApiTestCaseIdGenerator.resolveProjectKey",
-      "name": "resolveProjectKey",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java:com.sdet.sdet360.tenant.automationapitesting.service.ApiTestSuiteService.toDTO",
+      "name": "toDTO",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/service/ApiTestSuiteService.java",
       "risk": "LOW",
       "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java:com.sdet.sdet360.tenant.automationapitesting.util.ApiTestCaseIdGenerator.nextId",
-      "name": "nextId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleController.java:com.sdet.sdet360.tenant.testcaseexecution.controllers.ExecutionCycleController.getOverallExecutionResults",
+      "name": "getOverallExecutionResults",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleController.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java:com.sdet.sdet360.tenant.automationapitesting.util.ApiTestCaseIdGenerator.nextIds",
-      "name": "nextIds",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ApiTestCaseIdGenerator.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleTestCaseController.java:com.sdet.sdet360.tenant.testcaseexecution.controllers.ExecutionCycleTestCaseController.getAvailableApiTestCases",
+      "name": "getAvailableApiTestCases",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleTestCaseController.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.supportedSourceType",
-      "name": "supportedSourceType",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleTestCaseController.java:com.sdet.sdet360.tenant.testcaseexecution.controllers.ExecutionCycleTestCaseController.assignApiBulk",
+      "name": "assignApiBulk",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/controllers/ExecutionCycleTestCaseController.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.parseHttpMethod",
-      "name": "parseHttpMethod",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ApiTestCaseDetailsDTO.java:com.sdet.sdet360.tenant.testcaseexecution.dto.ApiTestCaseDetailsDTO.ApiTestCaseDetailsDTO",
+      "name": "ApiTestCaseDetailsDTO",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ApiTestCaseDetailsDTO.java",
       "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.getCellString",
-      "name": "getCellString",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.parseStatusCodes",
-      "name": "parseStatusCodes",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.parse",
-      "name": "parse",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java:com.sdet.sdet360.tenant.automationapitesting.util.ExcelApiSpecParser.parseToEntries",
-      "name": "parseToEntries",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ExcelApiSpecParser.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/PlaceholderResolver.java:com.sdet.sdet360.tenant.automationapitesting.util.PlaceholderResolver.extractPlaceholders",
-      "name": "extractPlaceholders",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/PlaceholderResolver.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/PlaceholderResolver.java:com.sdet.sdet360.tenant.automationapitesting.util.PlaceholderResolver.resolve",
-      "name": "resolve",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/PlaceholderResolver.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java:com.sdet.sdet360.tenant.automationapitesting.util.ResponseDataExtractor.leafKeyName",
-      "name": "leafKeyName",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java:com.sdet.sdet360.tenant.automationapitesting.util.ResponseDataExtractor.leafValue",
-      "name": "leafValue",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java:com.sdet.sdet360.tenant.automationapitesting.util.ResponseDataExtractor.extract",
-      "name": "extract",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java:com.sdet.sdet360.tenant.automationapitesting.util.ResponseDataExtractor.flatten",
-      "name": "flatten",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/ResponseDataExtractor.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java:com.sdet.sdet360.tenant.automationapitesting.util.RuntimeDataStore.get",
-      "name": "get",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java:com.sdet.sdet360.tenant.automationapitesting.util.RuntimeDataStore.snapshot",
-      "name": "snapshot",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java:com.sdet.sdet360.tenant.automationapitesting.util.RuntimeDataStore.size",
-      "name": "size",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java:com.sdet.sdet360.tenant.automationapitesting.util.RuntimeDataStore.truncate",
-      "name": "truncate",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java:com.sdet.sdet360.tenant.automationapitesting.util.RuntimeDataStore.merge",
-      "name": "merge",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/automationapitesting/util/RuntimeDataStore.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/controller/BackupTestController.java:com.sdet.sdet360.tenant.backup.controller.BackupTestController.BackupTestController",
-      "name": "BackupTestController",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/controller/BackupTestController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/controller/BackupTestController.java:com.sdet.sdet360.tenant.backup.controller.BackupTestController.runNow",
-      "name": "runNow",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/controller/BackupTestController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.BackupRecord",
-      "name": "BackupRecord",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setDatabaseName",
-      "name": "setDatabaseName",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setStartedAt",
-      "name": "setStartedAt",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setCompletedAt",
-      "name": "setCompletedAt",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setStatus",
-      "name": "setStatus",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setBackupFilePath",
-      "name": "setBackupFilePath",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setFileSizeBytes",
-      "name": "setFileSizeBytes",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.setErrorMessage",
-      "name": "setErrorMessage",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.markFailed",
-      "name": "markFailed",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java:com.sdet.sdet360.tenant.backup.model.BackupRecord.markSuccess",
-      "name": "markSuccess",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/model/BackupRecord.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/repository/BackupRecordRepository.java:com.sdet.sdet360.tenant.backup.repository.BackupRecordRepository.findTopByDatabaseNameAndStatusOrderByStartedAtDesc",
-      "name": "findTopByDatabaseNameAndStatusOrderByStartedAtDesc",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/repository/BackupRecordRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/scheduler/BackupScheduler.java:com.sdet.sdet360.tenant.backup.scheduler.BackupScheduler.BackupScheduler",
-      "name": "BackupScheduler",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/scheduler/BackupScheduler.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/scheduler/BackupScheduler.java:com.sdet.sdet360.tenant.backup.scheduler.BackupScheduler.runScheduledBackup",
-      "name": "runScheduledBackup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/scheduler/BackupScheduler.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.safeDelete",
-      "name": "safeDelete",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.ensureDirectory",
-      "name": "ensureDirectory",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.DatabaseBackupService",
-      "name": "DatabaseBackupService",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.compressToZip",
-      "name": "compressToZip",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.extractDbNameFromUrl",
-      "name": "extractDbNameFromUrl",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.runPgDump",
-      "name": "runPgDump",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.runProcess",
-      "name": "runProcess",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.resolveTenantDatabaseNames",
-      "name": "resolveTenantDatabaseNames",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.backupDatabase",
-      "name": "backupDatabase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java:com.sdet.sdet360.tenant.backup.service.DatabaseBackupService.runFullBackup",
-      "name": "runFullBackup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseBackupService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.DatabaseRestoreService",
-      "name": "DatabaseRestoreService",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.safeDelete",
-      "name": "safeDelete",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.safeDeleteDir",
-      "name": "safeDeleteDir",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.restoreLatestCluster",
-      "name": "restoreLatestCluster",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.deriveDbName",
-      "name": "deriveDbName",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.restoreDatabase",
-      "name": "restoreDatabase",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.extractZip",
-      "name": "extractZip",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.restoreFromFile",
-      "name": "restoreFromFile",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java:com.sdet.sdet360.tenant.backup.service.DatabaseRestoreService.runPsqlRestore",
-      "name": "runPsqlRestore",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/backup/service/DatabaseRestoreService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/businessrequirement/service/SrsTestService.java:com.sdet.sdet360.tenant.businessrequirement.service.SrsTestService.exportJiraStories",
-      "name": "exportJiraStories",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/businessrequirement/service/SrsTestService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java:com.sdet.sdet360.tenant.dashboard.service.impl.DashboardServiceImpl.getBurnUpChartData",
-      "name": "getBurnUpChartData",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java:com.sdet.sdet360.tenant.dashboard.service.impl.DashboardServiceImpl.getTestCaseVsAssignee",
-      "name": "getTestCaseVsAssignee",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java:com.sdet.sdet360.tenant.dashboard.service.impl.DashboardServiceImpl.getTestCasePrioritySummary",
-      "name": "getTestCasePrioritySummary",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/dashboard/service/impl/DashboardServiceImpl.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/controller/NotificationController.java:com.sdet.sdet360.tenant.notification.controller.NotificationController.getUnreadNotifications",
-      "name": "getUnreadNotifications",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/controller/NotificationController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/controller/NotificationController.java:com.sdet.sdet360.tenant.notification.controller.NotificationController.exportApprovedTestCasesByNotificationId",
-      "name": "exportApprovedTestCasesByNotificationId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/controller/NotificationController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.NotificationService",
-      "name": "NotificationService",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.getApprovedTestCasesForNotification",
-      "name": "getApprovedTestCasesForNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendTestCaseApprovalNotification",
-      "name": "sendTestCaseApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendSlackTestCaseApprovalNotification",
-      "name": "sendSlackTestCaseApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendTestCaseAssignmentNotification",
-      "name": "sendTestCaseAssignmentNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendSlackTestCaseAssignmentNotification",
-      "name": "sendSlackTestCaseAssignmentNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.getNotificationTestCasesWithWorkflowDetails",
-      "name": "getNotificationTestCasesWithWorkflowDetails",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendApprovalNotification",
-      "name": "sendApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendSlackApprovalNotification",
-      "name": "sendSlackApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendSlackDecisionNotification",
-      "name": "sendSlackDecisionNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java:com.sdet.sdet360.tenant.notification.service.NotificationService.sendDecisionNotificationForJira",
-      "name": "sendDecisionNotificationForJira",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/NotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.isSlackIntegrationAvailable",
-      "name": "isSlackIntegrationAvailable",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.notifyGroup",
-      "name": "notifyGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.notifyUser",
-      "name": "notifyUser",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.sendCustomNotification",
-      "name": "sendCustomNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.notifyTestCaseAssignment",
-      "name": "notifyTestCaseAssignment",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java:com.sdet.sdet360.tenant.notification.service.SlackIntegrationHelper.notifyApprovers",
-      "name": "notifyApprovers",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackIntegrationHelper.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.sendSlackMessage",
-      "name": "sendSlackMessage",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.convertToJson",
-      "name": "convertToJson",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.init",
-      "name": "init",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.createApprovalNotification",
-      "name": "createApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.createTestCaseAssignmentNotification",
-      "name": "createTestCaseAssignmentNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.createStoryApprovalNotification",
-      "name": "createStoryApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.sendDirectMessage",
-      "name": "sendDirectMessage",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.sendGroupNotification",
-      "name": "sendGroupNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.sendNotification",
-      "name": "sendNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.buildMessage",
-      "name": "buildMessage",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.sendHttpPost",
-      "name": "sendHttpPost",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java:com.sdet.sdet360.tenant.notification.service.SlackNotificationService.buildJsonPayload",
-      "name": "buildJsonPayload",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackNotificationService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java:com.sdet.sdet360.tenant.notification.service.SlackUserMappingService.getAllMappings",
-      "name": "getAllMappings",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java:com.sdet.sdet360.tenant.notification.service.SlackUserMappingService.addUserMapping",
-      "name": "addUserMapping",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java:com.sdet.sdet360.tenant.notification.service.SlackUserMappingService.removeUserMapping",
-      "name": "removeUserMapping",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java:com.sdet.sdet360.tenant.notification.service.SlackUserMappingService.getSlackUserId",
-      "name": "getSlackUserId",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java:com.sdet.sdet360.tenant.notification.service.SlackUserMappingService.setMappings",
-      "name": "setMappings",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/service/SlackUserMappingService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.getUserGroupForRole",
-      "name": "getUserGroupForRole",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.addUserToGroup",
-      "name": "addUserToGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.getUsersInGroup",
-      "name": "getUsersInGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.registerGroup",
-      "name": "registerGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.registerRoleGroupMapping",
-      "name": "registerRoleGroupMapping",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.formatUserMention",
-      "name": "formatUserMention",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.formatGroupMention",
-      "name": "formatGroupMention",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.formatUserMentions",
-      "name": "formatUserMentions",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java:com.sdet.sdet360.tenant.notification.util.SlackGroupManager.buildMentionString",
-      "name": "buildMentionString",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackGroupManager.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.registerSlackGroup",
-      "name": "registerSlackGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.mapRoleToSlackGroup",
-      "name": "mapRoleToSlackGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.sendCustomNotification",
-      "name": "sendCustomNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.notifyUser",
-      "name": "notifyUser",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.notifyGroup",
-      "name": "notifyGroup",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
-      "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.sendTestCaseAssignmentNotification",
-      "name": "sendTestCaseAssignmentNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ExecutionCycleTestCaseDTO.java:com.sdet.sdet360.tenant.testcaseexecution.dto.ExecutionCycleTestCaseDTO.ExecutionCycleTestCaseDTO",
+      "name": "ExecutionCycleTestCaseDTO",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ExecutionCycleTestCaseDTO.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java:com.sdet.sdet360.tenant.notification.util.SlackNotificationUtil.sendApprovalNotification",
-      "name": "sendApprovalNotification",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/notification/util/SlackNotificationUtil.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ExecutionCycleTestCaseWithDetailsDTO.java:com.sdet.sdet360.tenant.testcaseexecution.dto.ExecutionCycleTestCaseWithDetailsDTO.ExecutionCycleTestCaseWithDetailsDTO",
+      "name": "ExecutionCycleTestCaseWithDetailsDTO",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/dto/ExecutionCycleTestCaseWithDetailsDTO.java",
       "risk": "LOW",
       "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/promptbasedautomation/controller/PromptBasedAutomationController.java:com.sdet.sdet360.tenant.promptbasedautomation.controller.PromptBasedAutomationController.reExecuteExistingScript",
-      "name": "reExecuteExistingScript",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/promptbasedautomation/controller/PromptBasedAutomationController.java",
-      "risk": "LOW",
-      "fan_in": 1
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java:com.sdet.sdet360.tenant.testcaseexecution.repositories.ExecutionCycleTestCaseRepository.findByCycleIdAndProjectKey",
-      "name": "findByCycleIdAndProjectKey",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java:com.sdet.sdet360.tenant.testcaseexecution.repositories.ExecutionCycleTestCaseRepository.findByCycle_IdAndApiTestCase_Id",
+      "name": "findByCycle_IdAndApiTestCase_Id",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java:com.sdet.sdet360.tenant.testcaseexecution.repositories.ExecutionCycleTestCaseRepository.countByStatusPerDayForProjectKey",
-      "name": "countByStatusPerDayForProjectKey",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java:com.sdet.sdet360.tenant.testcaseexecution.repositories.ExecutionCycleTestCaseRepository.findByCycleIdAndProject",
+      "name": "findByCycleIdAndProject",
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java",
       "risk": "LOW",
       "fan_in": 0
     },
     {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ReleaseExcelExportService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ReleaseExcelExportService.exportReleaseToExcel",
-      "name": "exportReleaseToExcel",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ReleaseExcelExportService.java",
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java:com.sdet.sdet360.tenant.testcaseexecution.repositories.ExecutionCycleTestCaseRepository.findByCycleIdInAndProject",
+      "name": "findByCycleIdInAndProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/repositories/ExecutionCycleTestCaseRepository.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.getAllByCycleWithDetailsAndProject",
+      "name": "getAllByCycleWithDetailsAndProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.assignSingleWithProject",
+      "name": "assignSingleWithProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.assignBulkWithProject",
+      "name": "assignBulkWithProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.updateExecutionStatusWithProject",
+      "name": "updateExecutionStatusWithProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.getTestCasesByCycle",
+      "name": "getTestCasesByCycle",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.getOverallExecutionResultsForRelease",
+      "name": "getOverallExecutionResultsForRelease",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.getAvailableApiTestCasesForCycle",
+      "name": "getAvailableApiTestCasesForCycle",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.assignApiTestCasesBulkWithProject",
+      "name": "assignApiTestCasesBulkWithProject",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
+      "risk": "LOW",
+      "fan_in": 0
+    },
+    {
+      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.ExecutionCycleTestCaseService.assignByTestPlanId",
+      "name": "assignByTestPlanId",
+      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ExecutionCycleTestCaseService.java",
       "risk": "LOW",
       "fan_in": 0
     },
@@ -1888,179 +552,11 @@
       "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/ReleaseExcelExportService.java",
       "risk": "LOW",
       "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/TestReleaseService.java:com.sdet.sdet360.tenant.testcaseexecution.services.TestReleaseService.getOverallExecutionResultsForSpecificRelease",
-      "name": "getOverallExecutionResultsForSpecificRelease",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcaseexecution/services/TestReleaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseApprovalController.java:com.sdet.sdet360.tenant.testcasemanagement.controllers.TestCaseApprovalController.createTestCaseApprovalWorkflow",
-      "name": "createTestCaseApprovalWorkflow",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseApprovalController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java:com.sdet.sdet360.tenant.testcasemanagement.controllers.TestCaseController.extractJiraDescription",
-      "name": "extractJiraDescription",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java:com.sdet.sdet360.tenant.testcasemanagement.controllers.TestCaseController.loadJiraStoryFromJiraIfMissing",
-      "name": "loadJiraStoryFromJiraIfMissing",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/controllers/TestCaseController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/repositories/TestCaseRepository.java:com.sdet.sdet360.tenant.testcasemanagement.repositories.TestCaseRepository.assignCompositeUniqueKeyIfAbsent",
-      "name": "assignCompositeUniqueKeyIfAbsent",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/repositories/TestCaseRepository.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.getTestCaseById",
-      "name": "getTestCaseById",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.convertToDTO",
-      "name": "convertToDTO",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.createTestCaseManually",
-      "name": "createTestCaseManually",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.createJiraStoryEntry",
-      "name": "createJiraStoryEntry",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java:com.sdet.sdet360.tenant.testcasemanagement.services.TestCaseService.parseAndSaveAiTestCases",
-      "name": "parseAndSaveAiTestCases",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/testcasemanagement/services/TestCaseService.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java:com.sdet.sdet360.tenant.visionautomation.controller.VisionAutomationRobotRunController.VisionAutomationRobotRunController",
-      "name": "VisionAutomationRobotRunController",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java:com.sdet.sdet360.tenant.visionautomation.controller.VisionAutomationRobotRunController.startRunRobot",
-      "name": "startRunRobot",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java:com.sdet.sdet360.tenant.visionautomation.controller.VisionAutomationRobotRunController.runRobotTestRunner",
-      "name": "runRobotTestRunner",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/VisionAutomationRobotRunController.java",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:ExecutionStatusDB.__init__",
-      "name": "__init__",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:ExecutionStatusDB.close",
-      "name": "close",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:ExecutionStatusDB._connect",
-      "name": "_connect",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "method:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:ExecutionStatusDB.update_execution_status",
-      "name": "update_execution_status",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:load_execution_plan",
-      "name": "load_execution_plan",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:discover_tests_from_all_suites",
-      "name": "discover_tests_from_all_suites",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:parse_robot_file",
-      "name": "parse_robot_file",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 1
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:build_maven_command_for_single_test",
-      "name": "build_maven_command_for_single_test",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:run_logical_group",
-      "name": "run_logical_group",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
-    },
-    {
-      "id": "function:SDET360.ai-Server:C:/Users/neha.pal/Desktop/sdet360ai_deployment_2/SDET360.ai-Server/springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py:main",
-      "name": "main",
-      "path": "springboot-service/src/main/java/com/sdet/sdet360/tenant/visionautomation/controller/robot_test_runner_v21.py",
-      "risk": "LOW",
-      "fan_in": 0
     }
   ],
   "affected_screens": [
-    "Api Test Case",
-    "Api Test Case Query",
     "Api Test Collection",
-    "Api Test Execution",
     "Api Test Suite",
-    "Backup Test",
-    "Notification",
-    "Prompt Based Automation",
-    "Test Case Approval",
-    "Vision Automation Robot Run"
+    "Execution Cycle Test Case"
   ]
 }

@@ -116,6 +116,17 @@ class JiraClient:
             return []
         return self.fetch_raw_by_keys(sorted(defect_keys))
 
+    def fetch_open_stories(self, project_key: str, max_results: int = 100) -> list[dict]:
+        """Fetch all To Do + In Progress stories for semantic L3 scoring.
+
+        Returns raw Jira issue dicts (same shape as fetch_raw_by_keys).
+        """
+        jql = (
+            f'project="{project_key}" AND status in ("To Do","In Progress")'
+            f' AND issuetype=Story ORDER BY priority DESC'
+        )
+        return self._post_search(jql, max_results=max_results)
+
     def search_commit(self, commit_hash: str, project_key: str) -> list[JiraIssue]:
         """Find Jira stories that mention a commit hash in description or any comment."""
         jql = f'project="{project_key}" AND text ~ "{commit_hash}"'

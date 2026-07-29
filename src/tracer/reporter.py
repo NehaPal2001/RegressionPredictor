@@ -1,44 +1,26 @@
 """LLM-assisted HTML QA report generator.
 
 Builds the deterministic skeleton (summary cards, feature cards, TC tables,
-defect rows) from the run's JSON data, then calls Groq to fill in per-screen
-QA Notes, a release summary, and blind spots. Raises RuntimeError if the
-Groq call fails — the caller (cli.py) exits non-zero.
+defect rows) from the run's JSON data, then calls the configured LLM (Groq or
+OpenAI) to fill in per-screen QA Notes, a release summary, and blind spots.
+Raises RuntimeError if the LLM call fails — the caller (cli.py) exits non-zero.
 """
 
 from __future__ import annotations
 
 import json
-import urllib.request
 from pathlib import Path
 
-_GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-_MODEL = "llama-3.3-70b-versatile"
+from . import llm_config as _llm_mod
+from .llm_config import LLMConfig
+
+# Keep a module-level reference for backward compatibility; the generate()
+# function accesses call_llm_api via _llm_mod so that patch("tracer.llm_config.call_llm_api")
+# is effective in tests.
+call_llm_api = _llm_mod.call_llm_api
 
 _RISK_ORDER = {"HIGH": 2, "MEDIUM": 1, "MED": 1, "LOW": 0}
 _PRIORITY_TO_RISK = {"High": "HIGH", "Medium": "MED", "Low": "LOW"}
-
-
-def _call_groq(prompt: str, api_key: str) -> dict:
-    """Call Groq chat completions in JSON mode. Raises RuntimeError on any failure."""
-    body = json.dumps({
-        "model": _MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "response_format": {"type": "json_object"},
-        "temperature": 0.3,
-        "max_tokens": 2048,
-    }).encode()
-    req = urllib.request.Request(_GROQ_URL, data=body, method="POST")
-    req.add_header("Authorization", f"Bearer {api_key}")
-    req.add_header("Content-Type", "application/json")
-    req.add_header("User-Agent", "python-groq/0.9.0")
-    try:
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())
-        content = data["choices"][0]["message"]["content"]
-        return json.loads(content)
-    except Exception as e:
-        raise RuntimeError(f"Groq LLM call failed: {e}") from e
 
 
 def _build_prompt(scope: dict, jira_stories_raw: list[dict], defects_raw: list[dict], tcm_raw: list[dict]) -> str:
@@ -84,9 +66,19 @@ Return a JSON object with exactly these keys:
   "release_summary": "<2-3 sentence overview of what QA needs to focus on for this release>",
   "qa_notes": [
     {{
-      "screen": "<screen name from the affected screens list above>",
-      "notes": "<what QA should focus on for this screen, 1-2 sentences>",
-      "risks": "<specific risks or edge cases to watch for, 1 sentence>"
+      "screen": "<story summary — must match one of the Jira story summaries above>",
+      "notes": "<overall focus for this story, 1-2 sentences>",
+      "risks": "<specific risks or edge cases to watch for, 1 sentence>",
+      "happy_path": [
+        "<Step 1: exact action a tester takes, e.g. 'Navigate to the API Test Suite screen and click Create Suite'>",
+        "<Step 2: ...>",
+        "<Step 3: expected visible result after completing the flow>"
+      ],
+      "error_cases": [
+        "<Specific failure: what input/state triggers it and what the expected system response is>",
+        "<Another failure scenario — bad auth, missing required field, duplicate name, etc.>"
+      ],
+      "regression_focus": "<1 sentence: what specifically changed in this story that QA must re-verify hardest>"
     }}
   ],
   "blind_spots": [
@@ -94,7 +86,7 @@ Return a JSON object with exactly these keys:
   ]
 }}
 
-Include one qa_notes entry per affected screen. Include 2-4 blind_spots."""
+Include one qa_notes entry per Jira story. Include 3-5 happy_path steps and 2-4 error_cases per story. Include 2-4 blind_spots."""
 
 
 def _cv(custom_fields: list[dict], name: str) -> str:
@@ -123,6 +115,8 @@ def _render_html(
     defects_raw: list[dict],
     tcm_raw: list[dict],
     llm: dict,
+    semantic_tcs=None,
+    semantic_alerts=None,
 ) -> str:
     import datetime
     generated_at = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -145,7 +139,6 @@ def _render_html(
         else:
             low_count = len(screens)
 
-    tc_count = len(tcm_raw)
     defect_count = len(defects_raw)
 
     # Defect lookup by story key (via issuelinks on defect)
@@ -157,12 +150,17 @@ def _render_html(
                 if linked and linked.get("fields", {}).get("issuetype", {}).get("name") == "Story":
                     defects_by_story.setdefault(linked["key"], []).append(d)
 
-    # TCs by story key
+    # TCs by story key — only for in-scope stories
+    in_scope_keys = {s["key"] for s in jira_stories_raw}
     tcs_by_story: dict[str, list[dict]] = {}
     for tc in tcm_raw:
-        key = tc.get("jiraStoryKey", "NA")
-        if key and key != "NA":
-            tcs_by_story.setdefault(key, []).append(tc)
+        tc_key = tc.get("jiraStoryKey", "NA")
+        if tc_key and tc_key != "NA" and tc_key in in_scope_keys:
+            tcs_by_story.setdefault(tc_key, []).append(tc)
+
+    # Scoped TC list — only TCs linked to in-scope stories (what QA actually needs to run)
+    scoped_tcs = [tc for tcs in tcs_by_story.values() for tc in tcs]
+    tc_count = len(scoped_tcs) if scoped_tcs else len(tcm_raw)
 
     # QA notes lookup by screen name
     qa_notes_by_screen: dict[str, dict] = {
@@ -228,6 +226,31 @@ def _render_html(
             if risks_html:
                 why_html += f'<div class="info-row"><div class="info-label">Risks</div><div class="info-val">{risks_html}</div></div>'
 
+        # Testing guide — happy path + error cases + regression focus
+        testing_guide_html = ""
+        if qa_note:
+            happy_path = qa_note.get("happy_path") or []
+            error_cases = qa_note.get("error_cases") or []
+            regression_focus = _esc(qa_note.get("regression_focus", ""))
+
+            if happy_path or error_cases:
+                happy_items = "".join(f"<li>{_esc(s)}</li>" for s in happy_path)
+                error_items = "".join(f"<li>{_esc(s)}</li>" for s in error_cases)
+                happy_col = f'''<div>
+              <div class="tg-col-label">Happy Path</div>
+              <ol class="tg-steps">{happy_items}</ol>
+            </div>''' if happy_items else ""
+                error_col = f'''<div>
+              <div class="tg-col-label">Error Cases</div>
+              <ul class="tg-errors">{error_items}</ul>
+            </div>''' if error_items else ""
+                focus_html = f'<div class="regression-focus"><strong>Regression Focus</strong>{regression_focus}</div>' if regression_focus else ""
+                testing_guide_html = f'''<div class="testing-guide">
+          <div class="info-label">Testing Guide</div>
+          <div class="tg-cols">{happy_col}{error_col}</div>
+          {focus_html}
+        </div>'''
+
         feature_cards += f'''
   <div class="feature-card {risk_css}">
     <div class="fc-head">
@@ -249,14 +272,32 @@ def _render_html(
           {defect_rows}
         </div>
       </div>
+      {testing_guide_html}
       {tc_section}
     </div>
   </div>'''
 
-    all_tc_pills = "".join(
-        f'<span class="tc-pill">{_esc(tc.get("uniqueTestcaseId", ""))}</span>'
-        for tc in tcm_raw
-    )
+    checklist_tcs = scoped_tcs if scoped_tcs else tcm_raw
+    semantic_keys = {m.key for m in (semantic_tcs or [])}
+    _sem_badge = '<span class="conf-badge semantic">SEMANTIC</span>'
+    all_tc_pills_parts = []
+    for tc in checklist_tcs:
+        uid = tc.get("uniqueTestcaseId", "")
+        is_sem = uid in semantic_keys
+        sem_cls = " semantic" if is_sem else ""
+        badge = _sem_badge if is_sem else ""
+        all_tc_pills_parts.append(
+            f'<span class="tc-pill{sem_cls}" title="{_esc(_tc_title(tc))}">'
+            f'{_esc(uid)}{badge}</span>'
+        )
+    all_tc_pills = "".join(all_tc_pills_parts)
+    linked_ids = {tc.get("uniqueTestcaseId", "") for tc in checklist_tcs}
+    for m in (semantic_tcs or []):
+        if m.key not in linked_ids:
+            all_tc_pills += (
+                f'<span class="tc-pill semantic" title="{_esc(m.reason)}">'
+                f'{_esc(m.key)}{_sem_badge}</span>'
+            )
 
     blind_items = "".join(
         f'<div class="blind-card"><div class="bc-name">&#9888; Blind Spot</div>'
@@ -280,7 +321,34 @@ def _render_html(
     </div>
   </div>'''
 
+    semantic_alert = ""
+    if semantic_alerts:
+        items_html = "".join(
+            f'<div style="font-size:.78rem;color:#92400e;margin-top:.3rem">'
+            f'<strong>{_esc(m.key)}</strong> (score {m.score}) — {_esc(m.reason)}'
+            f'</div>'
+            for m in semantic_alerts
+        )
+        semantic_alert = f'''<div class="alert semantic-alert">
+    <div class="icon">&#128269;</div>
+    <div>
+      <div class="title">{len(semantic_alerts)} additional TC(s) may be relevant — verify before closing regression</div>
+      <div class="detail">These were scored by semantic matching and are not yet confirmed coverage.</div>
+      {items_html}
+    </div>
+  </div>'''
+
     release_summary = _esc(llm.get("release_summary", ""))
+
+    _semantic_css = (
+        ".tc-pill.semantic { background: #fef9c3; color: #713f12; border-color: #fde047; }"
+        " .conf-badge { font-size: .65rem; font-weight: 700; text-transform: uppercase;"
+        " letter-spacing: .05em; padding: .1rem .35rem; border-radius: 3px; margin-left: .3rem; vertical-align: middle; }"
+        " .conf-badge.semantic { background: #fef9c3; color: #713f12; border: 1px solid #fde047; }"
+        " .alert.semantic-alert { background: #fefce8; border-color: #fde047; }"
+        " .alert.semantic-alert .title { color: #713f12; }"
+        " .alert.semantic-alert .detail { color: #92400e; }"
+    )
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -334,6 +402,7 @@ def _render_html(
   .tc-name {{ color: #334155; }}
   .checklist-grid {{ display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .4rem; }}
   .tc-pill {{ background: #eff6ff; color: #1d4ed8; font-family: monospace; font-size: .78rem; font-weight: 600; padding: .25rem .55rem; border-radius: 5px; border: 1px solid #bfdbfe; }}
+  {_semantic_css if (semantic_tcs or semantic_alerts) else ""}
   .blind-card {{ background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: .8rem 1rem; margin-bottom: .5rem; }}
   .blind-card .bc-name {{ font-weight: 600; color: #9a3412; font-size: .85rem; }}
   .blind-card .bc-detail {{ font-size: .78rem; color: #7c2d12; margin-top: .15rem; }}
@@ -341,6 +410,17 @@ def _render_html(
   .story-pill .sp-key {{ font-weight: 700; color: #1d4ed8; }}
   .story-pill .sp-title {{ color: #475569; }}
   .report-footer {{ margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: .72rem; color: #94a3b8; display: flex; justify-content: space-between; }}
+  .testing-guide {{ grid-column: 1 / -1; border-top: 1px solid #e2e8f0; padding-top: .8rem; margin-top: .4rem; }}
+  .tg-cols {{ display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: .5rem; }}
+  .tg-col-label {{ font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #94a3b8; margin-bottom: .4rem; }}
+  .tg-steps {{ list-style: none; padding: 0; counter-reset: step; }}
+  .tg-steps li {{ counter-increment: step; display: flex; gap: .5rem; font-size: .78rem; color: #334155; margin-bottom: .35rem; }}
+  .tg-steps li::before {{ content: counter(step); background: #dbeafe; color: #1d4ed8; font-size: .68rem; font-weight: 700; min-width: 1.25rem; height: 1.25rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: .05rem; }}
+  .tg-errors {{ list-style: none; padding: 0; }}
+  .tg-errors li {{ display: flex; gap: .5rem; font-size: .78rem; color: #334155; margin-bottom: .35rem; }}
+  .tg-errors li::before {{ content: "✕"; color: #dc2626; font-weight: 700; font-size: .8rem; flex-shrink: 0; }}
+  .regression-focus {{ background: #fefce8; border: 1px solid #fde047; border-radius: 6px; padding: .5rem .7rem; font-size: .78rem; color: #713f12; margin-top: .6rem; }}
+  .regression-focus strong {{ display: block; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #92400e; margin-bottom: .2rem; }}
 </style>
 </head>
 <body>
@@ -367,6 +447,8 @@ def _render_html(
 
   {defect_alert}
 
+  {semantic_alert}
+
   <div class="sec-header">
     <h2>Regression Scope</h2>
     <span class="count">{len(jira_stories_raw)} stories &middot; ordered by risk</span>
@@ -374,7 +456,7 @@ def _render_html(
 
   {feature_cards}
 
-  <div class="sec-header"><h2>Master Test Case Checklist</h2><span class="count">{tc_count} total</span></div>
+  <div class="sec-header"><h2>Master Test Case Checklist</h2><span class="count">{tc_count} required for this regression</span></div>
   <div class="checklist-grid">
     {all_tc_pills}
   </div>
@@ -401,10 +483,14 @@ def generate(
     jira_stories_raw: list[dict],
     defects_raw: list[dict],
     tcm_raw: list[dict],
-    groq_api_key: str,
+    llm_cfg: LLMConfig,
+    *,
+    semantic_tcs: list | None = None,
+    semantic_alerts: list | None = None,
 ) -> None:
-    """Generate report.html in run_dir. Raises RuntimeError if Groq call fails."""
+    """Generate report.html in run_dir. Raises RuntimeError if LLM call fails."""
     prompt = _build_prompt(scope, jira_stories_raw, defects_raw, tcm_raw)
-    llm_data = _call_groq(prompt, groq_api_key)
-    html = _render_html(scope, jira_stories_raw, defects_raw, tcm_raw, llm_data)
+    llm_data = _llm_mod.call_llm_api(prompt, llm_cfg)
+    html = _render_html(scope, jira_stories_raw, defects_raw, tcm_raw, llm_data,
+                        semantic_tcs=semantic_tcs, semantic_alerts=semantic_alerts)
     Path(run_dir, "report.html").write_text(html, encoding="utf-8")
