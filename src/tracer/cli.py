@@ -312,6 +312,132 @@ def _run_diff(args) -> int:
     return 0
 
 
+def _automation_status(raw_tc: dict) -> str:
+    """Read AUTOMATION_STATUS out of a raw TCM test case's customFieldValues."""
+    for f in raw_tc.get("customFieldValues") or []:
+        if f.get("fieldKey") == "AUTOMATION_STATUS":
+            return f.get("fieldValue") or ""
+    return ""
+
+
+def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
+    """Stage 3: create a TCM release + test cycle + manual/automation execution cycles.
+
+    Test cases are split by AUTOMATION_STATUS: "Can Not Be Automated" goes to the
+    manual cycle, everything else to the automation cycle.
+    """
+    if not tcm_raw:
+        print("tracer release: no test cases fetched — skipping release creation", file=sys.stderr)
+        return 0
+    if not cfg.tcm_project_id:
+        print("tracer release: TCM_PROJECT_ID not set in .env", file=sys.stderr)
+        return 2
+
+    print(f"tracer release: classifying {len(tcm_raw)} test cases by Automation Status...",
+          file=sys.stderr)
+    manual_ids, automation_ids = [], []
+    for tc in tcm_raw:
+        uid = tc.get("uniqueTestcaseId")
+        if not uid:
+            continue
+        if _automation_status(tc).strip().lower() == "can not be automated":
+            manual_ids.append(uid)
+        else:
+            automation_ids.append(uid)
+    print(f"tracer release: {len(manual_ids)} manual (Can Not Be Automated), "
+          f"{len(automation_ids)} automation", file=sys.stderr)
+
+    if not manual_ids and not automation_ids:
+        print("tracer release: no test cases to assign — nothing created", file=sys.stderr)
+        return 0
+
+    vid, pid = cfg.tcm_vertical_id, cfg.tcm_project_id
+    sess, proj_sess, refresh = cfg.tcm_session, cfg.tcm_project_session, cfg.tcm_refresh_token
+
+    release_name = f"Regression Release"
+    try:
+        print(f'tracer release: creating release "{release_name}"...', file=sys.stderr)
+        release = tcm.create_release(vid, pid, {
+            "releaseName": release_name,
+            "releaseDescription": "Automatically generated regression release",
+            "releaseVersion": "1.0",
+            "status": "PLANNED",
+        }, sess, proj_sess, refresh)
+        release_id = release.get("id")
+        if not release_id:
+            print(f"tracer release: create release returned no id — {release}", file=sys.stderr)
+            return 2
+        print(f"tracer release: ✓ release created (id: {release_id})", file=sys.stderr)
+    except Exception as e:
+        print(f"tracer release: create release failed — {e}", file=sys.stderr)
+        return 2
+
+    cycle_name = f"Test Cycle"
+    try:
+        print(f'tracer release: creating test cycle "{cycle_name}"...', file=sys.stderr)
+        cycle = tcm.create_test_cycle(vid, pid, release_id, {
+            "releaseId": release_id,
+            "versionName": cycle_name,
+            "versionNumber": "1.0",   # API rejects the cycle without it: "Version number is required"
+            "versionDescription": "Automatically generated test cycle",
+            "status": "PLANNED",
+        }, sess, proj_sess, refresh)
+        test_cycle_id = cycle.get("id")
+        if not test_cycle_id:
+            print(f"tracer release: create test cycle returned no id — {cycle}", file=sys.stderr)
+            return 2
+        print(f"tracer release: ✓ test cycle created (id: {test_cycle_id})", file=sys.stderr)
+    except Exception as e:
+        print(f"tracer release: create test cycle failed — {e}", file=sys.stderr)
+        return 2
+
+    exec_cycles = [
+        ("Manual Execution", "Manual test cases - Can Not Be Automated", "MANUAL", manual_ids),
+        ("Automation Execution",
+         "Automation test cases - Planned/Automated/In Progress/Not Automated",
+         "AUTOMATION", automation_ids),
+    ]
+    created: list[tuple[str, str, list[str]]] = []
+    for name, desc, ctype, ids in exec_cycles:
+        try:
+            print(f'tracer release: creating execution cycle "{name}"...', file=sys.stderr)
+            ec = tcm.create_execution_cycle(vid, pid, test_cycle_id, {
+                "cycleName": name,
+                "cycleDescription": desc,
+                "cycleType": ctype,
+                "status": "NOT_STARTED",
+            }, sess, proj_sess, refresh)
+            ec_id = ec.get("id")
+            if not ec_id:
+                print(f"tracer release: create execution cycle {name} returned no id — {ec}",
+                      file=sys.stderr)
+                return 2
+            print(f"tracer release: ✓ execution cycle created (id: {ec_id})", file=sys.stderr)
+            created.append((name, ec_id, ids))
+        except Exception as e:
+            print(f"tracer release: create execution cycle {name} failed — {e}", file=sys.stderr)
+            return 2
+
+    for name, ec_id, ids in created:
+        if not ids:
+            print(f"tracer release: skipping {name.split()[0].lower()} assignment (0 test cases)",
+                  file=sys.stderr)
+            continue
+        try:
+            print(f"tracer release: assigning {len(ids)} test case(s) to {name}...", file=sys.stderr)
+            tcm.assign_test_cases_bulk(vid, pid, ec_id, {
+                "cycleId": ec_id,
+                "uniqueTestcaseIds": ids,
+            }, sess, proj_sess, refresh)
+            print(f"tracer release: ✓ {len(ids)} test case(s) assigned", file=sys.stderr)
+        except Exception as e:
+            print(f"tracer release: assigning test cases to {name} failed — {e}", file=sys.stderr)
+            return 2
+
+    print("tracer release: done ✓", file=sys.stderr)
+    return 0
+
+
 def _run_predict(args) -> int:
     """Stage 2: read scope.json → gap detection → TCM test cases → run dir output."""
     import datetime
@@ -588,6 +714,11 @@ def _run_predict(args) -> int:
         return 2
 
     print(f"tracer predict: {len(selected)} test case(s) → {run_dir}", file=sys.stderr)
+
+    if getattr(args, "create_release", False):
+        rc = _do_create_release(run_dir, ts, tcm_raw, cfg)
+        if rc != 0:
+            return rc
     return 0
 
 
@@ -634,6 +765,8 @@ def main(argv: list[str] | None = None) -> int:
                    help="Jira project key (default REG)")
     p.add_argument("--no-alert", action="store_true", dest="no_alert",
                    help="suppress gap alert email")
+    p.add_argument("--create-release", action="store_true", dest="create_release",
+                   help="create release, test cycle, and execution cycles in TCM after prediction")
     p.add_argument("--no-predict-ai", action="store_true", dest="no_predict_ai",
                    help="reserved for Phase 2c LangGraph selector (currently always true)")
     p.add_argument("--llm-provider", default=None, dest="llm_provider",

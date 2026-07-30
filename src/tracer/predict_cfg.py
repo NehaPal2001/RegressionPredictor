@@ -24,6 +24,7 @@ class PredictConfig:
     tcm_refresh_token: str = ""
     tcm_vertical_id: str = ""
     tcm_project_key: str = "AS360"
+    tcm_project_id: str = ""
     # SMTP
     smtp_host: str = ""
     smtp_port: int = 587
@@ -68,6 +69,7 @@ def load_predict_config(*env_files: str | Path) -> PredictConfig:
         tcm_refresh_token=e.get("TCM_REFRESH_TOKEN", ""),
         tcm_vertical_id=e.get("TCM_VERTICAL_ID", ""),
         tcm_project_key=e.get("TCM_PROJECT_KEY", "AS360"),
+        tcm_project_id=e.get("TCM_PROJECT_ID", ""),
         smtp_host=e.get("SMTP_HOST", ""),
         smtp_port=int(e.get("SMTP_PORT", "587")),
         smtp_user=e.get("SMTP_USER", ""),
