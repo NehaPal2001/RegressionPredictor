@@ -21,6 +21,7 @@ from . import history, jira_mock, risk
 from . import mailer as mailermod
 from . import reporter as reportermod
 from . import tcm_client as tcm
+from . import test_plan
 from .jira_client import JiraClient
 from .llm_config import get_llm_config
 from . import logging_setup as logmod
@@ -536,6 +537,8 @@ def _run_predict(args) -> int:
 
     # Gap alert
     gap_alert_sent = False
+    smtp_cfg = None
+    alert_recipients: list[str] = []
     if uncovered and not args.no_alert:
         with workflow(logmod.EMAIL_ALERT):
             smtp_cfg = SmtpConfig(
@@ -544,6 +547,7 @@ def _run_predict(args) -> int:
                 from_addr=cfg.smtp_from,
             )
             author_emails = [c.author_email for c in uncovered if c.author_email]
+            alert_recipients = sorted(set(author_emails) | set(cfg.alert_emails))
             try:
                 mailermod.send_gap_alert(
                     uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project,
@@ -772,6 +776,34 @@ def _run_predict(args) -> int:
         except Exception as e:
             log.error("RegressIQ predict: report generation failed — %s", e, exc_info=True)
             return 2
+
+    # Test Plan email 
+    if uncovered and not args.no_alert:
+        with workflow(logmod.EMAIL_ALERT):
+            try:
+                try:
+                    open_stories = jira_client.fetch_open_stories(jira_project)
+                except Exception as e:
+                    log.debug("test plan: open story fetch failed (%s) — risk section "
+                              "will list uncovered commits only", e)
+                    open_stories = []
+                html_body = test_plan.build_test_plan_html(
+                    scope_data, jira_stories_raw, defects_raw, selected,
+                    uncovered, open_stories, cfg,
+                )
+                test_plan.send_test_plan_email(
+                    html_body,
+                    run_dir / "report.html",
+                    alert_recipients,
+                    smtp_cfg,
+                    subject=(f"[RegressIQ] Test Plan — {scope_data.get('target', '')} "
+                             f"({len(jira_stories_raw)} feature(s), "
+                             f"{len(selected)} test case(s))"),
+                )
+                log.info("RegressIQ predict: test plan email sent to %d recipient(s)",
+                         len(alert_recipients))
+            except Exception as e:
+                log.error("RegressIQ predict: test plan email failed (%s)", e, exc_info=True)
 
     log.info("RegressIQ predict: %d test case(s) → %s", len(selected), run_dir)
 

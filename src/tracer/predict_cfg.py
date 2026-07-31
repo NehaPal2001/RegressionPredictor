@@ -35,6 +35,9 @@ class PredictConfig:
     smtp_password: str = ""
     smtp_from: str = ""
     alert_emails: list[str] = field(default_factory=list)
+    # Test Plan email — fixed policy text, empty means "use the built-in default"
+    test_plan_entry_criteria: list[str] = field(default_factory=list)
+    test_plan_exit_criteria: list[str] = field(default_factory=list)
     # LLM
     groq_api_key: str = ""
 
@@ -64,6 +67,16 @@ def _read_env(*env_files: str | Path) -> dict[str, str]:
                     "credentials will be empty",
                     ", ".join(str(Path(f)) for f in env_files))
     return env
+
+
+def _criteria(raw: str) -> list[str]:
+    """Split a criteria env var into individual lines.
+
+    .env files are line-based, so a multi-line block cannot be expressed
+    directly: separate the criteria with ``|`` (a literal ``\\n`` also works).
+    Empty means the caller falls back to its own default policy text.
+    """
+    return [part.strip() for part in raw.replace("\\n", "|").split("|") if part.strip()]
 
 
 def _presence(e: dict[str, str], *keys: str) -> str:
@@ -101,5 +114,7 @@ def load_predict_config(*env_files: str | Path) -> PredictConfig:
         smtp_password=e.get("SMTP_PASSWORD", ""),
         smtp_from=e.get("SMTP_FROM", ""),
         alert_emails=alert_emails,
+        test_plan_entry_criteria=_criteria(e.get("TEST_PLAN_ENTRY_CRITERIA", "")),
+        test_plan_exit_criteria=_criteria(e.get("TEST_PLAN_EXIT_CRITERIA", "")),
         groq_api_key=e.get("GROQ_API_KEY", ""),
     )
