@@ -1,4 +1,4 @@
-"""tracer diff <base> <target> — regression scope for what `target` introduced.
+"""RegressIQ diff <base> <target> — regression scope for what `target` introduced.
 
 Exit codes: 0 success, 2 git/ref error (never a silent false "all clear").
 """
@@ -135,12 +135,12 @@ def ensure_graph(repo_path: Path, db: str | None, reindex: bool) -> Path:
         raise FileNotFoundError(f"--db {db_path} not found; run `loom analyze .` in the repo yourself")
     why = "rebuilding graph (--reindex)" if db_path.exists() else \
         f"first run for {repo_path.name} — building the Loom code graph (one-time, ~1-2 min)"
-    log.info("tracer: %s…", why)
+    log.info("RegressIQ: %s…", why)
     r = subprocess.run(["loom", "analyze", "."], cwd=repo_path, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         log.debug("loom analyze exited %s: %s", r.returncode, (r.stderr or r.stdout).strip()[-300:])
         raise diffmod.GitError(f"loom analyze failed: {(r.stderr or r.stdout).strip()[-300:]}")
-    log.info("tracer: graph ready at %s", db_path)
+    log.info("RegressIQ: graph ready at %s", db_path)
     return db_path
 
 
@@ -243,10 +243,10 @@ def _run_diff(args) -> int:
     run_dir = Path("runs") / f"{ts}-diff"
     run_dir.mkdir(parents=True, exist_ok=True)
     log_path = attach_run_log(run_dir)
-    log.debug("tracer diff: base=%s target=%s repo=%s out=%s scope=%s",
+    log.debug("RegressIQ diff: base=%s target=%s repo=%s out=%s scope=%s",
               args.base, args.target, args.repo, args.out, args.scope)
     if log_path:
-        log.info("tracer: log → %s", log_path)
+        log.info("RegressIQ: log → %s", log_path)
 
     try:
         scope, changed, feats, recs, coupled, tests, unmatched, blind_spots, lc = analyze(
@@ -254,7 +254,7 @@ def _run_diff(args) -> int:
             args.reindex,
         )
     except (diffmod.GitError, FileNotFoundError) as e:
-        log.error("tracer: %s", e, exc_info=True)
+        log.error("RegressIQ: %s", e, exc_info=True)
         return 2
 
     if args.scope:
@@ -277,7 +277,7 @@ def _run_diff(args) -> int:
             "affected_screens": [f.screen for f in feats],
         }
         Path(args.scope).write_text(json.dumps(scope_data, indent=2), encoding="utf-8")
-        log.info("tracer: scope written to %s", args.scope)
+        log.info("RegressIQ: scope written to %s", args.scope)
         log.debug("scope contents: %d commit(s), %d changed symbol(s), %d affected screen(s)",
                   len(scope_data["commits"]), len(scope_data["changed_symbols"]),
                   len(scope_data["affected_screens"]))
@@ -292,7 +292,7 @@ def _run_diff(args) -> int:
             model_override=args.llm_model,
         )
         log.info(
-            "tracer: investigating top %s screen(s) via Loom + LLM agent (%s/%s)…",
+            "RegressIQ: investigating top %s screen(s) via Loom + LLM agent (%s/%s)…",
             args.investigate, llm_cfg.provider, llm_cfg.model,
         )
         notes, status = agentmod.try_investigate(
@@ -300,7 +300,7 @@ def _run_diff(args) -> int:
             lc, Path(args.repo).resolve(), llm_cfg,
         )
     if notes is None:
-        log.warning("tracer: %s", status)
+        log.warning("RegressIQ: %s", status)
 
     try:
         tickets = jira_mock.build_tickets(
@@ -318,13 +318,13 @@ def _run_diff(args) -> int:
             client_root = Path(args.client_repo).resolve()
             client_db = ensure_graph(client_root, args.client_db, args.reindex)
             endpoints = list({ep.node_id: ep for f in feats for ep in f.endpoints}.values())
-            log.info("tracer: bridging %d endpoint(s) to client screens…", len(endpoints))
+            log.info("RegressIQ: bridging %d endpoint(s) to client screens…", len(endpoints))
             bridge_result = bridgemod.resolve_client_screens(endpoints, LoomClient(client_db), client_root)
-            log.info("tracer: client match rate %.0f%% (%d screen mapping(s), %d unmapped)",
+            log.info("RegressIQ: client match rate %.0f%% (%d screen mapping(s), %d unmapped)",
                      bridge_result.match_rate * 100, len(bridge_result.mappings),
                      len(bridge_result.unresolved))
         except (diffmod.GitError, FileNotFoundError) as e:
-            log.warning("tracer: client bridge skipped (%s) — backend-only report", e, exc_info=True)
+            log.warning("RegressIQ: client bridge skipped (%s) — backend-only report", e, exc_info=True)
 
     Path(args.out).write_text(
         render_html(scope, changed, feats, recs, coupled, tests,
@@ -341,7 +341,7 @@ def _run_diff(args) -> int:
         print(f"\n(note: {len(unmatched)} changed files had no symbol-level match: "
               f"{', '.join(p.rsplit('/', 1)[-1] for p in unmatched[:6])}…)")
     print(f"\nHTML report: {args.out}")
-    log.debug("tracer diff: completed successfully")
+    log.debug("RegressIQ diff: completed successfully")
     return 0
 
 
@@ -361,13 +361,13 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
     manual cycle, everything else to the automation cycle.
     """
     if not tcm_raw:
-        log.warning("tracer release: no test cases fetched — skipping release creation")
+        log.warning("RegressIQ release: no test cases fetched — skipping release creation")
         return 0
     if not cfg.tcm_project_id:
-        log.error("tracer release: TCM_PROJECT_ID not set in .env")
+        log.error("RegressIQ release: TCM_PROJECT_ID not set in .env")
         return 2
 
-    log.info("tracer release: classifying %d test cases by Automation Status...", len(tcm_raw))
+    log.info("RegressIQ release: classifying %d test cases by Automation Status...", len(tcm_raw))
     manual_ids, automation_ids = [], []
     for tc in tcm_raw:
         uid = tc.get("uniqueTestcaseId")
@@ -377,13 +377,13 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
             manual_ids.append(uid)
         else:
             automation_ids.append(uid)
-    log.info("tracer release: %d manual (Can Not Be Automated), %d automation",
+    log.info("RegressIQ release: %d manual (Can Not Be Automated), %d automation",
              len(manual_ids), len(automation_ids))
     log.debug("manual ids: %s", manual_ids or "none")
     log.debug("automation ids: %s", automation_ids or "none")
 
     if not manual_ids and not automation_ids:
-        log.warning("tracer release: no test cases to assign — nothing created")
+        log.warning("RegressIQ release: no test cases to assign — nothing created")
         return 0
 
     vid, pid = cfg.tcm_vertical_id, cfg.tcm_project_id
@@ -391,7 +391,7 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
 
     release_name = f"Regression"
     try:
-        log.info('tracer release: creating release "%s"...', release_name)
+        log.info('RegressIQ release: creating release "%s"...', release_name)
         release = tcm.create_release(vid, pid, {
             "releaseName": release_name,
             "releaseDescription": "Automatically generated regression release",
@@ -400,16 +400,16 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
         }, sess, proj_sess, refresh)
         release_id = release.get("id")
         if not release_id:
-            log.error("tracer release: create release returned no id — %s", release)
+            log.error("RegressIQ release: create release returned no id — %s", release)
             return 2
-        log.info("tracer release: ✓ release created (id: %s)", release_id)
+        log.info("RegressIQ release: ✓ release created (id: %s)", release_id)
     except Exception as e:
-        log.error("tracer release: create release failed — %s", e, exc_info=True)
+        log.error("RegressIQ release: create release failed — %s", e, exc_info=True)
         return 2
 
     cycle_name = f"Test Cycle"
     try:
-        log.info('tracer release: creating test cycle "%s"...', cycle_name)
+        log.info('RegressIQ release: creating test cycle "%s"...', cycle_name)
         cycle = tcm.create_test_cycle(vid, pid, release_id, {
             "releaseId": release_id,
             "versionName": cycle_name,
@@ -419,11 +419,11 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
         }, sess, proj_sess, refresh)
         test_cycle_id = cycle.get("id")
         if not test_cycle_id:
-            log.error("tracer release: create test cycle returned no id — %s", cycle)
+            log.error("RegressIQ release: create test cycle returned no id — %s", cycle)
             return 2
-        log.info("tracer release: ✓ test cycle created (id: %s)", test_cycle_id)
+        log.info("RegressIQ release: ✓ test cycle created (id: %s)", test_cycle_id)
     except Exception as e:
-        log.error("tracer release: create test cycle failed — %s", e, exc_info=True)
+        log.error("RegressIQ release: create test cycle failed — %s", e, exc_info=True)
         return 2
 
     exec_cycles = [
@@ -435,7 +435,7 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
     created: list[tuple[str, str, list[str]]] = []
     for name, desc, ctype, ids in exec_cycles:
         try:
-            log.info('tracer release: creating execution cycle "%s"...', name)
+            log.info('RegressIQ release: creating execution cycle "%s"...', name)
             ec = tcm.create_execution_cycle(vid, pid, test_cycle_id, {
                 "cycleName": name,
                 "cycleDescription": desc,
@@ -444,31 +444,31 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
             }, sess, proj_sess, refresh)
             ec_id = ec.get("id")
             if not ec_id:
-                log.error("tracer release: create execution cycle %s returned no id — %s", name, ec)
+                log.error("RegressIQ release: create execution cycle %s returned no id — %s", name, ec)
                 return 2
-            log.info("tracer release: ✓ execution cycle created (id: %s)", ec_id)
+            log.info("RegressIQ release: ✓ execution cycle created (id: %s)", ec_id)
             created.append((name, ec_id, ids))
         except Exception as e:
-            log.error("tracer release: create execution cycle %s failed — %s", name, e, exc_info=True)
+            log.error("RegressIQ release: create execution cycle %s failed — %s", name, e, exc_info=True)
             return 2
 
     for name, ec_id, ids in created:
         if not ids:
-            log.info("tracer release: skipping %s assignment (0 test cases)",
+            log.info("RegressIQ release: skipping %s assignment (0 test cases)",
                      name.split()[0].lower())
             continue
         try:
-            log.info("tracer release: assigning %d test case(s) to %s...", len(ids), name)
+            log.info("RegressIQ release: assigning %d test case(s) to %s...", len(ids), name)
             tcm.assign_test_cases_bulk(vid, pid, ec_id, {
                 "cycleId": ec_id,
                 "uniqueTestcaseIds": ids,
             }, sess, proj_sess, refresh)
-            log.info("tracer release: ✓ %d test case(s) assigned", len(ids))
+            log.info("RegressIQ release: ✓ %d test case(s) assigned", len(ids))
         except Exception as e:
-            log.error("tracer release: assigning test cases to %s failed — %s", name, e, exc_info=True)
+            log.error("RegressIQ release: assigning test cases to %s failed — %s", name, e, exc_info=True)
             return 2
 
-    log.info("tracer release: done ✓")
+    log.info("RegressIQ release: done ✓")
     return 0
 
 
@@ -481,11 +481,11 @@ def _run_predict(args) -> int:
     # Load scope
     scope_path = Path(args.scope)
     if not scope_path.exists():
-        log.error("tracer: scope file not found: %s", scope_path)
+        log.error("RegressIQ: scope file not found: %s", scope_path)
         return 2
     scope_data = json.loads(scope_path.read_text(encoding="utf-8"))
     commits = scope_data.get("commits", [])
-    log.debug("tracer predict: scope=%s (%d commit(s), %d changed symbol(s), %d screen(s))",
+    log.debug("RegressIQ predict: scope=%s (%d commit(s), %d changed symbol(s), %d screen(s))",
               scope_path, len(commits), len(scope_data.get("changed_symbols", [])),
               len(scope_data.get("affected_screens", [])))
 
@@ -495,7 +495,7 @@ def _run_predict(args) -> int:
     run_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(scope_path, run_dir / "scope.json")
     attach_run_log(run_dir)
-    log.info("tracer predict: run dir → %s", run_dir)
+    log.info("RegressIQ predict: run dir → %s", run_dir)
 
     # Load config
     env_candidates = [
@@ -509,7 +509,7 @@ def _run_predict(args) -> int:
     tcm_vertical = args.tcm_vertical or cfg.tcm_vertical_id
     tcm_project = args.tcm_project or cfg.tcm_project_key
     jira_project = args.jira_project
-    log.debug("tracer predict: tcm_project=%s jira_project=%s create_release=%s no_alert=%s",
+    log.debug("RegressIQ predict: tcm_project=%s jira_project=%s create_release=%s no_alert=%s",
               tcm_project, jira_project,
               getattr(args, "create_release", False), args.no_alert)
 
@@ -526,7 +526,7 @@ def _run_predict(args) -> int:
         try:
             coverage = gd.detect_gaps(commits, jira_client, jira_project)
         except Exception as e:
-            log.warning("tracer predict: Jira gap detection failed (%s) — continuing without gap data",
+            log.warning("RegressIQ predict: Jira gap detection failed (%s) — continuing without gap data",
                         e, exc_info=True)
             coverage = []
 
@@ -552,10 +552,10 @@ def _run_predict(args) -> int:
                     llm_cfg=llm_cfg,
                     jira_base_url=cfg.jira_base_url,
                 )
-                log.info("tracer predict: gap alert sent for %d uncovered commit(s)", len(uncovered))
+                log.info("RegressIQ predict: gap alert sent for %d uncovered commit(s)", len(uncovered))
                 gap_alert_sent = True
             except Exception as e:
-                log.error("tracer predict: gap alert failed (%s)", e, exc_info=True)
+                log.error("RegressIQ predict: gap alert failed (%s)", e, exc_info=True)
 
     # Semantic Layer 3 — find stories for uncovered commits
     l3_included, l3_alerts = [], []
@@ -570,12 +570,12 @@ def _run_predict(args) -> int:
                 )
                 if l3_included:
                     log.info(
-                        "tracer predict: semantic L3 matched %d story/stories for uncovered commits",
+                        "RegressIQ predict: semantic L3 matched %d story/stories for uncovered commits",
                         len(l3_included),
                     )
                 log.debug("semantic L3: %d match(es), %d alert(s)", len(l3_included), len(l3_alerts))
             except Exception as e:
-                log.warning("tracer predict: semantic L3 failed (%s) — skipping", e, exc_info=True)
+                log.warning("RegressIQ predict: semantic L3 failed (%s) — skipping", e, exc_info=True)
 
     # Fetch raw Jira stories for covered commits
     with workflow(logmod.JIRA_FETCH):
@@ -585,7 +585,7 @@ def _run_predict(args) -> int:
             jira_stories_raw = jira_client.fetch_raw_by_keys(all_jira_keys) if all_jira_keys else []
             defects_raw = jira_client.fetch_defects_for_stories(all_jira_keys) if all_jira_keys else []
         except Exception as e:
-            log.error("tracer predict: Jira story fetch failed (%s)", e, exc_info=True)
+            log.error("RegressIQ predict: Jira story fetch failed (%s)", e, exc_info=True)
             jira_stories_raw, defects_raw = [], []
 
         # Merge semantically matched stories into jira_stories_raw
@@ -598,7 +598,7 @@ def _run_predict(args) -> int:
                     s for s in semantic_stories_raw if s["key"] not in existing_keys
                 ]
             except Exception as e:
-                log.warning("tracer predict: semantic story fetch failed (%s)", e, exc_info=True)
+                log.warning("RegressIQ predict: semantic story fetch failed (%s)", e, exc_info=True)
 
     # Include L3 semantic story keys in TC selection
     if l3_included:
@@ -609,7 +609,7 @@ def _run_predict(args) -> int:
     with workflow(logmod.TCM_FETCH):
         try:
             if not tcm_vertical:
-                log.warning("tracer predict: TCM_VERTICAL_ID not set — skipping TCM fetch, "
+                log.warning("RegressIQ predict: TCM_VERTICAL_ID not set — skipping TCM fetch, "
                             "output will be empty")
                 tcm_raw, all_cases = [], []
             else:
@@ -619,7 +619,7 @@ def _run_predict(args) -> int:
                     refresh_token=cfg.tcm_refresh_token,
                 )
         except Exception as e:
-            log.error("tracer predict: TCM fetch failed (%s) — output will be empty", e, exc_info=True)
+            log.error("RegressIQ predict: TCM fetch failed (%s) — output will be empty", e, exc_info=True)
             tcm_raw, all_cases = [], []
 
     # Semantic Layer 4 — find relevant TCs among unlinked cases
@@ -643,11 +643,11 @@ def _run_predict(args) -> int:
                     llm_cfg,
                 )
                 if l4_included:
-                    log.info("tracer predict: semantic L4 matched %d unlinked TC(s)", len(l4_included))
+                    log.info("RegressIQ predict: semantic L4 matched %d unlinked TC(s)", len(l4_included))
                 log.debug("semantic L4: %d unlinked TC(s) considered, %d match(es), %d alert(s)",
                           len(unlinked_tcs), len(l4_included), len(l4_alerts))
             except Exception as e:
-                log.warning("tracer predict: semantic L4 failed (%s) — skipping", e, exc_info=True)
+                log.warning("RegressIQ predict: semantic L4 failed (%s) — skipping", e, exc_info=True)
 
     # Test case selection — hard link chain via jiraStoryKey
     selected = []
@@ -768,23 +768,23 @@ def _run_predict(args) -> int:
                 semantic_tcs=l4_included,
                 semantic_alerts=l3_alerts + l4_alerts,
             )
-            log.info("tracer predict: report.html written (%s/%s)", llm_cfg.provider, llm_cfg.model)
+            log.info("RegressIQ predict: report.html written (%s/%s)", llm_cfg.provider, llm_cfg.model)
         except Exception as e:
-            log.error("tracer predict: report generation failed — %s", e, exc_info=True)
+            log.error("RegressIQ predict: report generation failed — %s", e, exc_info=True)
             return 2
 
-    log.info("tracer predict: %d test case(s) → %s", len(selected), run_dir)
+    log.info("RegressIQ predict: %d test case(s) → %s", len(selected), run_dir)
 
     if getattr(args, "create_release", False):
         rc = _do_create_release(run_dir, ts, tcm_raw, cfg)
         if rc != 0:
             return rc
-    log.debug("tracer predict: completed successfully")
+    log.debug("RegressIQ predict: completed successfully")
     return 0
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="tracer", description=__doc__)
+    ap = argparse.ArgumentParser(prog="RegressIQ", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     common = argparse.ArgumentParser(add_help=False)
@@ -810,7 +810,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="Angular client repo — resolves backend endpoints to real frontend screens")
     d.add_argument("--client-db", default=None, help="client Loom DB path (default ~/.loom/projects/<name>.db)")
     d.add_argument("--scope", default=None, metavar="PATH",
-                   help="write deterministic scope JSON for use by tracer predict")
+                   help="write deterministic scope JSON for use by RegressIQ predict")
     d.add_argument("--llm-provider", default=None, dest="llm_provider",
                    metavar="PROVIDER", help="LLM provider: groq or openai (overrides LLM_PROVIDER env)")
     d.add_argument("--llm-model", default=None, dest="llm_model",
@@ -820,7 +820,7 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("predict", parents=[common],
                        help="select test cases from scope.json via TCM + Jira")
     p.add_argument("--scope", required=True, metavar="PATH",
-                   help="scope.json from tracer diff --scope")
+                   help="scope.json from RegressIQ diff --scope")
     p.add_argument("--out", default="test_cases.json",
                    help="output path for test_cases.json")
     p.add_argument("--env", default=None, metavar="PATH",
@@ -848,7 +848,7 @@ def main(argv: list[str] | None = None) -> int:
     # Tag the argv line with the stage it belongs to — _run_diff/_run_predict
     # set their own stage, but this line is logged before either is entered.
     with workflow(logmod.DIFF if args.cmd == "diff" else logmod.PREDICT):
-        log.debug("tracer %s — argv: %s", args.cmd,
+        log.debug("RegressIQ %s — argv: %s", args.cmd,
                   " ".join(argv if argv is not None else sys.argv[1:]))
 
     try:
@@ -860,7 +860,7 @@ def main(argv: list[str] | None = None) -> int:
     except Exception:
         # Console still gets Python's own traceback on re-raise; this puts the
         # full stack in the run log too, where it can be read after the fact.
-        log.critical("tracer: unhandled error", exc_info=True)
+        log.critical("RegressIQ: unhandled error", exc_info=True)
         raise
     finally:
         close_run_log()
