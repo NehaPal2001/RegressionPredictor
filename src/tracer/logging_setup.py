@@ -210,7 +210,7 @@ def attach_run_log(run_dir: Path) -> Path | None:
     try:
         handler = logging.FileHandler(path, encoding="utf-8")
     except OSError as e:
-        log.warning("tracer: could not open log file %s (%s) — console only", path, e)
+        log.warning("RegressIQ: could not open log file %s (%s) — console only", path, e)
         return None
 
     handler.setLevel(logging.DEBUG)
@@ -227,7 +227,7 @@ def attach_run_log(run_dir: Path) -> Path | None:
 
     log.addHandler(handler)
     _file_handler = handler
-    log.debug("tracer: log file opened at %s", path)
+    log.debug("RegressIQ: log file opened at %s", path)
     return path
 
 
