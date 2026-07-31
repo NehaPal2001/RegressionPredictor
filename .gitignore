@@ -5,3 +5,4 @@ __pycache__
 .agents
 runs
 skills-lock.json
+.venv
