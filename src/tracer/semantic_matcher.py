@@ -9,11 +9,14 @@ Both make one batch LLM call and return (auto_included, alerts).
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 
 from .gap_detector import CommitCoverage
 from .jira_client import JiraClient
 from .llm_config import LLMConfig, call_llm_api
+
+log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -39,6 +42,10 @@ def _split_by_score(scores: list[dict]) -> tuple[list[SemanticMatch], list[Seman
             included.append(SemanticMatch(key=key, score=score, reason=reason, confidence="semantic"))
         elif score >= 4:
             alerts.append(SemanticMatch(key=key, score=score, reason=reason, confidence="suggested"))
+    log.debug("scored %d candidate(s): %d included (>=7), %d alert(s) (4-6), %d dropped (<4)",
+              len(scores), len(included), len(alerts), len(scores) - len(included) - len(alerts))
+    for m in included + alerts:
+        log.debug("  %s score=%d (%s) — %s", m.key, m.score, m.confidence, m.reason)
     return included, alerts
 
 
@@ -64,11 +71,15 @@ def enrich_layer3(
     alerts:        score 4-6, confidence="suggested"
     """
     if not uncovered_commits:
+        log.debug("semantic L3: no uncovered commits — nothing to score")
         return [], []
 
     open_stories = jira.fetch_open_stories(project_key)
     if not open_stories:
+        log.debug("semantic L3: no open stories in %s — nothing to score against", project_key)
         return [], []
+    log.debug("semantic L3: scoring %d open story/stories against %d uncovered commit(s)",
+              len(open_stories), len(uncovered_commits))
 
     symbol_names = [s.get("name", "") for s in changed_symbols[:15]]
     commit_lines = "\n".join(
@@ -123,7 +134,10 @@ def enrich_layer4(
     alerts:        score 4-6, confidence="suggested"
     """
     if not unlinked_tcs:
+        log.debug("semantic L4: no unlinked test cases — nothing to score")
         return [], []
+    log.debug("semantic L4: scoring %d unlinked TC(s) against %d screen(s) and %d symbol(s)",
+              len(unlinked_tcs), len(affected_screens), len(changed_symbols))
 
     symbol_names = [s.get("name", "") for s in changed_symbols[:15]]
 

@@ -7,9 +7,12 @@ about diffs — Tracer owns all git logic.
 from __future__ import annotations
 
 import json
+import logging
 import sqlite3
 from dataclasses import dataclass
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 CODE_KINDS = ("method", "function")
 
@@ -42,11 +45,14 @@ class LoomClient:
     def __init__(self, db_path: str | Path):
         p = Path(db_path).expanduser()
         if not p.exists():
+            log.debug("Loom DB not found: %s", p)
             raise FileNotFoundError(f"Loom DB not found: {p} — run `loom analyze .` inside the repo first")
         # check_same_thread=False: the LangGraph agent runs read-only tool calls in a
         # worker thread. Safe here — the DB is opened mode=ro and tool calls are sequential.
         self.con = sqlite3.connect(f"file:{p}?mode=ro", uri=True, check_same_thread=False)
         self.con.row_factory = sqlite3.Row
+        node_count = self.con.execute("SELECT COUNT(*) FROM nodes WHERE deleted_at IS NULL").fetchone()[0]
+        log.debug("loom db opened: %s (%d live node(s))", p, node_count)
 
     # -- symbol lookup ------------------------------------------------------
 
@@ -87,7 +93,10 @@ class LoomClient:
                GROUP BY n.id""",
             (seed_id, max_depth, seed_id),
         ).fetchall()
-        return [Reach(_row_symbol(r), r["depth"], bool(r["inferred"])) for r in rows]
+        reaches = [Reach(_row_symbol(r), r["depth"], bool(r["inferred"])) for r in rows]
+        log.debug("blast_radius(%s, max_depth=%d): %d caller(s), %d via inferred edge(s)",
+                  seed_id, max_depth, len(reaches), sum(1 for r in reaches if r.inferred))
+        return reaches
 
     def fan_in(self, node_id: str) -> int:
         return self.con.execute(

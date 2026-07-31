@@ -512,7 +512,10 @@ def test_fetch_raw_by_keys_returns_raw_dicts():
     with patch.object(client, "_post_search", return_value=raw) as mock_search:
         result = client.fetch_raw_by_keys(["REG-20", "REG-21"])
     assert result == raw
-    mock_search.assert_called_once_with('issue in ("REG-20", "REG-21")', 2)
+    # step= is log metadata only (names the operation in the Step column); the
+    # jql and max_results are what actually drive the query.
+    mock_search.assert_called_once_with('issue in ("REG-20", "REG-21")', 2,
+                                        step="FetchRawByKeys")
 
 
 def test_fetch_raw_by_keys_empty_returns_empty():

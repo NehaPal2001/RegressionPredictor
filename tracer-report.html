@@ -41,30 +41,24 @@ NAVIGATE TO: Api Test Collection
 LOGIN AS: any authenticated user
 HAPPY PATH: 
 1. Navigate to the Api Test Collection screen.
-2. Perform a DELETE request to `/api/automation-api-testing/verticals/{verticalId}/projects/{projectId}/collections/{collectionId}`.
-3. The collection is deleted, and the response is `204 No Content`.
+2. Perform actions like confirming import, deleting a collection, or generating test cases.
+3. Expected results:
+   - Confirm Import: A list of created ApiTestCollectionDTOs is returned with status 201 Created.
+   - Delete Collection: The collection is deleted with status 204 No Content.
+   - Generate Test Cases: A message indicating &quot;Test case generation started&quot; is returned with status 202 Accepted.
 
 ERROR CASES:
-- DELETE with nonexistent `collectionId`: Expect `404 Not Found`.
-- DELETE with invalid `verticalId` or `projectId`: Expect validation error.
-- PATCH with invalid payload: Expect `400 Bad Request`.
-- GET with nonexistent `collectionId`: Expect `404 Not Found`.
-
-MODULE TOUCHED: Notification
-NAVIGATE TO: Notification
-LOGIN AS: any authenticated user
-HAPPY PATH:
-1. Navigate to the Notification screen.
-2. Perform a GET request to `/api/notifications/{verticalId}/notification-stories/{notificationId}`.
-3. The notification stories are retrieved successfully.
-
-ERROR CASES:
-- GET with nonexistent `notificationId`: Expect `404 Not Found`.
-- GET unread notifications with invalid `userId`: Expect `500 Internal Server Error`.
-- Export test cases with invalid `notificationId`: Expect `500 Internal Server Error`.
+1. Confirm Import:
+   - If the project or vertical ID is invalid, a 404 Not Found error is thrown with the message &quot;Project not found with ID: {projectId} for vertical: {verticalId}&quot;.
+   - If a group with approved test cases already exists, it is skipped, and the import does not proceed for that group.
+2. Delete Collection:
+   - If the project or vertical ID is invalid, a 404 Not Found error is thrown.
+   - If the collection ID does not exist, an error is thrown (specific handling not detailed in the code).
+3. Generate Test Cases:
+   - If the project or vertical ID is invalid, a 404 Not Found error is thrown.
 
 IF PRIOR FIX:
-Likely scenario (inferred from the fix commit, not the original bug report): Issues with exporting test cases to Excel were fixed, so ensure the export functionality works as expected.
+Likely scenario (inferred from the fix commit, not the original bug report): Issues with merging project role security, missing endpoints, and custom fields were addressed. Ensure these areas are thoroughly tested, especially around project and collection validation.
 
 SUGGESTED TEST ORDER — start with: Api Test Collection.</pre></section>
 <div class="hero"><h2>⚠ Defect recurrence — this change re-touches previously-fixed code</h2><ul><li><code>model_config.py:30–36</code> was fixed by <code>0990e645</code> (2025-12-16): <b>add mapping of model template specific and fix parsing issue in Test case generator template</b></li><li><code>model_config.py:41–53</code> was fixed by <code>3618d627</code> (2025-12-16): <b>feat: added llava model support in srs generated endpoint in ai-service and resolve parsing and size issue.</b></li><li><code>NotificationService.java:97–97</code> was fixed by <code>fb9c99e0</code> (2025-12-16): <b>Feat: fixes for Export feature in excel</b></li><li><code>TestCaseController.java:550–551</code> was fixed by <code>50b9ffca</code> (2026-04-24): <b>fix merging issue projectrolesecurity, added missed endpoints and update all according to custom fields, fix test release issue, update test suites endpoint</b></li><li><code>TestCaseService.java:924–926</code> was fixed by <code>81ccb621</code> (2025-11-19): <b>fix storyId filteration</b></li><li><code>TestCaseService.java:924–926</code> was fixed by <code>3eedbb08</code> (2025-11-11): <b>feat: fixes for filter</b></li><li><code>TestCaseService.java:1675–1675</code> was fixed by <code>50b9ffca</code> (2026-04-24): <b>fix merging issue projectrolesecurity, added missed endpoints and update all according to custom fields, fix test release issue, update test suites endpoint</b></li></ul><p>The same class of bug can return. Re-run the original bug's scenario as a first-class test.</p></div>

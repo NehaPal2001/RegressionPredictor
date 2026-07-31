@@ -9,10 +9,14 @@ still carries the complete deterministic scope.
 from __future__ import annotations
 
 import json
+import logging
 import os
+import time
 from pathlib import Path
 
 from openai import OpenAI, OpenAIError
+
+log = logging.getLogger(__name__)
 
 MODEL = "llama-3.3-70b-versatile"
 BASE_URL = "https://api.groq.com/openai/v1"
@@ -57,6 +61,8 @@ def load_key(*env_files: str | Path) -> str | None:
 
 def qa_notes(scope: dict, key: str, timeout: int = 60) -> str:
     client = OpenAI(api_key=key, base_url=BASE_URL, timeout=timeout)
+    log.debug("qa notes: calling %s (timeout %ss)", MODEL, timeout)
+    started = time.monotonic()
     r = client.chat.completions.create(
         model=MODEL,
         temperature=0.2,
@@ -65,15 +71,21 @@ def qa_notes(scope: dict, key: str, timeout: int = 60) -> str:
             {"role": "user", "content": json.dumps(scope, indent=1)},
         ],
     )
-    return (r.choices[0].message.content or "").strip()
+    notes = (r.choices[0].message.content or "").strip()
+    log.debug("qa notes: %d chars", len(notes),
+              extra={"duration": time.monotonic() - started})
+    return notes
 
 
 def try_qa_notes(scope: dict, *env_files: str | Path) -> tuple[str | None, str]:
     """(notes, status). Never raises — the deterministic report must always ship."""
     key = load_key(*env_files)
     if not key:
+        log.debug("qa notes: no GROQ_API_KEY found — skipping narration")
         return None, "no GROQ_API_KEY — skipped AI narration (deterministic scope is complete)"
     try:
         return qa_notes(scope, key), "ok"
     except OpenAIError as e:
+        log.warning("qa notes: narration failed (%s) — deterministic scope unaffected",
+                    e, exc_info=True)
         return None, f"AI narration failed ({e}) — deterministic scope unaffected"

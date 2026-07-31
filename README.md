@@ -61,8 +61,8 @@ JIRA_BASE_URL=https://sdettech-tea.atlassian.net
 JIRA_EMAIL=you@company.com
 JIRA_API_TOKEN=your_jira_api_token        # https://id.atlassian.com/manage-profile/security/api-tokens
 
-# TCM (SDET360 testify.sdet360.ai) — cookie auth
-# Get from browser: F12 → Application → Cookies on testify.sdet360.ai
+# TCM (SDET360 qa.sdet360.ai) — cookie auth
+# Get from browser: F12 → Application → Cookies on qa.sdet360.ai
 TCM_SESSION=<session cookie value>
 TCM_PROJECT_SESSION=<project_session cookie value>
 TCM_REFRESH_TOKEN=<refresh token from localStorage>
@@ -81,7 +81,7 @@ ALERT_EMAILS=qa@yourorg.com,lead@yourorg.com
 `.env` is gitignored — never commit it.
 
 > **How to get TCM cookies:**
-> 1. Log into [testify.sdet360.ai](https://testify.sdet360.ai) in Chrome
+> 1. Log into [qa.sdet360.ai](https://qa.sdet360.ai) in Chrome
 > 2. Press **F12** → **Application** tab → **Cookies**
 > 3. Copy `session` → `TCM_SESSION`, `project_session` → `TCM_PROJECT_SESSION`
 > 4. Check **Local Storage** for `refreshToken` → `TCM_REFRESH_TOKEN`

@@ -1,4 +1,4 @@
-"""Read-only client for SDET360 TCM (testify.sdet360.ai).
+"""Read-only client for SDET360 TCM (qa.sdet360.ai).
  
 Auth: cookie-based — caller supplies session and project_session JWT strings.
 Paginates all test cases for a given vertical + project automatically.
@@ -8,18 +8,22 @@ On 401, attempts one refresh using refresh_token before raising.
 from __future__ import annotations
  
 import json
+import logging
 import ssl
+import time
 import urllib.request
 import urllib.error
 from dataclasses import dataclass, field
- 
+
+log = logging.getLogger(__name__)
+
 # Corporate SSL inspection proxies often present certs that Python can't verify.
-# testify.sdet360.ai is an internal SDET360 service — skip chain verification.
+# qa.sdet360.ai is an internal SDET360 service — skip chain verification.
 _SSL_CTX = ssl.create_default_context()
 _SSL_CTX.check_hostname = False
 _SSL_CTX.verify_mode = ssl.CERT_NONE
  
-BASE_URL = "https://testify.sdet360.ai"
+BASE_URL = "https://qa.sdet360.ai"
 _REFRESH_URL = f"{BASE_URL}/api/auth/refresh"
  
  
@@ -90,28 +94,49 @@ def _page_url(vertical_id: str, project_key: str, page: int, size: int) -> str:
     )
  
  
-def _do_request(url: str, session: str, project_session: str) -> dict:
+def _do_request(url: str, session: str, project_session: str,
+                *, step: str = "Request") -> dict:
+    # `step` names the operation for the log — this helper is generic and its
+    # own function name would say nothing about which call is in flight.
     body = b"{}"
     req = urllib.request.Request(url, method="POST", data=body)
     req.add_header("Cookie", f"session={session}; project_session={project_session}")
     req.add_header("Content-Type", "application/json")
     req.add_header("Content-Length", str(len(body)))
+    log.debug("POST %s", url, extra={"step": step})
+    started = time.monotonic()
     with urllib.request.urlopen(req, context=_SSL_CTX) as resp:
-        return json.loads(resp.read())
- 
- 
+        data = json.loads(resp.read())
+        status = resp.status
+    log.debug("POST %s → %s", url, status,
+              extra={"step": step, "duration": time.monotonic() - started})
+    return data
+
+
 def _try_refresh(refresh_token: str) -> tuple[str, str] | None:
     """Call refresh endpoint; return (new_session, new_project_session) or None on failure."""
     if not refresh_token:
+        log.debug("token refresh skipped: no refresh token configured")
         return None
     try:
         body = json.dumps({"refreshToken": refresh_token}).encode()
         req = urllib.request.Request(_REFRESH_URL, data=body, method="POST")
         req.add_header("Content-Type", "application/json")
+        log.debug("tcm token refresh: POST %s", _REFRESH_URL)
         with urllib.request.urlopen(req, context=_SSL_CTX) as resp:
             data = json.loads(resp.read())
+        log.debug("tcm token refresh succeeded")
         return data.get("session", ""), data.get("projectSession", "")
-    except Exception:
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode(errors="replace")[:300]
+        except Exception:
+            pass
+        log.warning("tcm token refresh failed: HTTP %s %s", e.code, detail)
+        return None
+    except Exception as e:
+        log.warning("tcm token refresh failed: %s", e, exc_info=True)
         return None
  
  
@@ -133,22 +158,32 @@ def fetch_all(
     def _get_page(page: int, sess: str, proj_sess: str) -> dict:
         url = _page_url(vertical_id, project_key, page, page_size)
         try:
-            return _do_request(url, sess, proj_sess)
+            return _do_request(url, sess, proj_sess, step="FetchTestCasePage")
         except urllib.error.HTTPError as e:
             if e.code == 401 and refresh_token:
+                log.info("tcm: session rejected (401) — attempting token refresh")
                 refreshed = _try_refresh(refresh_token)
                 if refreshed:
-                    return _do_request(url, refreshed[0], refreshed[1])
+                    return _do_request(url, refreshed[0], refreshed[1],
+                                       step="FetchTestCasePage")
+            if e.code == 401:
+                log.warning("tcm: 401 Unauthorized — TCM_SESSION has likely expired; "
+                            "refresh the session cookie in .env")
             raise
- 
+
+    log.debug("tcm fetch_all: vertical=%s project=%s page_size=%d", vertical_id, project_key, page_size)
+    started = time.monotonic()
     first = _get_page(0, session, project_session)
     raw_all: list[dict] = list(first.get("content", []))
     cases: list[TestCase] = [_parse_case(r) for r in first.get("content", [])]
     total_pages = first.get("totalPages", 1)
+    log.debug("tcm fetch_all: %d page(s) to fetch", total_pages)
     for page in range(1, total_pages):
         data = _get_page(page, session, project_session)
         raw_all.extend(data.get("content", []))
         cases.extend(_parse_case(r) for r in data.get("content", []))
+    log.debug("tcm fetch_all: %d test case(s) over %d page(s)", len(raw_all), total_pages,
+              extra={"duration": time.monotonic() - started})
     return raw_all, cases
  
  
@@ -166,12 +201,16 @@ def linked_jira_keys(cases: list[TestCase]) -> set[str]:
 
 
 def _post_json(url: str, payload: dict, session: str, project_session: str,
-               refresh_token: str = "") -> dict | list:
+               refresh_token: str = "", *, step: str = "PostJSON") -> dict | list:
     """POST JSON to a TCM endpoint with cookie auth. Retries once on 401.
 
     On an HTTP error the server's response body is folded into the raised
     RuntimeError — TCM reports the actual cause there (e.g. "Version number is
     required"), which is invisible from the status code alone.
+
+    ``step`` names the operation for the log's Step column: this one helper
+    serves create-release, create-test-cycle and assign-bulk alike, so the
+    function name cannot say which one ran.
     """
     body = json.dumps(payload).encode()
 
@@ -182,22 +221,35 @@ def _post_json(url: str, payload: dict, session: str, project_session: str,
         r.add_header("Content-Length", str(len(body)))
         return r
 
+    log.debug("POST %s payload=%s", url, json.dumps(payload)[:500], extra={"step": step})
+    started = time.monotonic()
     try:
         with urllib.request.urlopen(_build(session, project_session), context=_SSL_CTX) as resp:
             raw = resp.read()
+            status = resp.status
     except urllib.error.HTTPError as e:
         if e.code == 401 and refresh_token:
+            log.info("tcm: session rejected (401) — attempting token refresh",
+                     extra={"step": step})
             refreshed = _try_refresh(refresh_token)
             if refreshed:
                 with urllib.request.urlopen(_build(*refreshed), context=_SSL_CTX) as resp:
                     raw = resp.read()
+                log.debug("POST %s → ok after refresh", url,
+                          extra={"step": step, "duration": time.monotonic() - started})
                 return json.loads(raw) if raw else {}
         detail = ""
         try:
             detail = e.read().decode(errors="replace").strip()
         except Exception:
             pass
+        # debug, not error: this raises and the caller reports it — but the response
+        # body only exists here, so the log file must capture it.
+        log.debug("POST %s → HTTP %s %s", url, e.code, detail or e.reason,
+                  extra={"step": step, "duration": time.monotonic() - started})
         raise RuntimeError(f"HTTP {e.code}: {detail or e.reason}") from e
+    log.debug("POST %s → %s response=%s", url, status, raw.decode(errors="replace")[:300],
+              extra={"step": step, "duration": time.monotonic() - started})
     return json.loads(raw) if raw else {}
 
 
@@ -205,7 +257,7 @@ def create_release(vertical_id: str, project_id: str, payload: dict,
                    session: str, project_session: str, refresh_token: str = "") -> dict:
     """Create a release. Response carries the new release id."""
     url = f"{BASE_URL}/api/test-execution/vertical/{vertical_id}/projects/{project_id}/releases"
-    return _post_json(url, payload, session, project_session, refresh_token)
+    return _post_json(url, payload, session, project_session, refresh_token, step="CreateRelease")
 
 
 def create_test_cycle(vertical_id: str, project_id: str, release_id: str, payload: dict,
@@ -213,7 +265,7 @@ def create_test_cycle(vertical_id: str, project_id: str, release_id: str, payloa
     """Create a test cycle (release version) under a release."""
     url = (f"{BASE_URL}/api/test-execution/vertical/{vertical_id}"
            f"/projects/{project_id}/release/{release_id}")
-    return _post_json(url, payload, session, project_session, refresh_token)
+    return _post_json(url, payload, session, project_session, refresh_token, step="CreateTestCycle")
 
 
 def create_execution_cycle(vertical_id: str, project_id: str, test_cycle_id: str, payload: dict,
@@ -221,7 +273,8 @@ def create_execution_cycle(vertical_id: str, project_id: str, test_cycle_id: str
     """Create an execution cycle (MANUAL or AUTOMATION) under a test cycle."""
     url = (f"{BASE_URL}/api/test-execution/vertical/{vertical_id}"
            f"/projects/{project_id}/release-version/{test_cycle_id}/execution-cycles")
-    return _post_json(url, payload, session, project_session, refresh_token)
+    return _post_json(url, payload, session, project_session, refresh_token,
+                      step="CreateExecutionCycle")
 
 
 def assign_test_cases_bulk(vertical_id: str, project_id: str, cycle_id: str, payload: dict,
@@ -229,4 +282,5 @@ def assign_test_cases_bulk(vertical_id: str, project_id: str, cycle_id: str, pay
     """Bulk-assign uniqueTestcaseIds to an execution cycle."""
     url = (f"{BASE_URL}/api/test-execution/vertical/{vertical_id}"
            f"/projects/{project_id}/execution-cycles/{cycle_id}/test-cases/assign-bulk")
-    return _post_json(url, payload, session, project_session, refresh_token)
+    return _post_json(url, payload, session, project_session, refresh_token,
+                      step="AssignTestCases")

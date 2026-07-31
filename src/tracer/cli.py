@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import datetime
 import json
+import logging
 import subprocess
 import sys
 from pathlib import Path
@@ -22,11 +23,15 @@ from . import reporter as reportermod
 from . import tcm_client as tcm
 from .jira_client import JiraClient
 from .llm_config import get_llm_config
+from . import logging_setup as logmod
+from .logging_setup import attach_run_log, close_run_log, setup_logging, workflow
 from .loom_client import LoomClient, Reach
 from .predict_cfg import load_predict_config
 from .report import Feature, jira_comment, render_html
 from .screens import EndpointIndex, load_screen_map
 from .semantic_matcher import enrich_layer3, enrich_layer4
+
+log = logging.getLogger(__name__)
 
 
 def scope_json(scope, changed, feats, recs) -> dict:
@@ -122,24 +127,31 @@ def compute_blind_spots(lc, candidates: dict, known_endpoint_ids: set, max_depth
 def ensure_graph(repo_path: Path, db: str | None, reindex: bool) -> Path:
     """First run (no Loom DB) or --reindex: build the graph with `loom analyze`."""
     db_path = Path(db) if db else Path.home() / ".loom" / "projects" / f"{repo_path.name}.db"
+    log.debug("loom graph: repo=%s db=%s exists=%s reindex=%s",
+              repo_path, db_path, db_path.exists(), reindex)
     if db_path.exists() and not reindex:
         return db_path
     if db:  # loom analyze only writes the default location — can't honor a custom path
         raise FileNotFoundError(f"--db {db_path} not found; run `loom analyze .` in the repo yourself")
     why = "rebuilding graph (--reindex)" if db_path.exists() else \
         f"first run for {repo_path.name} — building the Loom code graph (one-time, ~1-2 min)"
-    print(f"tracer: {why}…", file=sys.stderr)
+    log.info("tracer: %s…", why)
     r = subprocess.run(["loom", "analyze", "."], cwd=repo_path, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
+        log.debug("loom analyze exited %s: %s", r.returncode, (r.stderr or r.stdout).strip()[-300:])
         raise diffmod.GitError(f"loom analyze failed: {(r.stderr or r.stdout).strip()[-300:]}")
-    print(f"tracer: graph ready at {db_path}", file=sys.stderr)
+    log.info("tracer: graph ready at %s", db_path)
     return db_path
 
 
 def analyze(repo: str, base: str, target: str, db: str | None, two_dot: bool, max_depth: int,
             reindex: bool = False):
     repo_path = Path(repo).resolve()
+    log.debug("analyze: repo=%s base=%s target=%s two_dot=%s max_depth=%s",
+              repo_path, base, target, two_dot, max_depth)
     scope = diffmod.changed_backend(str(repo_path), base, target, two_dot)
+    log.debug("analyze: %d changed backend file(s), merge-base ref=%s, proto_changed=%s",
+              len(scope.files), scope.base_ref, bool(scope.proto_changed))
     lc = LoomClient(ensure_graph(repo_path, db, reindex))
 
     # changed hunks -> changed symbols (dedup: several hunks can hit one method)
@@ -153,6 +165,8 @@ def analyze(repo: str, base: str, target: str, db: str | None, two_dot: bool, ma
                 matched = True
         if not matched:
             unmatched.append(fc.path)  # imports/fields/deletions only — file-level change
+    log.debug("analyze: %d changed symbol(s), %d file(s) with no symbol-level match",
+              len(changed_syms), len(unmatched))
 
     recs = history.recurrence(
         str(repo_path), target, scope.base_ref, [(fc.path, fc.ranges) for fc in scope.files]
@@ -216,18 +230,31 @@ def analyze(repo: str, base: str, target: str, db: str | None, two_dot: bool, ma
         for fc in scope.files
     }
     tests = list({t.id: t for r in changed_risks for t in lc.tests_for(r.symbol.id)}.values())
+    log.debug("analyze: %d affected screen(s), %d blind spot(s), %d existing test(s), "
+              "%d defect recurrence(s)",
+              len(features), len(blind_spots), len(tests), len(recs))
 
     return scope, changed_risks, list(features.values()), recs, coupled, tests, unmatched, blind_spots, lc
 
 
+@workflow(logmod.DIFF)
 def _run_diff(args) -> int:
+    ts = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
+    run_dir = Path("runs") / f"{ts}-diff"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    log_path = attach_run_log(run_dir)
+    log.debug("tracer diff: base=%s target=%s repo=%s out=%s scope=%s",
+              args.base, args.target, args.repo, args.out, args.scope)
+    if log_path:
+        log.info("tracer: log → %s", log_path)
+
     try:
         scope, changed, feats, recs, coupled, tests, unmatched, blind_spots, lc = analyze(
             args.repo, args.base, args.target, args.db, args.two_dot, args.max_depth,
             args.reindex,
         )
     except (diffmod.GitError, FileNotFoundError) as e:
-        print(f"tracer: {e}", file=sys.stderr)
+        log.error("tracer: %s", e, exc_info=True)
         return 2
 
     if args.scope:
@@ -250,7 +277,10 @@ def _run_diff(args) -> int:
             "affected_screens": [f.screen for f in feats],
         }
         Path(args.scope).write_text(json.dumps(scope_data, indent=2), encoding="utf-8")
-        print(f"tracer: scope written to {args.scope}", file=sys.stderr)
+        log.info("tracer: scope written to %s", args.scope)
+        log.debug("scope contents: %d commit(s), %d changed symbol(s), %d affected screen(s)",
+                  len(scope_data["commits"]), len(scope_data["changed_symbols"]),
+                  len(scope_data["affected_screens"]))
 
     if args.no_ai:
         notes, status = None, "disabled with --no-ai"
@@ -261,23 +291,23 @@ def _run_diff(args) -> int:
             provider_override=args.llm_provider,
             model_override=args.llm_model,
         )
-        print(
-            f"tracer: investigating top {args.investigate} screen(s) via Loom + LLM agent"
-            f" ({llm_cfg.provider}/{llm_cfg.model})…",
-            file=sys.stderr,
+        log.info(
+            "tracer: investigating top %s screen(s) via Loom + LLM agent (%s/%s)…",
+            args.investigate, llm_cfg.provider, llm_cfg.model,
         )
         notes, status = agentmod.try_investigate(
             agent_scope(scope, changed, feats, recs, top=args.investigate),
             lc, Path(args.repo).resolve(), llm_cfg,
         )
     if notes is None:
-        print(f"tracer: {status}", file=sys.stderr)
+        log.warning("tracer: %s", status)
 
     try:
         tickets = jira_mock.build_tickets(
             str(Path(args.repo).resolve()), args.base, args.target, changed, feats, args.two_dot
         )
-    except diffmod.GitError:
+    except diffmod.GitError as e:
+        log.warning("ticket preview skipped: %s", e, exc_info=True)
         tickets = None  # ticket preview is a nice-to-have; never block the report
 
     # Cross-repo bridge: resolve backend endpoints to real Angular screens (opt-in).
@@ -288,13 +318,13 @@ def _run_diff(args) -> int:
             client_root = Path(args.client_repo).resolve()
             client_db = ensure_graph(client_root, args.client_db, args.reindex)
             endpoints = list({ep.node_id: ep for f in feats for ep in f.endpoints}.values())
-            print(f"tracer: bridging {len(endpoints)} endpoint(s) to client screens…", file=sys.stderr)
+            log.info("tracer: bridging %d endpoint(s) to client screens…", len(endpoints))
             bridge_result = bridgemod.resolve_client_screens(endpoints, LoomClient(client_db), client_root)
-            print(f"tracer: client match rate {bridge_result.match_rate:.0%} "
-                  f"({len(bridge_result.mappings)} screen mapping(s), "
-                  f"{len(bridge_result.unresolved)} unmapped)", file=sys.stderr)
+            log.info("tracer: client match rate %.0f%% (%d screen mapping(s), %d unmapped)",
+                     bridge_result.match_rate * 100, len(bridge_result.mappings),
+                     len(bridge_result.unresolved))
         except (diffmod.GitError, FileNotFoundError) as e:
-            print(f"tracer: client bridge skipped ({e}) — backend-only report", file=sys.stderr)
+            log.warning("tracer: client bridge skipped (%s) — backend-only report", e, exc_info=True)
 
     Path(args.out).write_text(
         render_html(scope, changed, feats, recs, coupled, tests,
@@ -302,6 +332,8 @@ def _run_diff(args) -> int:
                     bridge=bridge_result, endpoint_risk=endpoint_risk),
         encoding="utf-8",
     )
+    log.debug("HTML report written to %s", args.out)
+    # stdout below is the command's product (Jira comment) — deliberately not logged
     print(jira_comment(scope, feats, recs, notes))
     if notes:
         print(f"\nQA NOTES (AI-narrated from the deterministic scope above):\n{notes}")
@@ -309,6 +341,7 @@ def _run_diff(args) -> int:
         print(f"\n(note: {len(unmatched)} changed files had no symbol-level match: "
               f"{', '.join(p.rsplit('/', 1)[-1] for p in unmatched[:6])}…)")
     print(f"\nHTML report: {args.out}")
+    log.debug("tracer diff: completed successfully")
     return 0
 
 
@@ -320,6 +353,7 @@ def _automation_status(raw_tc: dict) -> str:
     return ""
 
 
+@workflow(logmod.RELEASE)
 def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
     """Stage 3: create a TCM release + test cycle + manual/automation execution cycles.
 
@@ -327,14 +361,13 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
     manual cycle, everything else to the automation cycle.
     """
     if not tcm_raw:
-        print("tracer release: no test cases fetched — skipping release creation", file=sys.stderr)
+        log.warning("tracer release: no test cases fetched — skipping release creation")
         return 0
     if not cfg.tcm_project_id:
-        print("tracer release: TCM_PROJECT_ID not set in .env", file=sys.stderr)
+        log.error("tracer release: TCM_PROJECT_ID not set in .env")
         return 2
 
-    print(f"tracer release: classifying {len(tcm_raw)} test cases by Automation Status...",
-          file=sys.stderr)
+    log.info("tracer release: classifying %d test cases by Automation Status...", len(tcm_raw))
     manual_ids, automation_ids = [], []
     for tc in tcm_raw:
         uid = tc.get("uniqueTestcaseId")
@@ -344,19 +377,21 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
             manual_ids.append(uid)
         else:
             automation_ids.append(uid)
-    print(f"tracer release: {len(manual_ids)} manual (Can Not Be Automated), "
-          f"{len(automation_ids)} automation", file=sys.stderr)
+    log.info("tracer release: %d manual (Can Not Be Automated), %d automation",
+             len(manual_ids), len(automation_ids))
+    log.debug("manual ids: %s", manual_ids or "none")
+    log.debug("automation ids: %s", automation_ids or "none")
 
     if not manual_ids and not automation_ids:
-        print("tracer release: no test cases to assign — nothing created", file=sys.stderr)
+        log.warning("tracer release: no test cases to assign — nothing created")
         return 0
 
     vid, pid = cfg.tcm_vertical_id, cfg.tcm_project_id
     sess, proj_sess, refresh = cfg.tcm_session, cfg.tcm_project_session, cfg.tcm_refresh_token
 
-    release_name = f"Regression Release"
+    release_name = f"Regression"
     try:
-        print(f'tracer release: creating release "{release_name}"...', file=sys.stderr)
+        log.info('tracer release: creating release "%s"...', release_name)
         release = tcm.create_release(vid, pid, {
             "releaseName": release_name,
             "releaseDescription": "Automatically generated regression release",
@@ -365,16 +400,16 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
         }, sess, proj_sess, refresh)
         release_id = release.get("id")
         if not release_id:
-            print(f"tracer release: create release returned no id — {release}", file=sys.stderr)
+            log.error("tracer release: create release returned no id — %s", release)
             return 2
-        print(f"tracer release: ✓ release created (id: {release_id})", file=sys.stderr)
+        log.info("tracer release: ✓ release created (id: %s)", release_id)
     except Exception as e:
-        print(f"tracer release: create release failed — {e}", file=sys.stderr)
+        log.error("tracer release: create release failed — %s", e, exc_info=True)
         return 2
 
     cycle_name = f"Test Cycle"
     try:
-        print(f'tracer release: creating test cycle "{cycle_name}"...', file=sys.stderr)
+        log.info('tracer release: creating test cycle "%s"...', cycle_name)
         cycle = tcm.create_test_cycle(vid, pid, release_id, {
             "releaseId": release_id,
             "versionName": cycle_name,
@@ -384,23 +419,23 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
         }, sess, proj_sess, refresh)
         test_cycle_id = cycle.get("id")
         if not test_cycle_id:
-            print(f"tracer release: create test cycle returned no id — {cycle}", file=sys.stderr)
+            log.error("tracer release: create test cycle returned no id — %s", cycle)
             return 2
-        print(f"tracer release: ✓ test cycle created (id: {test_cycle_id})", file=sys.stderr)
+        log.info("tracer release: ✓ test cycle created (id: %s)", test_cycle_id)
     except Exception as e:
-        print(f"tracer release: create test cycle failed — {e}", file=sys.stderr)
+        log.error("tracer release: create test cycle failed — %s", e, exc_info=True)
         return 2
 
     exec_cycles = [
-        ("Manual Execution", "Manual test cases - Can Not Be Automated", "MANUAL", manual_ids),
-        ("Automation Execution",
+        ("Manual", "Manual test cases - Can Not Be Automated", "MANUAL", manual_ids),
+        ("Automation",
          "Automation test cases - Planned/Automated/In Progress/Not Automated",
          "AUTOMATION", automation_ids),
     ]
     created: list[tuple[str, str, list[str]]] = []
     for name, desc, ctype, ids in exec_cycles:
         try:
-            print(f'tracer release: creating execution cycle "{name}"...', file=sys.stderr)
+            log.info('tracer release: creating execution cycle "%s"...', name)
             ec = tcm.create_execution_cycle(vid, pid, test_cycle_id, {
                 "cycleName": name,
                 "cycleDescription": desc,
@@ -409,32 +444,31 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
             }, sess, proj_sess, refresh)
             ec_id = ec.get("id")
             if not ec_id:
-                print(f"tracer release: create execution cycle {name} returned no id — {ec}",
-                      file=sys.stderr)
+                log.error("tracer release: create execution cycle %s returned no id — %s", name, ec)
                 return 2
-            print(f"tracer release: ✓ execution cycle created (id: {ec_id})", file=sys.stderr)
+            log.info("tracer release: ✓ execution cycle created (id: %s)", ec_id)
             created.append((name, ec_id, ids))
         except Exception as e:
-            print(f"tracer release: create execution cycle {name} failed — {e}", file=sys.stderr)
+            log.error("tracer release: create execution cycle %s failed — %s", name, e, exc_info=True)
             return 2
 
     for name, ec_id, ids in created:
         if not ids:
-            print(f"tracer release: skipping {name.split()[0].lower()} assignment (0 test cases)",
-                  file=sys.stderr)
+            log.info("tracer release: skipping %s assignment (0 test cases)",
+                     name.split()[0].lower())
             continue
         try:
-            print(f"tracer release: assigning {len(ids)} test case(s) to {name}...", file=sys.stderr)
+            log.info("tracer release: assigning %d test case(s) to %s...", len(ids), name)
             tcm.assign_test_cases_bulk(vid, pid, ec_id, {
                 "cycleId": ec_id,
                 "uniqueTestcaseIds": ids,
             }, sess, proj_sess, refresh)
-            print(f"tracer release: ✓ {len(ids)} test case(s) assigned", file=sys.stderr)
+            log.info("tracer release: ✓ %d test case(s) assigned", len(ids))
         except Exception as e:
-            print(f"tracer release: assigning test cases to {name} failed — {e}", file=sys.stderr)
+            log.error("tracer release: assigning test cases to %s failed — %s", name, e, exc_info=True)
             return 2
 
-    print("tracer release: done ✓", file=sys.stderr)
+    log.info("tracer release: done ✓")
     return 0
 
 
@@ -447,17 +481,21 @@ def _run_predict(args) -> int:
     # Load scope
     scope_path = Path(args.scope)
     if not scope_path.exists():
-        print(f"tracer: scope file not found: {scope_path}", file=sys.stderr)
+        log.error("tracer: scope file not found: %s", scope_path)
         return 2
     scope_data = json.loads(scope_path.read_text(encoding="utf-8"))
     commits = scope_data.get("commits", [])
+    log.debug("tracer predict: scope=%s (%d commit(s), %d changed symbol(s), %d screen(s))",
+              scope_path, len(commits), len(scope_data.get("changed_symbols", [])),
+              len(scope_data.get("affected_screens", [])))
 
     # Create timestamped run dir
     ts = datetime.datetime.now().strftime("%Y-%m-%dT%H-%M-%S")
     run_dir = Path("runs") / ts
     run_dir.mkdir(parents=True, exist_ok=True)
     shutil.copy2(scope_path, run_dir / "scope.json")
-    print(f"tracer predict: run dir → {run_dir}", file=sys.stderr)
+    attach_run_log(run_dir)
+    log.info("tracer predict: run dir → %s", run_dir)
 
     # Load config
     env_candidates = [
@@ -471,6 +509,9 @@ def _run_predict(args) -> int:
     tcm_vertical = args.tcm_vertical or cfg.tcm_vertical_id
     tcm_project = args.tcm_project or cfg.tcm_project_key
     jira_project = args.jira_project
+    log.debug("tracer predict: tcm_project=%s jira_project=%s create_release=%s no_alert=%s",
+              tcm_project, jira_project,
+              getattr(args, "create_release", False), args.no_alert)
 
     # LLM config (needed by semantic enrichment layers)
     llm_cfg = get_llm_config(
@@ -481,78 +522,83 @@ def _run_predict(args) -> int:
 
     # Gap detection
     jira_client = JiraClient(cfg.jira_base_url, cfg.jira_email, cfg.jira_api_token)
-    try:
-        coverage = gd.detect_gaps(commits, jira_client, jira_project)
-    except Exception as e:
-        print(f"tracer predict: Jira gap detection failed ({e}) — continuing without gap data",
-              file=sys.stderr)
-        coverage = []
+    with workflow(logmod.GAP_ANALYSIS):
+        try:
+            coverage = gd.detect_gaps(commits, jira_client, jira_project)
+        except Exception as e:
+            log.warning("tracer predict: Jira gap detection failed (%s) — continuing without gap data",
+                        e, exc_info=True)
+            coverage = []
 
-    uncovered = [c for c in coverage if not c.covered]
-    covered = [c for c in coverage if c.covered]
+        uncovered = [c for c in coverage if not c.covered]
+        covered = [c for c in coverage if c.covered]
+        log.debug("gap detection: %d covered, %d uncovered commit(s)", len(covered), len(uncovered))
 
     # Gap alert
     gap_alert_sent = False
     if uncovered and not args.no_alert:
-        smtp_cfg = SmtpConfig(
-            host=cfg.smtp_host, port=cfg.smtp_port,
-            user=cfg.smtp_user, password=cfg.smtp_password,
-            from_addr=cfg.smtp_from,
-        )
-        author_emails = [c.author_email for c in uncovered if c.author_email]
-        try:
-            mailermod.send_gap_alert(
-                uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project,
-                jira_client=jira_client,
-                scope_data=scope_data,
-                llm_cfg=llm_cfg,
-                jira_base_url=cfg.jira_base_url,
+        with workflow(logmod.EMAIL_ALERT):
+            smtp_cfg = SmtpConfig(
+                host=cfg.smtp_host, port=cfg.smtp_port,
+                user=cfg.smtp_user, password=cfg.smtp_password,
+                from_addr=cfg.smtp_from,
             )
-            print(f"tracer predict: gap alert sent for {len(uncovered)} uncovered commit(s)",
-                  file=sys.stderr)
-            gap_alert_sent = True
-        except Exception as e:
-            print(f"tracer predict: gap alert failed ({e})", file=sys.stderr)
+            author_emails = [c.author_email for c in uncovered if c.author_email]
+            try:
+                mailermod.send_gap_alert(
+                    uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project,
+                    jira_client=jira_client,
+                    scope_data=scope_data,
+                    llm_cfg=llm_cfg,
+                    jira_base_url=cfg.jira_base_url,
+                )
+                log.info("tracer predict: gap alert sent for %d uncovered commit(s)", len(uncovered))
+                gap_alert_sent = True
+            except Exception as e:
+                log.error("tracer predict: gap alert failed (%s)", e, exc_info=True)
 
     # Semantic Layer 3 — find stories for uncovered commits
     l3_included, l3_alerts = [], []
     if uncovered:
-        try:
-            l3_included, l3_alerts = enrich_layer3(
-                uncovered,
-                scope_data.get("changed_symbols", []),
-                scope_data.get("affected_screens", []),
-                jira_client, jira_project, llm_cfg,
-            )
-            if l3_included:
-                print(
-                    f"tracer predict: semantic L3 matched {len(l3_included)} story/stories "
-                    f"for uncovered commits",
-                    file=sys.stderr,
+        with workflow(logmod.SEMANTIC_MATCHING):
+            try:
+                l3_included, l3_alerts = enrich_layer3(
+                    uncovered,
+                    scope_data.get("changed_symbols", []),
+                    scope_data.get("affected_screens", []),
+                    jira_client, jira_project, llm_cfg,
                 )
-        except Exception as e:
-            print(f"tracer predict: semantic L3 failed ({e}) — skipping", file=sys.stderr)
+                if l3_included:
+                    log.info(
+                        "tracer predict: semantic L3 matched %d story/stories for uncovered commits",
+                        len(l3_included),
+                    )
+                log.debug("semantic L3: %d match(es), %d alert(s)", len(l3_included), len(l3_alerts))
+            except Exception as e:
+                log.warning("tracer predict: semantic L3 failed (%s) — skipping", e, exc_info=True)
 
     # Fetch raw Jira stories for covered commits
-    all_jira_keys = list({k for c in covered for k in c.jira_keys})
-    try:
-        jira_stories_raw = jira_client.fetch_raw_by_keys(all_jira_keys) if all_jira_keys else []
-        defects_raw = jira_client.fetch_defects_for_stories(all_jira_keys) if all_jira_keys else []
-    except Exception as e:
-        print(f"tracer predict: Jira story fetch failed ({e})", file=sys.stderr)
-        jira_stories_raw, defects_raw = [], []
-
-    # Merge semantically matched stories into jira_stories_raw
-    if l3_included:
-        semantic_story_keys = [m.key for m in l3_included]
+    with workflow(logmod.JIRA_FETCH):
+        all_jira_keys = list({k for c in covered for k in c.jira_keys})
+        log.debug("jira keys from covered commits: %s", all_jira_keys or "none")
         try:
-            semantic_stories_raw = jira_client.fetch_raw_by_keys(semantic_story_keys)
-            existing_keys = {s["key"] for s in jira_stories_raw}
-            jira_stories_raw = jira_stories_raw + [
-                s for s in semantic_stories_raw if s["key"] not in existing_keys
-            ]
+            jira_stories_raw = jira_client.fetch_raw_by_keys(all_jira_keys) if all_jira_keys else []
+            defects_raw = jira_client.fetch_defects_for_stories(all_jira_keys) if all_jira_keys else []
         except Exception as e:
-            print(f"tracer predict: semantic story fetch failed ({e})", file=sys.stderr)
+            log.error("tracer predict: Jira story fetch failed (%s)", e, exc_info=True)
+            jira_stories_raw, defects_raw = [], []
+
+        # Merge semantically matched stories into jira_stories_raw
+        if l3_included:
+            semantic_story_keys = [m.key for m in l3_included]
+            try:
+                semantic_stories_raw = jira_client.fetch_raw_by_keys(semantic_story_keys)
+                existing_keys = {s["key"] for s in jira_stories_raw}
+                jira_stories_raw = jira_stories_raw + [
+                    s for s in semantic_stories_raw if s["key"] not in existing_keys
+                ]
+            except Exception as e:
+                log.warning("tracer predict: semantic story fetch failed (%s)", e, exc_info=True)
 
     # Include L3 semantic story keys in TC selection
     if l3_included:
@@ -560,15 +606,21 @@ def _run_predict(args) -> int:
         all_jira_keys = list(dict.fromkeys(all_jira_keys + l3_keys))
 
     # Fetch TCM test cases (raw + parsed)
-    try:
-        tcm_raw, all_cases = tcm.fetch_all(
-            tcm_vertical, tcm_project,
-            cfg.tcm_session, cfg.tcm_project_session,
-            refresh_token=cfg.tcm_refresh_token,
-        ) if tcm_vertical else ([], [])
-    except Exception as e:
-        print(f"tracer predict: TCM fetch failed ({e}) — output will be empty", file=sys.stderr)
-        tcm_raw, all_cases = [], []
+    with workflow(logmod.TCM_FETCH):
+        try:
+            if not tcm_vertical:
+                log.warning("tracer predict: TCM_VERTICAL_ID not set — skipping TCM fetch, "
+                            "output will be empty")
+                tcm_raw, all_cases = [], []
+            else:
+                tcm_raw, all_cases = tcm.fetch_all(
+                    tcm_vertical, tcm_project,
+                    cfg.tcm_session, cfg.tcm_project_session,
+                    refresh_token=cfg.tcm_refresh_token,
+                )
+        except Exception as e:
+            log.error("tracer predict: TCM fetch failed (%s) — output will be empty", e, exc_info=True)
+            tcm_raw, all_cases = [], []
 
     # Semantic Layer 4 — find relevant TCs among unlinked cases
     l4_included, l4_alerts = [], []
@@ -581,21 +633,21 @@ def _run_predict(args) -> int:
             f"{s['key']}: {(s.get('fields') or {}).get('summary', '')}"
             for s in jira_stories_raw
         ]
-        try:
-            l4_included, l4_alerts = enrich_layer4(
-                unlinked_tcs,
-                scope_data.get("affected_screens", []),
-                scope_data.get("changed_symbols", []),
-                story_summaries,
-                llm_cfg,
-            )
-            if l4_included:
-                print(
-                    f"tracer predict: semantic L4 matched {len(l4_included)} unlinked TC(s)",
-                    file=sys.stderr,
+        with workflow(logmod.SEMANTIC_MATCHING):
+            try:
+                l4_included, l4_alerts = enrich_layer4(
+                    unlinked_tcs,
+                    scope_data.get("affected_screens", []),
+                    scope_data.get("changed_symbols", []),
+                    story_summaries,
+                    llm_cfg,
                 )
-        except Exception as e:
-            print(f"tracer predict: semantic L4 failed ({e}) — skipping", file=sys.stderr)
+                if l4_included:
+                    log.info("tracer predict: semantic L4 matched %d unlinked TC(s)", len(l4_included))
+                log.debug("semantic L4: %d unlinked TC(s) considered, %d match(es), %d alert(s)",
+                          len(unlinked_tcs), len(l4_included), len(l4_alerts))
+            except Exception as e:
+                log.warning("tracer predict: semantic L4 failed (%s) — skipping", e, exc_info=True)
 
     # Test case selection — hard link chain via jiraStoryKey
     selected = []
@@ -635,10 +687,16 @@ def _run_predict(args) -> int:
                               for s in tc.steps],
                 })
 
+    log.debug("selection: %d test case(s) selected (%s)", len(selected),
+              "linked" if any(s["selection_reason"] == "linked" for s in selected)
+              else "fallback: all active" if selected else "none")
+
     # Write raw JSON files
     (run_dir / "jira_stories.json").write_text(json.dumps(jira_stories_raw, indent=2), encoding="utf-8")
     (run_dir / "defects.json").write_text(json.dumps(defects_raw, indent=2), encoding="utf-8")
     (run_dir / "sdet360testcases.json").write_text(json.dumps(tcm_raw, indent=2), encoding="utf-8")
+    log.debug("wrote jira_stories.json (%d), defects.json (%d), sdet360testcases.json (%d)",
+              len(jira_stories_raw), len(defects_raw), len(tcm_raw))
 
     # Write test_cases.json
     output = {
@@ -698,27 +756,30 @@ def _run_predict(args) -> int:
     }
     out_path = run_dir / "test_cases.json"
     out_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
+    log.debug("wrote %s", out_path)
 
     # Generate HTML report (fails loudly if LLM call fails)
-    try:
-        reportermod.generate(
-            str(run_dir), scope_data, coverage,
-            jira_stories_raw, defects_raw, tcm_raw,
-            llm_cfg,
-            semantic_tcs=l4_included,
-            semantic_alerts=l3_alerts + l4_alerts,
-        )
-        print(f"tracer predict: report.html written ({llm_cfg.provider}/{llm_cfg.model})", file=sys.stderr)
-    except Exception as e:
-        print(f"tracer predict: report generation failed — {e}", file=sys.stderr)
-        return 2
+    with workflow(logmod.REPORT_GENERATION):
+        try:
+            reportermod.generate(
+                str(run_dir), scope_data, coverage,
+                jira_stories_raw, defects_raw, tcm_raw,
+                llm_cfg,
+                semantic_tcs=l4_included,
+                semantic_alerts=l3_alerts + l4_alerts,
+            )
+            log.info("tracer predict: report.html written (%s/%s)", llm_cfg.provider, llm_cfg.model)
+        except Exception as e:
+            log.error("tracer predict: report generation failed — %s", e, exc_info=True)
+            return 2
 
-    print(f"tracer predict: {len(selected)} test case(s) → {run_dir}", file=sys.stderr)
+    log.info("tracer predict: %d test case(s) → %s", len(selected), run_dir)
 
     if getattr(args, "create_release", False):
         rc = _do_create_release(run_dir, ts, tcm_raw, cfg)
         if rc != 0:
             return rc
+    log.debug("tracer predict: completed successfully")
     return 0
 
 
@@ -726,8 +787,14 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="tracer", description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
 
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--log-level", default="INFO", dest="log_level",
+                        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+                        help="console log level (default INFO); the run log file is always DEBUG")
+
     # ── diff subcommand ───────────────────────────────────────────────────
-    d = sub.add_parser("diff", help="scope regression for target's changes relative to base")
+    d = sub.add_parser("diff", parents=[common],
+                       help="scope regression for target's changes relative to base")
     d.add_argument("base", help="baseline ref (e.g. main)")
     d.add_argument("target", help="branch under test")
     d.add_argument("--two-dot", action="store_true", help="raw tip-to-tip diff (skip merge-base)")
@@ -750,7 +817,8 @@ def main(argv: list[str] | None = None) -> int:
                    metavar="MODEL", help="LLM model name (overrides LLM_MODEL env)")
 
     # ── predict subcommand ────────────────────────────────────────────────
-    p = sub.add_parser("predict", help="select test cases from scope.json via TCM + Jira")
+    p = sub.add_parser("predict", parents=[common],
+                       help="select test cases from scope.json via TCM + Jira")
     p.add_argument("--scope", required=True, metavar="PATH",
                    help="scope.json from tracer diff --scope")
     p.add_argument("--out", default="test_cases.json",
@@ -776,11 +844,26 @@ def main(argv: list[str] | None = None) -> int:
 
     args = ap.parse_args(argv)
 
-    if args.cmd == "diff":
-        return _run_diff(args)
-    if args.cmd == "predict":
-        return _run_predict(args)
-    return 1
+    setup_logging(args.log_level)
+    # Tag the argv line with the stage it belongs to — _run_diff/_run_predict
+    # set their own stage, but this line is logged before either is entered.
+    with workflow(logmod.DIFF if args.cmd == "diff" else logmod.PREDICT):
+        log.debug("tracer %s — argv: %s", args.cmd,
+                  " ".join(argv if argv is not None else sys.argv[1:]))
+
+    try:
+        if args.cmd == "diff":
+            return _run_diff(args)
+        if args.cmd == "predict":
+            return _run_predict(args)
+        return 1
+    except Exception:
+        # Console still gets Python's own traceback on re-raise; this puts the
+        # full stack in the run log too, where it can be read after the fact.
+        log.critical("tracer: unhandled error", exc_info=True)
+        raise
+    finally:
+        close_run_log()
 
 
 if __name__ == "__main__":

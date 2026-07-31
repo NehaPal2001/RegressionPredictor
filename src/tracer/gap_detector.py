@@ -7,9 +7,12 @@ Covered commits drive test case selection; uncovered ones trigger the gap alert.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 
 from .jira_client import JiraClient
+
+log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -35,6 +38,8 @@ def detect_gaps(
     Merge commit hashes are skipped for message search to avoid false positives.
     Results from both passes are merged and deduplicated by story key.
     """
+    log.debug("gap detection: classifying %d commit(s) against Jira project %s",
+              len(commits), project_key)
     result = []
     for c in commits:
         message = c.get("message", "")
@@ -55,6 +60,11 @@ def detect_gaps(
             seen.setdefault(i.key, i)
         matching = list(seen.values())
 
+        log.debug("commit %s: %s (hash hits=%d, message hits=%d%s) → %s",
+                  c["hash"], "covered" if matching else "UNCOVERED",
+                  len(by_hash), len(by_msg), ", merge" if is_merge else "",
+                  ",".join(i.key for i in matching) or "no story")
+
         result.append(CommitCoverage(
             hash=c["hash"],
             author_email=c.get("author_email", ""),
@@ -62,4 +72,6 @@ def detect_gaps(
             covered=bool(matching),
             jira_keys=tuple(i.key for i in matching),
         ))
+    log.debug("gap detection: %d/%d commit(s) covered",
+              sum(1 for r in result if r.covered), len(result))
     return result

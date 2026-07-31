@@ -7,11 +7,14 @@ strongest deterministic "test this hard" signal available.
 
 from __future__ import annotations
 
+import logging
 import subprocess
 from dataclasses import dataclass
 from datetime import date as _date
 
 from .diff import GitError
+
+log = logging.getLogger(__name__)
 
 FIX_WORDS = ("fix", "bug", "hotfix", "defect", "patch", "issue")
 
@@ -61,6 +64,8 @@ def recurrence(
     """For each changed range (line numbers valid at `target`), trace its line history
     and keep fix-like commits that predate the branch (reachable from `base`)."""
     prior = _prior_commits(repo, base)
+    log.debug("defect recurrence: scanning %d file(s) against %d prior commit(s) reachable from %s",
+              len(files), len(prior), base)
     hits: list[Recurrence] = []
     seen: set[tuple[str, str]] = set()
     for path, ranges in files:
@@ -91,4 +96,7 @@ def recurrence(
                 if sha in prior and _fixish(subject) and (sha, path) not in seen:
                     seen.add((sha, path))
                     hits.append(Recurrence(path, start, end, sha[:8], subject, date))
+                    log.debug("defect recurrence hit: %s:%d-%d previously fixed by %s (%s) — %s",
+                              path, start, end, sha[:8], date, subject[:80])
+    log.debug("defect recurrence: %d hit(s)", len(hits))
     return hits

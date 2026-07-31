@@ -9,10 +9,13 @@ Raises RuntimeError if the LLM call fails — the caller (cli.py) exits non-zero
 from __future__ import annotations
 
 import json
+import logging
 from pathlib import Path
 
 from . import llm_config as _llm_mod
 from .llm_config import LLMConfig
+
+log = logging.getLogger(__name__)
 
 # Keep a module-level reference for backward compatibility; the generate()
 # function accesses call_llm_api via _llm_mod so that patch("tracer.llm_config.call_llm_api")
@@ -489,8 +492,12 @@ def generate(
     semantic_alerts: list | None = None,
 ) -> None:
     """Generate report.html in run_dir. Raises RuntimeError if LLM call fails."""
+    log.debug("report: building prompt from %d story/stories, %d defect(s), %d test case(s)",
+              len(jira_stories_raw), len(defects_raw), len(tcm_raw))
     prompt = _build_prompt(scope, jira_stories_raw, defects_raw, tcm_raw)
     llm_data = _llm_mod.call_llm_api(prompt, llm_cfg)
     html = _render_html(scope, jira_stories_raw, defects_raw, tcm_raw, llm_data,
                         semantic_tcs=semantic_tcs, semantic_alerts=semantic_alerts)
-    Path(run_dir, "report.html").write_text(html, encoding="utf-8")
+    out = Path(run_dir, "report.html")
+    out.write_text(html, encoding="utf-8")
+    log.debug("report: wrote %s (%d chars)", out, len(html))

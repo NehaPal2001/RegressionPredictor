@@ -14,6 +14,8 @@ Unplug it → the deterministic scope still stands; only the rich prose disappea
 from __future__ import annotations
 
 import json
+import logging
+import time
 from pathlib import Path
 
 from langchain.agents import create_agent
@@ -21,6 +23,8 @@ from langchain_core.tools import tool
 
 from .llm_config import LLMConfig, make_lc_model
 from .loom_client import LoomClient
+
+log = logging.getLogger(__name__)
 
 # Groq free tier is 12k tokens/MINUTE and the react agent re-sends full history each step,
 # so total accumulation must stay under that. Bound tool rounds low + keep each read small:
@@ -64,21 +68,27 @@ def _fmt(syms) -> str:
 def _build_tools(lc: LoomClient, root: Path):
     root = root.resolve()
 
+    # Tool calls are logged so the run log shows what the agent actually looked at —
+    # the difference between grounded notes and a guess.
     @tool
     def loom_search(query: str) -> str:
         """Find Loom code-symbol node ids by name substring (ask Loom where a symbol is)."""
+        log.debug("agent tool: loom_search(%r)", query)
         return _fmt(lc.search(query))
 
     @tool
     def loom_callees(node_id: str) -> str:
         """List the Loom node ids this symbol calls — follow the graph downward."""
+        log.debug("agent tool: loom_callees(%s)", node_id)
         return _fmt(lc.callees(node_id))
 
     @tool
     def read_symbol(node_id: str) -> str:
         """Read the actual current source of a Loom node id (Loom gives the location)."""
+        log.debug("agent tool: read_symbol(%s)", node_id)
         sym = lc.get_symbol(node_id)
         if sym is None:
+            log.debug("agent tool: read_symbol(%s) — no such node", node_id)
             return f"(no Loom node {node_id})"
         fp = (root / sym.path).resolve()
         if not str(fp).startswith(str(root)) or not fp.is_file():
@@ -95,9 +105,11 @@ def _build_tools(lc: LoomClient, root: Path):
     def grep_repo(pattern: str) -> str:
         """Search java/py source for a regex — only when Loom has no node for what you need."""
         import re
+        log.debug("agent tool: grep_repo(%r)", pattern)
         try:
             rx = re.compile(pattern, re.IGNORECASE)
-        except re.error:
+        except re.error as e:
+            log.debug("agent tool: grep_repo(%r) — invalid regex (%s)", pattern, e)
             return "(invalid regex)"
         hits: list[str] = []
         for ext in ("*.java", "*.py"):
@@ -119,19 +131,30 @@ def investigate(scope: dict, lc: LoomClient, repo_root: str | Path, cfg: LLMConf
     """Run the LangGraph react agent; return grounded regression notes."""
     llm = make_lc_model(cfg)
     agent = create_agent(llm, _build_tools(lc, Path(repo_root)), system_prompt=SYSTEM)
+    log.debug("agent: investigating %d screen(s) with %s/%s (recursion limit %d)",
+              len(scope.get("screens_to_investigate", [])), cfg.provider, cfg.model,
+              RECURSION_LIMIT)
+    started = time.monotonic()
     result = agent.invoke(
         {"messages": [("user", "Deterministic scope to investigate:\n" + json.dumps(scope, indent=1))]},
         config={"recursion_limit": RECURSION_LIMIT},
     )
-    return (result["messages"][-1].content or "").strip()
+    notes = (result["messages"][-1].content or "").strip()
+    log.debug("agent: %d message(s) exchanged, %d chars of notes",
+              len(result.get("messages", [])), len(notes),
+              extra={"duration": time.monotonic() - started})
+    return notes
 
 
 def try_investigate(scope: dict, lc: LoomClient, repo_root: str | Path, cfg: LLMConfig | None) -> tuple[str | None, str]:
     """(notes, status). Never raises — the deterministic report must always ship."""
     if cfg is None or not cfg.api_key:
         provider = cfg.provider if cfg else "LLM"
+        log.debug("agent: no API key for %s — skipping investigation", provider)
         return None, f"no API key for {provider} — skipped AI investigation (deterministic scope is complete)"
     try:
         return investigate(scope, lc, repo_root, cfg), "ok"
     except Exception as e:  # LangGraph/network/recursion — never sink the deterministic report
+        log.warning("agent: investigation failed (%s: %s) — deterministic scope unaffected",
+                    type(e).__name__, e, exc_info=True)
         return None, f"AI investigation failed ({type(e).__name__}: {e}) — deterministic scope unaffected"

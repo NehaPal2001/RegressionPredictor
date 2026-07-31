@@ -12,10 +12,14 @@ CLI flags --llm-provider / --llm-model override env values per run.
 from __future__ import annotations
 
 import json
+import logging
 import os
+import time
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 _DEFAULTS: dict[str, str] = {
     "groq": "llama-3.3-70b-versatile",
@@ -75,6 +79,14 @@ def get_llm_config(
     model = model_override or get("LLM_MODEL", _DEFAULTS[provider])
     api_key = get("GROQ_API_KEY") if provider == "groq" else get("OPENAI_API_KEY")
 
+    # The key itself is never logged — only whether one was found, because an
+    # empty key surfaces as an opaque 401 much later.
+    if not api_key:
+        log.warning("no API key for provider %s — LLM calls will fail with 401 "
+                    "(set %s in .env)", provider,
+                    "GROQ_API_KEY" if provider == "groq" else "OPENAI_API_KEY")
+    log.debug("llm config: provider=%s model=%s api_key=%s",
+              provider, model, "set" if api_key else "<empty>")
     return LLMConfig(provider=provider, model=model, api_key=api_key)
 
 
@@ -105,10 +117,21 @@ def call_llm_api(prompt: str, cfg: LLMConfig) -> dict:
     req.add_header("Authorization", f"Bearer {cfg.api_key}")
     req.add_header("Content-Type", "application/json")
     req.add_header("User-Agent", _USER_AGENTS[cfg.provider])
+    log.debug("llm call: %s/%s prompt=%d chars", cfg.provider, cfg.model, len(prompt))
+    started = time.monotonic()
     try:
         with urllib.request.urlopen(req) as resp:
             data = json.loads(resp.read())
         content = data["choices"][0]["message"]["content"]
+        usage = data.get("usage") or {}
+        log.debug("llm call: %s/%s ok (prompt=%s completion=%s total=%s tokens)",
+                  cfg.provider, cfg.model,
+                  usage.get("prompt_tokens", "?"), usage.get("completion_tokens", "?"),
+                  usage.get("total_tokens", "?"),
+                  extra={"duration": time.monotonic() - started})
         return json.loads(content)
     except Exception as e:
+        # debug: raises to a caller that reports it; the traceback and timing
+        log.debug("llm call failed: %s/%s — %s", cfg.provider, cfg.model, e,
+                  exc_info=True, extra={"duration": time.monotonic() - started})
         raise RuntimeError(f"{cfg.provider.upper()} LLM call failed: {e}") from e

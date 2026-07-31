@@ -7,9 +7,12 @@ reads each .env file in order (first value wins). Never raises on missing keys
 
 from __future__ import annotations
 
+import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -39,10 +42,14 @@ class PredictConfig:
 def _read_env(*env_files: str | Path) -> dict[str, str]:
     """Build env dict: os.environ first, then .env files (first value wins)."""
     env: dict[str, str] = dict(os.environ)
+    found = 0
     for f in env_files:
         p = Path(f)
         if not p.exists():
+            log.debug("env file not found: %s", p)
             continue
+        found += 1
+        log.debug("env file loaded: %s", p)
         for line in p.read_text(encoding="utf-8").splitlines():
             line = line.strip()
             if not line or line.startswith("#"):
@@ -52,7 +59,16 @@ def _read_env(*env_files: str | Path) -> dict[str, str]:
             v = v.strip().strip("\"'")
             if k and k not in env:
                 env[k] = v
+    if env_files and not found:
+        log.warning("no .env file found (tried: %s) — Jira, TCM, SMTP and LLM "
+                    "credentials will be empty",
+                    ", ".join(str(Path(f)) for f in env_files))
     return env
+
+
+def _presence(e: dict[str, str], *keys: str) -> str:
+    """'KEY=set KEY2=MISSING' — presence only, never the value itself."""
+    return " ".join(f"{k}={'set' if e.get(k) else 'MISSING'}" for k in keys)
 
 
 def load_predict_config(*env_files: str | Path) -> PredictConfig:
@@ -60,6 +76,15 @@ def load_predict_config(*env_files: str | Path) -> PredictConfig:
     e = _read_env(*env_files)
     emails_raw = e.get("ALERT_EMAILS", "")
     alert_emails = [a.strip() for a in emails_raw.split(",") if a.strip()]
+    # Secrets are never written to the log — only whether each one was found.
+    log.debug("predict config — jira: %s",
+              _presence(e, "JIRA_BASE_URL", "JIRA_EMAIL", "JIRA_API_TOKEN"))
+    log.debug("predict config — tcm: %s",
+              _presence(e, "TCM_SESSION", "TCM_PROJECT_SESSION", "TCM_REFRESH_TOKEN",
+                        "TCM_VERTICAL_ID", "TCM_PROJECT_KEY", "TCM_PROJECT_ID"))
+    log.debug("predict config — smtp: %s, %d alert recipient(s)",
+              _presence(e, "SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD", "SMTP_FROM"),
+              len(alert_emails))
     return PredictConfig(
         jira_base_url=e.get("JIRA_BASE_URL", "https://sdettech-tea.atlassian.net"),
         jira_email=e.get("JIRA_EMAIL", ""),

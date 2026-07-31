@@ -8,9 +8,12 @@ controller-class-name fallback so the tool works before anyone curates YAML.
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
+
+log = logging.getLogger(__name__)
 
 MAPPING = re.compile(r"@(Get|Post|Put|Delete|Patch|Request)Mapping\s*(?:\(([^)]*)\))?")
 STRING_LIT = re.compile(r'"([^"]*)"')
@@ -72,6 +75,7 @@ def load_screen_map(path: str | Path) -> dict[str, str]:
     """Flat YAML subset: one `prefix: Screen Name` per line. Missing file -> empty map."""
     p = Path(path)
     if not p.exists():
+        log.debug("screen map not found at %s", p)
         return {}
     out = {}
     for line in p.read_text().splitlines():
@@ -80,6 +84,7 @@ def load_screen_map(path: str | Path) -> dict[str, str]:
             continue
         k, v = line.split(":", 1)
         out[k.strip().strip("\"'")] = v.strip().strip("\"'")
+    log.debug("screen map loaded from %s: %d prefix mapping(s)", p, len(out))
     return out
 
 
@@ -116,6 +121,9 @@ class EndpointIndex:
         self.root = Path(repo_root)
         self.screen_map = screen_map
         self._files: dict[str, list[str] | None] = {}  # path -> lines (None = not a controller)
+        if not screen_map:
+            log.debug("EndpointIndex: no screens.yaml mappings — screen names fall back to "
+                      "humanized controller class names")
 
     def _controller_lines(self, rel_path: str) -> list[str] | None:
         if rel_path not in self._files:

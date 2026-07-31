@@ -8,12 +8,15 @@ Never sends if there are no uncovered commits.
 from __future__ import annotations
 
 import datetime
+import logging
 import smtplib
 from dataclasses import dataclass
 from email.mime.text import MIMEText
 
 from .gap_detector import CommitCoverage
 from .llm_config import LLMConfig, call_llm_api
+
+log = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -71,13 +74,21 @@ Return JSON only:
     {{"name": "...", "detail": "...", "business_impact": "..."}}
   ]
 }}"""
+    log.debug("gap narrative: asking %s/%s about %d uncovered commit(s), %d open story/stories",
+              llm_cfg.provider, llm_cfg.model, len(uncovered), len(open_stories))
     try:
         result = call_llm_api(prompt, llm_cfg)
-        return {
+        narrative = {
             "summary": result.get("summary"),
             "unplanned_areas": result.get("unplanned_areas") or [],
         }
-    except Exception:
+        log.debug("gap narrative: %d unplanned area(s), summary=%s",
+                  len(narrative["unplanned_areas"]), bool(narrative["summary"]))
+        return narrative
+    except Exception as e:
+        # Falls back to the plain-text email body — worth knowing why.
+        log.warning("gap narrative: LLM call failed (%s) — falling back to plain-text alert",
+                    e, exc_info=True)
         return {"summary": None, "unplanned_areas": []}
 
 
@@ -224,16 +235,21 @@ def send_gap_alert(
 ) -> None:
     """Send gap alert email. No-op if uncovered is empty."""
     if not uncovered:
+        log.debug("gap alert: nothing uncovered — not sending")
         return
     recipients = sorted(set(author_emails) | set(team_emails))
     if not recipients:
+        log.warning("gap alert: %d uncovered commit(s) but no recipients "
+                    "(no commit authors and ALERT_EMAILS empty) — not sending", len(uncovered))
         return
 
     html_body = None
     if jira_client is not None and llm_cfg is not None:
         try:
             open_stories = jira_client.fetch_open_stories(project_key)
-        except Exception:
+        except Exception as e:
+            log.warning("gap alert: could not fetch open stories (%s) — "
+                        "narrative will have no story candidates", e, exc_info=True)
             open_stories = []
         narrative = build_gap_narrative(
             uncovered, open_stories, scope_data or {}, project_key, llm_cfg
@@ -266,7 +282,16 @@ def send_gap_alert(
     msg["From"] = smtp_cfg.from_addr
     msg["To"] = ", ".join(recipients)
 
-    with smtplib.SMTP(smtp_cfg.host, smtp_cfg.port) as server:
-        server.starttls()
-        server.login(smtp_cfg.user, smtp_cfg.password)
-        server.sendmail(smtp_cfg.from_addr, recipients, msg.as_string())
+    # Recipients and host are logged; the SMTP password never is.
+    log.debug("gap alert: sending %s body to %d recipient(s) %s via %s:%s as %s",
+              "html" if html_body else "plain", len(recipients), recipients,
+              smtp_cfg.host, smtp_cfg.port, smtp_cfg.user or "<no user>")
+    try:
+        with smtplib.SMTP(smtp_cfg.host, smtp_cfg.port) as server:
+            server.starttls()
+            server.login(smtp_cfg.user, smtp_cfg.password)
+            server.sendmail(smtp_cfg.from_addr, recipients, msg.as_string())
+    except smtplib.SMTPException as e:
+        log.debug("gap alert: SMTP send failed (%s)", e, exc_info=True)
+        raise
+    log.debug("gap alert: sent")

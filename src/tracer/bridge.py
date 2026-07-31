@@ -8,12 +8,15 @@ screen is labeled `inferred` — the LLM never decides reachability.
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
 
 from .loom_client import LoomClient, Symbol
 from .screens import Endpoint
+
+log = logging.getLogger(__name__)
 
 WILDCARD = "{*}"
 
@@ -215,10 +218,16 @@ def resolve_client_screens(
     mappings: list[ScreenMapping] = []
     matched: set[str] = set()
     seen: set[tuple[str, str, str]] = set()
+    call_sites = 0
+    indirected = 0
+    log.debug("bridge: %d backend endpoint(s), %d client route(s) loaded",
+              len(endpoints), len(routes))
 
     for from_id, verb_name, call_context in client_lc.api_call_sites():
+        call_sites += 1
         raw = extract_endpoint(call_context)
         if raw is None:  # fully indirected — cannot match, leaves endpoints unresolved
+            indirected += 1
             continue
         verb = extract_verb(verb_name)
         client_segs = normalize_path(raw)
@@ -240,4 +249,7 @@ def resolve_client_screens(
 
     unresolved = [e for e in endpoints if e.node_id not in matched]
     match_rate = len(matched) / len(endpoints) if endpoints else 0.0
+    log.debug("bridge: %d client call site(s) scanned (%d fully indirected), "
+              "%d mapping(s), %d endpoint(s) unresolved, match rate %.0f%%",
+              call_sites, indirected, len(mappings), len(unresolved), match_rate * 100)
     return BridgeResult(mappings, unresolved, match_rate)
