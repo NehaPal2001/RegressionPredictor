@@ -26,6 +26,62 @@ _RISK_ORDER = {"HIGH": 2, "MEDIUM": 1, "MED": 1, "LOW": 0}
 _PRIORITY_TO_RISK = {"High": "HIGH", "Medium": "MED", "Low": "LOW"}
 
 
+_TAB_CSS = """
+  .tab-nav { position: sticky; top: 0; z-index: 20; display: flex; gap: .3rem;
+             overflow-x: auto; white-space: nowrap; background: #f1f5f9;
+             border-bottom: 1px solid #e2e8f0; padding: .5rem 0 0; margin-bottom: 1rem; }
+  .tab-btn { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .4rem;
+             font: inherit; font-size: .8rem; font-weight: 600; color: #64748b;
+             background: #fff; border: 1px solid #e2e8f0; border-bottom: none;
+             border-radius: 8px 8px 0 0; padding: .5rem .9rem; cursor: pointer; }
+  .tab-btn:hover { color: #334155; background: #f8fafc; }
+  .tab-btn.active { color: #0f172a; background: #fff; border-color: #cbd5e1;
+                    box-shadow: inset 0 3px 0 #2563eb; }
+  .tab-btn .tcount { background: #e2e8f0; color: #475569; font-size: .68rem;
+                     font-weight: 700; padding: .05rem .4rem; border-radius: 9px; }
+  .tab-btn.active .tcount { background: #dbeafe; color: #1d4ed8; }
+  .tab-panel { display: none; }
+  .tab-panel > .sec-header:first-child { margin-top: 0; }
+  /* Printing must show the whole report, not just the open tab — this file gets
+     attached to emails and saved as PDF. */
+  @media print {
+    .tab-nav { display: none; }
+    .tab-panel { display: block !important; page-break-before: always; }
+    .tab-panel:first-of-type { page-break-before: avoid; }
+  }
+"""
+
+_TAB_SCRIPT = """
+<script>
+(function () {
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+  function show(id) {
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].classList.toggle('active', btns[i].dataset.tab === id);
+    }
+    for (var j = 0; j < panels.length; j++) {
+      panels[j].style.display = (panels[j].id === id) ? 'block' : 'none';
+    }
+  }
+  for (var k = 0; k < btns.length; k++) {
+    btns[k].addEventListener('click', function () {
+      show(this.dataset.tab);
+      history.replaceState(null, '', '#' + this.dataset.tab);
+    });
+  }
+  var initial = location.hash.slice(1);
+  var match = document.querySelector('.tab-btn[data-tab="' + initial + '"]');
+  show(match ? initial : (btns.length ? btns[0].dataset.tab : ''));
+  window.addEventListener('hashchange', function () {
+    var h = location.hash.slice(1);
+    if (document.querySelector('.tab-btn[data-tab="' + h + '"]')) show(h);
+  });
+})();
+</script>
+"""
+
+
 def _build_prompt(scope: dict, jira_stories_raw: list[dict], defects_raw: list[dict], tcm_raw: list[dict]) -> str:
     stories_summary = [
         f"  - {s['key']}: {s['fields'].get('summary', '')} (priority: {(s['fields'].get('priority') or {}).get('name', 'Unknown')})"
@@ -314,6 +370,27 @@ def _render_html(
         for s in jira_stories_raw
     )
 
+    scope_n = feature_cards.count('class="feature-card')
+    checklist_n = all_tc_pills.count('class="tc-pill')
+    blind_n = blind_items.count('class="blind-card"')
+    stories_n = story_pills.count('class="story-pill"')
+
+    tabs = [
+        ("regression-scope", "Scope", scope_n),
+        ("test-checklist", "Test Checklist", checklist_n),
+        ("blind-spots", "Blind Spots", blind_n),
+        ("jira-stories", "Jira Stories", stories_n),
+    ]
+    tab_nav = (
+        '<nav class="tab-nav">'
+        + "".join(
+            f'<button type="button" class="tab-btn" data-tab="{tab_id}">{label}'
+            f'<span class="tcount">{count}</span></button>'
+            for tab_id, label, count in tabs
+        )
+        + "</nav>"
+    )
+
     defect_alert = ""
     if defects_raw:
         defect_alert = f'''<div class="alert">
@@ -424,6 +501,7 @@ def _render_html(
   .tg-errors li::before {{ content: "✕"; color: #dc2626; font-weight: 700; font-size: .8rem; flex-shrink: 0; }}
   .regression-focus {{ background: #fefce8; border: 1px solid #fde047; border-radius: 6px; padding: .5rem .7rem; font-size: .78rem; color: #713f12; margin-top: .6rem; }}
   .regression-focus strong {{ display: block; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #92400e; margin-bottom: .2rem; }}
+{_TAB_CSS}
 </style>
 </head>
 <body>
@@ -452,29 +530,40 @@ def _render_html(
 
   {semantic_alert}
 
-  <div class="sec-header">
-    <h2>Regression Scope</h2>
-    <span class="count">{len(jira_stories_raw)} stories &middot; ordered by risk</span>
-  </div>
+  {tab_nav}
 
-  {feature_cards}
+  <section class="tab-panel" id="regression-scope">
+    <div class="sec-header">
+      <h2>Regression Scope</h2>
+      <span class="count">{len(jira_stories_raw)} stories &middot; ordered by risk</span>
+    </div>
 
-  <div class="sec-header"><h2>Master Test Case Checklist</h2><span class="count">{tc_count} required for this regression</span></div>
-  <div class="checklist-grid">
-    {all_tc_pills}
-  </div>
+    {feature_cards}
+  </section>
 
-  <div class="sec-header"><h2>Blind Spots</h2></div>
-  {blind_items if blind_items else '<div class="blind-card"><div class="bc-detail">No blind spots identified.</div></div>'}
+  <section class="tab-panel" id="test-checklist">
+    <div class="sec-header"><h2>Master Test Case Checklist</h2><span class="count">{tc_count} required for this regression</span></div>
+    <div class="checklist-grid">
+      {all_tc_pills}
+    </div>
+  </section>
 
-  <div class="sec-header"><h2>Jira Stories in Scope</h2></div>
-  <div>{story_pills}</div>
+  <section class="tab-panel" id="blind-spots">
+    <div class="sec-header"><h2>Blind Spots</h2></div>
+    {blind_items if blind_items else '<div class="blind-card"><div class="bc-detail">No blind spots identified.</div></div>'}
+  </section>
+
+  <section class="tab-panel" id="jira-stories">
+    <div class="sec-header"><h2>Jira Stories in Scope</h2></div>
+    <div>{story_pills}</div>
+  </section>
 
   <div class="report-footer">
-    <span>Generated by Tracer &middot; {generated_at}</span>
+    <span>Generated by RegressIQ &middot; {generated_at}</span>
     <span>{base} &rarr; {target} &middot; {len(symbols)} changed symbols &middot; {commit_count} commits</span>
   </div>
 </div>
+{_TAB_SCRIPT}
 </body>
 </html>'''
 
