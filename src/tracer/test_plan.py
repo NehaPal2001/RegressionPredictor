@@ -1,7 +1,10 @@
-"""Test Plan email — a second, independent message sent alongside the gap alert.
+"""Test Plan email — the single consolidated message sent per run.
 
-Everything factual in this email is computed here, in plain Python, from data the
-run already produced:
+Formerly one of two emails (the other being the standalone requirement-gap
+alert); the gap findings are now folded in here as a "Requirement Gap Analysis"
+section so the run dispatches exactly one email. The LLM gap narrative is passed
+in via ``gap_narrative`` (see ``mailer.build_gap_narrative``); everything else in
+this email is computed here, in plain Python, from data the run already produced:
 
 ===========================  ============================================
 Section                      Source
@@ -16,8 +19,12 @@ Entry / Exit Criteria        fixed policy text — config, never generated
 Test Case Summary            selected test case count + priority breakdown
 ===========================  ============================================
 
-No LLM is involved: every number and list is a direct count over the real data
-structures, so the email cannot state anything the run did not actually produce.
+Every number and list in the sections above is a direct count over the real data
+structures, so those sections cannot state anything the run did not actually
+produce. The one exception is the Requirement Gap Analysis section, whose prose
+comes from the LLM gap narrative — it is omitted entirely when no narrative is
+supplied, and the factual Coverage Risks table still lists the uncovered commits
+either way.
 
 The markup follows transactional-email rules rather than web-page rules —
 table-based layout, inline styles on everything load-bearing, web-safe fonts,
@@ -25,8 +32,9 @@ explicit cell background colours, max-width 640px single column. Outlook does no
 implement flexbox or grid, and several clients drop or invert unstyled areas
 under dark mode.
 
-``mailer.build_gap_narrative`` / ``mailer.send_gap_alert`` are deliberately
-untouched by this module — the two emails share only their trigger condition.
+The narrative is produced by ``mailer.build_gap_narrative`` and passed in by the
+caller; ``mailer.send_gap_alert`` (the old standalone gap email) is no longer
+invoked by the predict flow.
 """
 
 from __future__ import annotations
@@ -236,6 +244,48 @@ def _stat(label: str, value: str, colour: str) -> str:
       </td>"""
 
 
+def _gap_analysis_card(narrative: dict | None) -> str:
+    """Business-level requirement-gap narrative, folded in from the old gap alert.
+
+    ``narrative`` is ``mailer.build_gap_narrative``'s output —
+    ``{"summary": str|None, "unplanned_areas": [{name, detail, business_impact}]}``.
+    Returns "" when no narrative or summary is available, so the section simply
+    does not appear; the factual Coverage Risks card still lists the uncovered
+    commits regardless.
+    """
+    if not narrative:
+        return ""
+    summary = narrative.get("summary")
+    if not summary:
+        return ""
+    areas = narrative.get("unplanned_areas") or []
+
+    summary_html = (
+        f'<div style="margin:0 0 4px 0; font-family:{_FONT}; font-size:14px; '
+        f'line-height:21px; color:{_INK}; border-left:3px solid {_WARN}; '
+        f'padding-left:14px;">{_esc(summary)}</div>'
+    )
+    areas_html = ""
+    if areas:
+        areas_html = (
+            '<div style="height:14px; line-height:14px; font-size:1px;">&nbsp;</div>'
+            + _list_table(
+                ["Unplanned area", "What changed", "Business impact"],
+                [[_esc(a.get("name", "")), _esc(a.get("detail", "")),
+                  _esc(a.get("business_impact", ""))]
+                 for a in areas],
+                "Related commits could not be grouped into named areas.",
+            )
+        )
+    return _card(
+        "Requirement Gap Analysis",
+        summary_html + areas_html,
+        note=("Changes not linked to any approved Jira story — no planned "
+              "requirement covers them, so no test coverage is assigned. "
+              "The commit-level breakdown is in Coverage Risks below."),
+    )
+
+
 # ── public API ───────────────────────────────────────────────────────────────
 
 
@@ -247,13 +297,17 @@ def build_test_plan_html(
     uncovered: list,
     open_stories: list[dict] | None,
     cfg,
+    gap_narrative: dict | None = None,
 ) -> str:
     """Return the complete standalone Test Plan email document.
 
     ``scope`` is scope.json, ``jira_stories``/``defects`` are the raw Jira dicts
     written to jira_stories.json / defects.json, ``test_cases`` is the selected
     list from test_cases.json, ``uncovered`` is the CommitCoverage list, and
-    ``cfg`` is the loaded PredictConfig.
+    ``cfg`` is the loaded PredictConfig. ``gap_narrative`` is
+    ``mailer.build_gap_narrative``'s output; when present its summary and
+    unplanned-area breakdown render as a Requirement Gap Analysis section, and
+    when absent that section is simply omitted.
     """
     base = scope.get("base", "") or "unknown"
     target = scope.get("target", "") or "unknown"
@@ -336,6 +390,8 @@ def build_test_plan_html(
          _esc((getattr(c, "message", "") or "")[:120])]
         for c in uncovered
     ]
+    gap_card = _gap_analysis_card(gap_narrative)
+
     risks = _card(
         "Coverage Risks &amp; Gaps",
         _list_table(
@@ -426,6 +482,7 @@ def build_test_plan_html(
         {defect_scope}
         {approach}
         {tc_summary}
+        {gap_card}
         {risks}
         {environment}
         {criteria}

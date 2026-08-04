@@ -346,12 +346,17 @@ def _run_diff(args) -> int:
     return 0
 
 
-def _automation_status(raw_tc: dict) -> str:
-    """Read AUTOMATION_STATUS out of a raw TCM test case's customFieldValues."""
+def _cf(raw_tc: dict, key: str) -> str:
+    """Read a customFieldValues entry off a raw TCM test case."""
     for f in raw_tc.get("customFieldValues") or []:
-        if f.get("fieldKey") == "AUTOMATION_STATUS":
+        if f.get("fieldKey") == key:
             return f.get("fieldValue") or ""
     return ""
+
+
+def _automation_status(raw_tc: dict) -> str:
+    """Read AUTOMATION_STATUS out of a raw TCM test case's customFieldValues."""
+    return _cf(raw_tc, "AUTOMATION_STATUS")
 
 
 @workflow(logmod.RELEASE)
@@ -360,12 +365,50 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
 
     Test cases are split by AUTOMATION_STATUS: "Can Not Be Automated" goes to the
     manual cycle, everything else to the automation cycle.
+
+    Everything the TCM API hands back (release id, test cycle id, execution cycle
+    ids, the test case ids assigned to each) is recorded in ``release.json`` inside
+    the run dir — written on every exit path, so a partial run is still auditable.
     """
+    import datetime
+
+    manifest: dict = {
+        "version": 1,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc)
+                        .isoformat().replace("+00:00", "Z"),
+        "run_ts": ts,
+        "run_dir": str(run_dir),
+        "status": "not_started",
+        "tcm": {
+            "vertical_id": cfg.tcm_vertical_id,
+            "project_id": cfg.tcm_project_id,
+            "project_key": cfg.tcm_project_key,
+        },
+        "release": None,
+        "test_cycle": None,
+        "execution_cycles": [],
+        "test_cases": {"total": 0, "manual": [], "automation": [], "details": []},
+        "errors": [],
+    }
+
+    def _save(status: str) -> None:
+        manifest["status"] = status
+        path = run_dir / "release.json"
+        path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        log.info("RegressIQ release: manifest → %s", path)
+
+    def _fail(step: str, message: str) -> None:
+        manifest["errors"].append({"step": step, "message": message})
+
     if not tcm_raw:
         log.warning("RegressIQ release: no test cases fetched — skipping release creation")
+        _fail("classify", "no test cases fetched")
+        _save("skipped")
         return 0
     if not cfg.tcm_project_id:
         log.error("RegressIQ release: TCM_PROJECT_ID not set in .env")
+        _fail("config", "TCM_PROJECT_ID not set in .env")
+        _save("failed")
         return 2
 
     log.info("RegressIQ release: classifying %d test cases by Automation Status...", len(tcm_raw))
@@ -374,10 +417,26 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
         uid = tc.get("uniqueTestcaseId")
         if not uid:
             continue
-        if _automation_status(tc).strip().lower() == "can not be automated":
-            manual_ids.append(uid)
-        else:
-            automation_ids.append(uid)
+        auto_status = _automation_status(tc)
+        bucket = "manual" if auto_status.strip().lower() == "can not be automated" else "automation"
+        (manual_ids if bucket == "manual" else automation_ids).append(uid)
+        manifest["test_cases"]["details"].append({
+            "unique_testcase_id": uid,
+            "testcase_id": tc.get("id"),
+            "title": _cf(tc, "TEST_CASE_TITLE"),
+            "priority": _cf(tc, "TEST_CASE_PRIORITY"),
+            "category": _cf(tc, "TEST_CATEGORY"),
+            "automation_status": auto_status,
+            "testcase_status": tc.get("testcaseStatus") or "",
+            "jira_story_key": tc.get("jiraStoryKey") or "NA",
+            "jira_story_id": tc.get("jiraStoryId"),
+            "cycle": bucket,
+        })
+    manifest["test_cases"].update({
+        "total": len(manual_ids) + len(automation_ids),
+        "manual": manual_ids,
+        "automation": automation_ids,
+    })
     log.info("RegressIQ release: %d manual (Can Not Be Automated), %d automation",
              len(manual_ids), len(automation_ids))
     log.debug("manual ids: %s", manual_ids or "none")
@@ -385,27 +444,42 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
 
     if not manual_ids and not automation_ids:
         log.warning("RegressIQ release: no test cases to assign — nothing created")
+        _fail("classify", "no test cases to assign")
+        _save("skipped")
         return 0
 
     vid, pid = cfg.tcm_vertical_id, cfg.tcm_project_id
     sess, proj_sess, refresh = cfg.tcm_session, cfg.tcm_project_session, cfg.tcm_refresh_token
 
     release_name = f"Regression"
+    release_payload = {
+        "releaseName": release_name,
+        "releaseDescription": "Automatically generated regression release",
+        "releaseVersion": "1.0",
+        "status": "PLANNED",
+    }
     try:
         log.info('RegressIQ release: creating release "%s"...', release_name)
-        release = tcm.create_release(vid, pid, {
-            "releaseName": release_name,
-            "releaseDescription": "Automatically generated regression release",
-            "releaseVersion": "1.0",
-            "status": "PLANNED",
-        }, sess, proj_sess, refresh)
+        release = tcm.create_release(vid, pid, release_payload, sess, proj_sess, refresh)
         release_id = release.get("id")
+        manifest["release"] = {
+            "id": release_id,
+            "name": release_name,
+            "version": release_payload["releaseVersion"],
+            "description": release_payload["releaseDescription"],
+            "status": release_payload["status"],
+            "response": release,
+        }
         if not release_id:
             log.error("RegressIQ release: create release returned no id — %s", release)
+            _fail("create_release", "response carried no id")
+            _save("failed")
             return 2
         log.info("RegressIQ release: ✓ release created (id: %s)", release_id)
     except Exception as e:
         log.error("RegressIQ release: create release failed — %s", e, exc_info=True)
+        _fail("create_release", str(e))
+        _save("failed")
         return 2
 
     cycle_name = f"Test Cycle"
@@ -419,12 +493,24 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
             "status": "PLANNED",
         }, sess, proj_sess, refresh)
         test_cycle_id = cycle.get("id")
+        manifest["test_cycle"] = {
+            "id": test_cycle_id,
+            "name": cycle_name,
+            "version_number": "1.0",
+            "release_id": release_id,
+            "status": "PLANNED",
+            "response": cycle,
+        }
         if not test_cycle_id:
             log.error("RegressIQ release: create test cycle returned no id — %s", cycle)
+            _fail("create_test_cycle", "response carried no id")
+            _save("failed")
             return 2
         log.info("RegressIQ release: ✓ test cycle created (id: %s)", test_cycle_id)
     except Exception as e:
         log.error("RegressIQ release: create test cycle failed — %s", e, exc_info=True)
+        _fail("create_test_cycle", str(e))
+        _save("failed")
         return 2
 
     exec_cycles = [
@@ -444,31 +530,54 @@ def _do_create_release(run_dir: Path, ts: str, tcm_raw: list[dict], cfg) -> int:
                 "status": "NOT_STARTED",
             }, sess, proj_sess, refresh)
             ec_id = ec.get("id")
+            entry = {
+                "id": ec_id,
+                "name": name,
+                "description": desc,
+                "type": ctype,
+                "status": "NOT_STARTED",
+                "test_cycle_id": test_cycle_id,
+                "release_id": release_id,
+                "test_case_count": len(ids),
+                "unique_testcase_ids": ids,
+                "assigned": False,
+                "response": ec,
+            }
+            manifest["execution_cycles"].append(entry)
             if not ec_id:
                 log.error("RegressIQ release: create execution cycle %s returned no id — %s", name, ec)
+                _fail(f"create_execution_cycle[{name}]", "response carried no id")
+                _save("failed")
                 return 2
             log.info("RegressIQ release: ✓ execution cycle created (id: %s)", ec_id)
-            created.append((name, ec_id, ids))
+            created.append((name, ec_id, ids, entry))
         except Exception as e:
             log.error("RegressIQ release: create execution cycle %s failed — %s", name, e, exc_info=True)
+            _fail(f"create_execution_cycle[{name}]", str(e))
+            _save("failed")
             return 2
 
-    for name, ec_id, ids in created:
+    for name, ec_id, ids, entry in created:
         if not ids:
             log.info("RegressIQ release: skipping %s assignment (0 test cases)",
                      name.split()[0].lower())
             continue
         try:
             log.info("RegressIQ release: assigning %d test case(s) to %s...", len(ids), name)
-            tcm.assign_test_cases_bulk(vid, pid, ec_id, {
+            resp = tcm.assign_test_cases_bulk(vid, pid, ec_id, {
                 "cycleId": ec_id,
                 "uniqueTestcaseIds": ids,
             }, sess, proj_sess, refresh)
+            entry["assigned"] = True
+            entry["assign_response"] = resp
             log.info("RegressIQ release: ✓ %d test case(s) assigned", len(ids))
         except Exception as e:
             log.error("RegressIQ release: assigning test cases to %s failed — %s", name, e, exc_info=True)
+            _fail(f"assign_test_cases[{name}]", str(e))
+            _save("failed")
             return 2
 
+    _save("success")
     log.info("RegressIQ release: done ✓")
     return 0
 
@@ -535,31 +644,21 @@ def _run_predict(args) -> int:
         covered = [c for c in coverage if c.covered]
         log.debug("gap detection: %d covered, %d uncovered commit(s)", len(covered), len(uncovered))
 
-    # Gap alert
-    gap_alert_sent = False
+    # SMTP config + recipients. The requirement-gap findings are no longer sent
+    # as their own email — they are folded into the single Test Plan email built
+    # after report generation, so each run dispatches one consolidated message.
+    # gap_alert_sent records whether that consolidated alert was dispatched.
+    gap_alert_sent = bool(uncovered and not args.no_alert)
     smtp_cfg = None
     alert_recipients: list[str] = []
     if uncovered and not args.no_alert:
-        with workflow(logmod.EMAIL_ALERT):
-            smtp_cfg = SmtpConfig(
-                host=cfg.smtp_host, port=cfg.smtp_port,
-                user=cfg.smtp_user, password=cfg.smtp_password,
-                from_addr=cfg.smtp_from,
-            )
-            author_emails = [c.author_email for c in uncovered if c.author_email]
-            alert_recipients = sorted(set(author_emails) | set(cfg.alert_emails))
-            try:
-                mailermod.send_gap_alert(
-                    uncovered, author_emails, cfg.alert_emails, smtp_cfg, jira_project,
-                    jira_client=jira_client,
-                    scope_data=scope_data,
-                    llm_cfg=llm_cfg,
-                    jira_base_url=cfg.jira_base_url,
-                )
-                log.info("RegressIQ predict: gap alert sent for %d uncovered commit(s)", len(uncovered))
-                gap_alert_sent = True
-            except Exception as e:
-                log.error("RegressIQ predict: gap alert failed (%s)", e, exc_info=True)
+        smtp_cfg = SmtpConfig(
+            host=cfg.smtp_host, port=cfg.smtp_port,
+            user=cfg.smtp_user, password=cfg.smtp_password,
+            from_addr=cfg.smtp_from,
+        )
+        author_emails = [c.author_email for c in uncovered if c.author_email]
+        alert_recipients = sorted(set(author_emails) | set(cfg.alert_emails))
 
     # Semantic Layer 3 — find stories for uncovered commits
     l3_included, l3_alerts = [], []
@@ -777,8 +876,9 @@ def _run_predict(args) -> int:
             log.error("RegressIQ predict: report generation failed — %s", e, exc_info=True)
             return 2
 
-    # Test Plan email 
-    if uncovered and not args.no_alert:
+    # Consolidated alert email: the Test Plan with the requirement-gap findings
+    # folded in as a section, plus report.html attached — one email per run.
+    if uncovered and not args.no_alert and smtp_cfg is not None:
         with workflow(logmod.EMAIL_ALERT):
             try:
                 try:
@@ -787,23 +887,29 @@ def _run_predict(args) -> int:
                     log.debug("test plan: open story fetch failed (%s) — risk section "
                               "will list uncovered commits only", e)
                     open_stories = []
+                gap_narrative = mailermod.build_gap_narrative(
+                    uncovered, open_stories, scope_data, jira_project, llm_cfg,
+                )
                 html_body = test_plan.build_test_plan_html(
                     scope_data, jira_stories_raw, defects_raw, selected,
                     uncovered, open_stories, cfg,
+                    gap_narrative=gap_narrative,
                 )
                 test_plan.send_test_plan_email(
                     html_body,
                     run_dir / "report.html",
                     alert_recipients,
                     smtp_cfg,
-                    subject=(f"[RegressIQ] Test Plan — {scope_data.get('target', '')} "
+                    subject=(f"[RegressIQ] Test Plan & Gap Alert — {scope_data.get('target', '')} "
                              f"({len(jira_stories_raw)} feature(s), "
-                             f"{len(selected)} test case(s))"),
+                             f"{len(selected)} test case(s), "
+                             f"{len(uncovered)} coverage risk(s))"),
                 )
-                log.info("RegressIQ predict: test plan email sent to %d recipient(s)",
-                         len(alert_recipients))
+                log.info("RegressIQ predict: consolidated test plan + gap alert email "
+                         "sent to %d recipient(s)", len(alert_recipients))
             except Exception as e:
-                log.error("RegressIQ predict: test plan email failed (%s)", e, exc_info=True)
+                gap_alert_sent = False
+                log.error("RegressIQ predict: consolidated alert email failed (%s)", e, exc_info=True)
 
     log.info("RegressIQ predict: %d test case(s) → %s", len(selected), run_dir)
 
